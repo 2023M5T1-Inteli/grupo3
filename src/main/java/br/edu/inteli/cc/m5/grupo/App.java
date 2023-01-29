@@ -6,6 +6,6 @@ package br.edu.inteli.cc.m5.grupo;
  */
 public class App {
     public static void main( String[] args ) {
-        System.out.println( "Template Inteli - Ciências da Computação - Módulo 5 !" );
+        System.out.println( "Template Inteli - Ciência da Computação - Módulo 5 !" );
     }
 }

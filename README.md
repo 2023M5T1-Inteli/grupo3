@@ -2,7 +2,7 @@
 <a href= "https://www.inteli.edu.br/"><img src="https://www.inteli.edu.br/wp-content/uploads/2021/08/20172028/marca_1-2.png" alt="Inteli - Instituto de Tecnologia e Liderança" border="0"></a>
 </p>
 
-# Instruções para o projeto do Módulo 5 de Ciências da Computação
+# Instruções para o projeto do Módulo 5 de Ciência da Computação
 
 Este repositório define um modelo (*template*) que deve ser seguido por cada grupo para o projeto do módulo 5.
 
