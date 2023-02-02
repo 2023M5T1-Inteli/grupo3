@@ -102,7 +102,25 @@ Planejador de trajetórias para voos em baixa altitude
 
 ## Análise do cenário: Matriz SWOT
 
-*Matriz_SWOT*
+### Forças
+- Uso de indústrias locais para o fornecimento de matéria-prima
+- Soluções e tecnologias proprietárias e exlcusivas
+- Conhecimento consolidado do segmento
+- Cliente consolidao
+### Fraquezas
+- Dependência de recursos financeiros públicos
+- Sistema Interno burocrático devido a área de atuação
+- Longo tempo de maturação de um profissional
+### Oportunidades
+- Alianças e cooperação com outras empresas do mesmo setor e países aliados ao brasil
+- Participação em programas governamentais
+- Expansão internacional
+- Investir na formação dos funcionários
+### Ameaças
+- Mudanças no escopo poílitico nacional
+- Mudanças no cenário econômico nacional
+- Escassez de matéria-prima e microchips
+- Escassez de mão de obra qualificada no país
 
 
 ## Proposta de Valor: Value Proposition Canvas
