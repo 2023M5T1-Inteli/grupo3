@@ -106,7 +106,7 @@ Planejador de trajetórias para voos em baixa altitude
 - Uso de indústrias locais para o fornecimento de matéria-prima
 - Soluções e tecnologias proprietárias e exlcusivas
 - Conhecimento consolidado do segmento
-- Cliente consolidao
+- Cliente consolidado
 ### Fraquezas
 - Dependência de recursos financeiros públicos
 - Sistema Interno burocrático devido a área de atuação
