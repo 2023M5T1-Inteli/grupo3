@@ -118,7 +118,7 @@ Planejador de trajetórias para voos em baixa altitude
 - Investir na formação dos funcionários
 - Alta Barreira para novos entrantes
 ### Ameaças
-- Mudanças no escopo poílitico nacional
+- Mudanças no escopo político nacional
 - Mudanças no cenário econômico nacional
 - Escassez de matéria-prima e microchips
 - Escassez de mão de obra qualificada no país
