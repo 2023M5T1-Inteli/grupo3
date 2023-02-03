@@ -116,6 +116,7 @@ Planejador de trajetórias para voos em baixa altitude
 - Participação em programas governamentais
 - Expansão internacional
 - Investir na formação dos funcionários
+- Alta Barreira para novos entrantes
 ### Ameaças
 - Mudanças no escopo poílitico nacional
 - Mudanças no cenário econômico nacional
