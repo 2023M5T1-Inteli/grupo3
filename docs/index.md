@@ -103,7 +103,7 @@ Planejador de trajetórias para voos em baixa altitude
 ## Análise do cenário: Matriz SWOT
 
 ### Forças
-- Uso de indústrias locais para o fornecimento de matéria-prima
+- Cadeia de fornecimento global para matéria-prima
 - Soluções e tecnologias proprietárias e exlcusivas
 - Conhecimento consolidado do segmento
 - Cliente consolidado
