@@ -172,7 +172,7 @@ As principais tendências do setor aeroespacial e de defesa são:
 - Reduzir custos de voo e emissões por meio de motores elétricos e híbridos. O cuidado com o meio ambiente tornou-se a principal questão para as empresas com um propósito, isso significa produzir motores que consumam menos combustíveis.
 - Sistemas de voo autônomos. De drones a veículos, sistemas de aviação que exigem alto grau de automação.
 - Ciclos de manutenção baseado em dados simulados para evitar problemas de funcionamento minimizando os custos de reparo associados.
-- Fabricação de peças aditivas e consolidadas. Tendência na fabricação de peças, que reduzirão custos e tempo de montagem.
+- Fabricação de peças aditivas (produzidas a partir de um modelo digital) e consolidadas. Tendência na fabricação de peças, que reduzirão custos e tempo de montagem.
 - Solução de simulação multifísica. Melhorar a previsão de reação aos sistemas de aeronaves no mundo real, principalmente minimizar riscos.
 
 ### Modelo de Negócios
