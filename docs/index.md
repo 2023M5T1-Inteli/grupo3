@@ -83,16 +83,26 @@ Sistemas de Terrain Following são utilizados para auxiliar esse tipo de missão
 
 A partir da coleta das informações do voo, é construída a trajetória de referência, que traça um caminho que tem como partida o ponto de início da operação em baixa altitude, e como destino o ponto de retorno a território seguro onde o voo a baixa altitude pode ser finalizado com segurança. 
 
+Os dados que serão utilizados para auxílio da construção do algoritmo são referentes à elevação do solo das seguintes regiões: Yosemite, Death Valley, Rio e São Paulo. Para a leitura do banco de dados dos terrenos, uma biblioteca open source (Java) será utilizada. 
+
+Na visualização do banco de dados do terreno, será utilizado o software GIS, que é um sistema que conecta dados a um mapa, integrando dados de localização, onde as coisas estão, com todos os tipos de informações descritivas, ou seja, como as coisas são lá.
+
+
 
 ## Objetivos
 
 ### Objetivos gerais
 
-*Lista_de_objetivos_gerais*
+O objetivo geral do projeto é desenvolver um algoritmo que servirá de base para eventuais projetos que englobam, além da plataforma embarcada, sistemas de planejamento de missões em solo.
+
 
 ### Objetivos específicos
 
-*Lista_de_objetivos específicos*
+- Desenvolvimento de componente que gera um grafo a partir do banco de dados de elevação;
+- Remoção de arestas que violam restrições impostas pelo parceiro;
+- Algoritmo de busca de uma trajetória ótima considerando diversas variáveis, e minimizando ao máximo a altitude;
+- Desenvolvimento de software para visualização do trajeto; 
+
 
 ## Partes interessadas
 
