@@ -76,7 +76,13 @@ Planejador de trajetórias para voos em baixa altitude
 
 ## O Problema
 
-*Descrição_do_problema*
+Diversas aplicações dentro da indústria de aviação, como busca e salvamento, por exemplo, se beneficiam de realizar voos a baixa altitude. No entanto, em decorrência da proximidade com o solo esse tipo de operação representa um risco iminente de colisão com o solo. Tendo em vista essa problemática, a AEL Sistemas desenvolve sistemas de Terrain Following embarcados em plataformas aéreas com foco em sistemas críticos de missão.
+
+Sistemas de Terrain Following são utilizados para auxiliar esse tipo de missão provendo uma guiagem ao piloto, orientando ele como conduzir a aeronave de forma segura nesse ambiente desafiador a partir de dados obtidos do voo. 
+é um sistema que provê simbologias de guiagem para realização de voos a baixa altura de maneira segura e com ampla consciência situacional, mesmo em condições de baixa visibilidade.
+
+A partir da coleta das informações do voo, é construída a trajetória de referência, que traça um caminho que tem como partida o ponto de início da operação em baixa altitude, e como destino o ponto de retorno a território seguro onde o voo a baixa altitude pode ser finalizado com segurança. 
+
 
 ## Objetivos
 
