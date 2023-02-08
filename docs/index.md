@@ -145,7 +145,7 @@ O objetivo geral do projeto é desenvolver um algoritmo que servirá de base par
 
 ## Histórias dos usuários (user stories)
 
-*Descrição_das_histórias_dos_usuários*
+![User Stories](./img/UserStories.png)
 
 
 # Arquitetura do Sistema
