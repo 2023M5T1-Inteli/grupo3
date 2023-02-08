@@ -107,7 +107,7 @@ Planejador de trajetórias para voos em baixa altitude
 
 ## Proposta de Valor: Value Proposition Canvas
 
-*Value_Proposition_Canvas*
+![Imagem da proposta de valor. Ao lado direito temos o Mapa do usuário e suas principais dores e tarefas, como alto risco; e ao lado direito temos a Proposta de valor do nosso projeto, trazendo diminuição de riscos e outros ganhos](/docs/img/value-proposition-canvas.png "Value Proposition Canvas")
 
 
 ## Matriz de Risco
