@@ -126,7 +126,7 @@ Planejador de trajetórias para voos em baixa altitude
 
 ## Histórias dos usuários (user stories)
 
-*Descrição_das_histórias_dos_usuários*
+![User Stories](./img/UserStories.png)
 
 
 # Arquitetura do Sistema
