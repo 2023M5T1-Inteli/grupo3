@@ -2,3 +2,4 @@
 target
 *.docx
 *.pdf
+.DS_Store
