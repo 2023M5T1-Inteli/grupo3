@@ -30,8 +30,6 @@ Planejador de trajetórias para voos em baixa altitude
   - [Análise da área de atuação](#análise-da-área-de-atuação)
     - [Principais Players](#principais-players)
     - [Cinco Forças de Porter](#cinco-forças-de-porter)
-    - [Principais Players](#principais-players-1)
-    - [Cinco Forças de Porter](#cinco-forças-de-porter-1)
       - [Rivalidade entre concorrentes](#rivalidade-entre-concorrentes)
       - [Poder de barganha dos fornecedores](#poder-de-barganha-dos-fornecedores)
       - [Poder de barganha dos compradores](#poder-de-barganha-dos-compradores)
@@ -109,23 +107,6 @@ A AEL Sistemas é uma empresa brasileira, parte do grupo Elbit Systems, situada 
 *Descrição_da_análise_do_problema*
 
 ## Análise da área de atuação
-### Principais Players
-Os principais players globais do setor de 
-fabricação de componentes de aviação e aeroespaciais e de defesa são: <br>
-1. Lockheed Martin - É a maior empresa de armamentos do mundo, atuando também no setor aeroespacial e de aviação. Na área de Defesa, uma de suas especialidades são os caças e aviões militares.
-2. BAE Systems - É a segunda maior empresa do mundo no setor de Defesa, além de atuar também em aviação, tecnologia aeroespacial e segurança. Seus principais projetos envolvem a produção de caças.
-3. Boeing - Apesar de ser mais conhecida pela aviação comercial, também atua no desenvolvimento de caças, aviões militares, sistemas eletrônicos, mísseis e tecnologia aeroespacial.
-4. Northrop Grumman - É a quarta maior empresa do setor. A empresa vem apostando na área de drones para missões de espionagem e ataque.
-5. Elbit Systems - É uma empresa internacional de alta tecnologia engajada nas áreas de defesa e segurança nacional. Desenvolvem e fornecem sistemas e produtos aerotransportados, terrestres e navais para defesa, segurança interna e aplicações comerciais. Além disso, fornecem uma gama de serviços de treinamento e suporte.
-
-Os principais players brasileiros, além da AEL são:
-1. Helibras - Única fabricante de helicópteros do Brasil, a Helibras pertence ao grupo europeu EADS. A empresa produz tanto modelos civis quanto militares.
-2. Embraer - Desenvolve e opera sistemas de comunicação, computação, comando, controle e inteligência.
-3. Avibras - Dedica-se ao projeto e fabricação de mísseis e sistemas de defesa ar-terra e terra-terra, além de aviões não tripulados. Desenvolve tecnologia nas áreas de aeronáutica, espaço, eletrônica, veicular e defesa.
-4. Atech - empresa especializada no desenvolvimento de soluções de missões crítica, como sistemas de comando e controle, segurança cibernética, sistemas embarcados, simuladores, sistemas de instrumentação e controle e treinamento.
-5. Omnisys Engenharia - Presta serviços em sistemas para aplicações aeronáuticas e navais e soluções para as áreas espacial, de telecomunicações e atividades industriais, soluções de guerra eletrônica e software embarcado.
-
-### Cinco Forças de Porter
 
 ### Principais Players
 
@@ -141,9 +122,8 @@ Os principais players brasileiros, além da AEL são:
 1. Helibras - Única fabricante de helicópteros do Brasil, a Helibras pertence ao grupo europeu EADS. A empresa produz tanto modelos civis quanto militares.
 2. Embraer - Desenvolve e opera sistemas de comunicação, computação, comando, controle e inteligência.
 3. Avibras - Dedica-se ao projeto e fabricação de mísseis e sistemas de defesa ar-terra e terra-terra, além de aviões não tripulados. Desenvolve tecnologia nas áreas de aeronáutica, espaço, eletrônica, veicular e defesa.
-4. Atech - empresa especializada no desenvolvimento de soluções de missões crítica, como sistemas de comando e controle, segurança cibernética, sistemas embarcados, simuladores, sistemas de instrumentação e controle e treinamento.
+4. Atech - empresa especializada no desenvolvimento de soluções de missões críticas, como sistemas de comando e controle, segurança cibernética, sistemas embarcados, simuladores, sistemas de instrumentação e controle e treinamento.
 5. Omnisys Engenharia - Presta serviços em sistemas para aplicações aeronáuticas e navais e soluções para as áreas espacial, de telecomunicações e atividades industriais, soluções de guerra eletrônica e software embarcado.
-
 
 ### Cinco Forças de Porter
 
