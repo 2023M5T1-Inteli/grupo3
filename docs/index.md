@@ -112,8 +112,8 @@ Planejador de trajetórias para voos em baixa altitude
 
 ## Matriz de Risco
 
-*Matriz_de_risco*
-
+![Matriz de risco ameaças](./img/MatrizDeRiscoAmeaca.png)
+![Matriz de risco oportunidades](./img/MatrizDeRiscoOportunidades.png)
 
 # Requisitos do Sistema
 
