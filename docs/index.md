@@ -12,10 +12,6 @@
 Planejador de trajetórias para voos em baixa altitude
 </center></font>
 
->*Observação 1: A estrutura inicial deste documento é só um exemplo. O seu grupo deverá alterar esta estrutura de acordo com o que está sendo solicitado nos artefatos.*
-
->*Observação 2: O índice abaixo não precisa ser editado se você utilizar o Visual Studio Code com a extensão **Markdown All in One**. Essa extensão atualiza o índice automaticamente quando o arquivo é salvo.*
-
 **Conteúdo**
 
 - [Autores](#autores)
@@ -38,6 +34,10 @@ Planejador de trajetórias para voos em baixa altitude
     - [Tendências](#tendências)
     - [Modelo de Negócios](#modelo-de-negócios)
   - [Análise do cenário: Matriz SWOT](#análise-do-cenário-matriz-swot)
+    - [Forças](#forças)
+    - [Fraquezas](#fraquezas)
+    - [Oportunidades](#oportunidades)
+    - [Ameaças](#ameaças)
   - [Proposta de Valor: Value Proposition Canvas](#proposta-de-valor-value-proposition-canvas)
   - [Matriz de Risco](#matriz-de-risco)
 - [Requisitos do Sistema](#requisitos-do-sistema)
@@ -67,14 +67,13 @@ Planejador de trajetórias para voos em baixa altitude
 
 # Autores
 
-* Aluno 1
-* Aluno 2
-* Aluno 3
-* Aluno 4
-* Aluno 5
-* Aluno 6
-* Aluno 7
-* Aluno 8
+* Felipe Sampaio Silva
+* Frederico Schur
+* Gabriel Elias Carneiro
+* Gábrio Lina da Silva
+* Iago Medeiros Tavares
+* Renato Silva Machado
+* Vitor Augusto Menten de Barros
 
 
 # Visão Geral do Projeto
@@ -119,11 +118,13 @@ O objetivo geral do projeto é desenvolver um algoritmo que servirá de base par
 
 ## Partes interessadas
 
-*Lista_e_apresentação_das_partes_interessadas*
+Os interessados da AEL Sistemas (parceiro direto do projeto) são:
+- LÍDER DO PROJETO: Conrado Pilotto
+- LÍDER TÉCNICO: Norton Lima Barbieri
+
+Possíveis interessados são os clientes da AEL (como o governo) e as equipes destes clientes, que utilizarão efetivamente a solução do projeto.
 
 # Análise do Problema
-
-*Descrição_da_análise_do_problema*
 
 ## Análise da área de atuação
 
