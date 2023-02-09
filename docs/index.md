@@ -22,6 +22,11 @@ Planejador de trajetórias para voos em baixa altitude
 - [Visão Geral do Projeto](#visão-geral-do-projeto)
   - [Empresa](#empresa)
   - [O Problema](#o-problema)
+  - [Solução](#solução)
+    - [Solução proposta](#solução-proposta)
+    - [Como utilizar](#como-utilizar)
+    - [Benfícios](#benfícios)
+    - [Critério de sucesso](#critério-de-sucesso)
   - [Objetivos](#objetivos)
     - [Objetivos gerais](#objetivos-gerais)
     - [Objetivos específicos](#objetivos-específicos)
@@ -38,6 +43,10 @@ Planejador de trajetórias para voos em baixa altitude
     - [Tendências](#tendências)
     - [Modelo de Negócios](#modelo-de-negócios)
   - [Análise do cenário: Matriz SWOT](#análise-do-cenário-matriz-swot)
+    - [Forças](#forças)
+    - [Fraquezas](#fraquezas)
+    - [Oportunidades](#oportunidades)
+    - [Ameaças](#ameaças)
   - [Proposta de Valor: Value Proposition Canvas](#proposta-de-valor-value-proposition-canvas)
   - [Matriz de Risco](#matriz-de-risco)
 - [Requisitos do Sistema](#requisitos-do-sistema)
@@ -92,6 +101,10 @@ Sistemas de Terrain Following são utilizados para auxiliar esse tipo de missão
 
 O problema que a solução pretende resolver está relacionado à otimização do trajeto de voos de baixa altitude considerando os riscos de colisão com o solo e fatores que possam afetar a missão. Atualmente, as trajetórias de voo construídas são levadas a evitar áreas mais povoadas pela maior probabilidade de ter sistemas de monitoramento. Diante disso, ao traçar a trajetória, áreas com feições geográficas elevadas como morros, vales e cadeias de montanhas, que minimizam ainda mais a probabilidade de detecção, tendem a ser mais escolhidas, o que gera uma necessidade ainda maior de controle da rota para a segurança dos tripulantes. 
 
+## Solução
+
+### Solução proposta
+
 A solução consiste em um software desenvolvido em Java capaz de receber como entradas os dados da região geográfica de operação, o banco de dados de elevação, as zonas de exclusão (restrições) e o ponto de partida e de destino. E como saída será gerada uma série de nós que conectam os pontos de partida e de destino respeitando as restrições impostas na especificação do usuário.
 
 A partir da coleta das informações do voo, é construída a trajetória de referência, que traça um caminho que tem como partida o ponto de início da operação em baixa altitude, e como destino o ponto de retorno a território seguro onde o voo a baixa altitude pode ser finalizado com segurança. 
@@ -100,7 +113,17 @@ Os dados que serão utilizados para auxílio da construção do algoritmo são r
 
 Na visualização do banco de dados do terreno, será utilizado o software GIS, que é um sistema que conecta dados a um mapa, integrando dados de localização, onde as coisas estão, com todos os tipos de informações descritivas, ou seja, como as coisas são lá.
 
+### Como utilizar
 
+A solução proposta será aplicada de forma para determinar a rota mais adequada levando em conta os fatores presentes na área de voo. Ela se fundamenta em informações geográficas relacionadas ao terreno, bem como no desempenho das aeronaves e outros aspectos operacionais, visando minimizar os riscos. O principal usuário da solução poderá incluir parâmetros de software, resultando em uma visualização da rota de voo.
+
+### Benfícios
+
+A proposta da solução oferece vários benefícios, incluindo uma visão completa do terreno e da rota, melhoria do consumo de combustível, redução de custos, economia de recursos e otimização do tempo na elaboração das rotas. Todos esses benefícios visam garantir a segurança do piloto.
+
+### Critério de sucesso
+
+Um dos critérios de sucesso será o tempo de execução do programa(visualização e criação da rota). Para avaliá-lo será considerado como adequado um tempo menor do que um minuto para a visualização e um tempo menor ou igual para o desempenho do algoritmo. Outro critério será a criação de um grafo direcionado com início no ponto de origem e fim no ponto de destino (grafo acíclico). Isso será avaliado a partir da análise do grafo gerado na visualização final.
 
 ## Objetivos
 
