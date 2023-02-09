@@ -146,8 +146,6 @@ O objetivo geral do projeto é desenvolver um algoritmo que servirá de base par
 
 # Análise do Problema
 
-*Descrição_da_análise_do_problema*
-
 ## Análise da área de atuação
 
 ### Principais Players
@@ -242,6 +240,7 @@ A AEL Sistemas se dedica ao projeto, desenvolvimento, fabricação, manutenção
 ## Personas
 
 ![Persona piloto](./img/Persona_piloto.png)
+![Persona comandate](./img/persona_comandante.png)
 
 
 ## Histórias dos usuários (user stories)
