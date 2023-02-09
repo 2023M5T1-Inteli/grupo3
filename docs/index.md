@@ -179,8 +179,27 @@ As principais tendências do setor aeroespacial e de defesa são:
 A AEL Sistemas se dedica ao projeto, desenvolvimento, fabricação, manutenção e suporte logístico de avançados sistemas eletrônicos militares e espaciais, com foco nos segmentos Aeroespacial, Defesa e Segurança. Ela gera receita principalmente na venda direta de seus produtos e serviços para outras empresas, como a SAAB, Embraer e Helibras, e para as áreas do exército brasileiro (marinha, forças armadas e força aérea). Ou seja, ela não possui um distribuidor, ela vende suas soluções diretamente para seus clientes. Quando a empresa enxerga que suas soluções já existentes não são tão robustas para certo problema, ela tende a colaborar com possíveis concorrentes para desenvolver um produto mais assertivo.
 
 ## Análise do cenário: Matriz SWOT
-
-*Matriz_SWOT*
+![image info](./img/swot.jpg)
+### Forças
+- Cadeia de fornecimento global para matéria-prima
+- Soluções e tecnologias proprietárias e exlcusivas
+- Conhecimento consolidado do segmento
+- Cliente consolidado
+### Fraquezas
+- Dependência de recursos financeiros públicos
+- Sistema Interno burocrático devido a área de atuação
+- Longo tempo de maturação de um profissional
+### Oportunidades
+- Alianças e cooperação com outras empresas do mesmo setor e países aliados ao brasil
+- Participação em programas governamentais
+- Expansão internacional
+- Investir na formação dos funcionários
+- Alta Barreira para novos entrantes
+### Ameaças
+- Mudanças no escopo político nacional
+- Mudanças no cenário econômico nacional
+- Escassez de matéria-prima e microchips
+- Escassez de mão de obra qualificada no país
 
 
 ## Proposta de Valor: Value Proposition Canvas
