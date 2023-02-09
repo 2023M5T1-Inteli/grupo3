@@ -241,7 +241,7 @@ A AEL Sistemas se dedica ao projeto, desenvolvimento, fabricação, manutenção
 
 ## Personas
 
-*Descrição_das_personas*
+![Persona piloto](./img/Persona_piloto.png)
 
 
 ## Histórias dos usuários (user stories)
