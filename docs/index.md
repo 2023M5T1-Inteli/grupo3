@@ -21,6 +21,8 @@ Planejador de trajetórias para voos em baixa altitude
   - [Solução](#solução)
     - [Solução proposta](#solução-proposta)
     - [Como utilizar](#como-utilizar)
+    - [Tomada de Decisão](#tomada-de-decisão)
+    - [Limitações Existentes](#limitações-existentes)
     - [Fluxograma (Arquitetura inicial)](#fluxograma-arquitetura-inicial)
     - [Benefícios](#benefícios)
     - [Critério de sucesso](#critério-de-sucesso)
@@ -113,6 +115,27 @@ Na visualização do banco de dados do terreno, será utilizado o software GIS, 
 
 A solução proposta será aplicada de forma para determinar a rota mais adequada levando em conta os fatores presentes na área de voo. Ela se fundamenta em informações geográficas relacionadas ao terreno, bem como no desempenho das aeronaves e outros aspectos operacionais, visando minimizar os riscos. O principal usuário da solução poderá incluir parâmetros de software, resultando em uma visualização da rota de voo.
 
+### Tomada de decisão
+
+Buscando-se obter o caminho mais otimizado, será priorizada, pelo algoritmo, a rota que suprir os requisitos e parâmetros de entrada, devendo esta, não atingir pontos de exclusão, respeitar os limites de vôo da aeronave, como velocidade máxima, raio de curvatura e outros, além de buscar diminuir o consumo de combustível e distância entre o ponto inicial e final, passando por localizações pré-definidas, caso estas sejam especificadas.
+
+### Limitações existentes
+
+Durante o processo de desenvolvimento de uma trajetória, a solução deve considerar diversos fatores, a fim de prover a rota desejada. Entre estes, encontram-se como fatores limitantes: zonas de exclusão, máxima razão de curvatura horizontal, e raio mínimo de curvatura, além da velocidade máxima.
+
+#### Zonas de exclusão
+Definem-se como zonas de exclusão os seguintes elementos:
+- Raio de alcance de radares
+- Áreas de vigilância constante
+- Outras zonas não desejadas
+
+#### Máxima Razão de Curvatura Horizontal
+- Ângulo máximo de curva por segundo
+![AnguloMaximoCurva](./img/airplane-00.png)
+
+#### Mínimo Raio de Curvatura
+- Define o raio mínimo em que uma aeronave pode se curvar
+![RaioMinimoAviao](./img/airplane-01.png)
 
 ### Fluxograma (Arquitetura inicial)
 
