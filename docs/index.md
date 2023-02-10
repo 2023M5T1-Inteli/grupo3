@@ -131,11 +131,11 @@ Definem-se como zonas de exclusão os seguintes elementos:
 
 #### Máxima Razão de Curvatura Horizontal
 - Ângulo máximo de curva por segundo
-![AnguloMaximoCurva](./img/airplane-00.png)
+- ![AnguloMaximoCurva](./img/airplane-00.png)
 
 #### Mínimo Raio de Curvatura
 - Define o raio mínimo em que uma aeronave pode se curvar
-![RaioMinimoAviao](./img/airplane-01.png)
+- ![RaioMinimoAviao](./img/airplane-01.png)
 
 ### Fluxograma (Arquitetura inicial)
 
