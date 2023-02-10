@@ -21,9 +21,9 @@ A seguir estão os passos sugeridos para a preparação do seu grupo no início 
 * **Passo 3**: Cada grupo deverá editar este arquivo, removendo estas instruções iniciais e preenchendo o restante da página com os dados do projeto do seu grupo.
 
 
-# Projeto: *Nome_do_seu_Projeto*
+# Projeto: *Planejador de trajetórias para voos em baixa altitude*
 
-# Grupo: *Nome_do_seu_Grupo*
+# Grupo: *AeroGenius*
 
 # Descrição
 
