@@ -24,6 +24,7 @@ Planejador de trajetórias para voos em baixa altitude
     - [Tomada de Decisão](#tomada-de-decisão)
     - [Limitações Existentes](#limitações-existentes)
     - [Fluxograma (Arquitetura inicial)](#fluxograma-arquitetura-inicial)
+    - [Modelagem Inicial do Problema](#modelagem-inicial-do-problema)
     - [Benefícios](#benefícios)
     - [Critério de sucesso](#critério-de-sucesso)
   - [Objetivos](#objetivos)
@@ -141,6 +142,22 @@ Definem-se como zonas de exclusão os seguintes elementos:
 
 ![Fluxograma](./img/Fluxograma.png)
 
+### Modelagem Inicial do Problema
+A priori, identificamos uma modelagem que consiste na criação de um nó para cada localização. Utilizamos o [Neo4J](https://neo4j.com/) — um banco de dados orientado a grafos — para realizar a modelagem: 
+
+
+![Grafo gerado pelo Neo4J](./img/graph.png)
+
+Cada nó possuem propriedades específicas, são elas:  
+  - Id: Inteiro, Identificação única
+  - Nome 
+  - Altitude média
+  - Latitude e Longitude
+
+E cada relação ("MOVES_TO") também possui propriedades próprias:
+  - Distância em quilômetros
+  - Diferença de altitude em metros (Caso esse "range" seja negativo, há uma descida entre um ponto e outro; caso não há uma subida)
+  
 ### Benefícios
 
 A proposta da solução oferece vários benefícios, incluindo uma visão completa do terreno e da rota, melhoria do consumo de combustível, redução de custos, economia de recursos e otimização do tempo na elaboração das rotas. Todos esses benefícios visam garantir a segurança do piloto.
