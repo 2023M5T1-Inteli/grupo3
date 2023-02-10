@@ -123,7 +123,7 @@ A solução proposta será aplicada de forma para determinar a rota mais adequad
 A priori, identificamos uma modelagem que consiste na criação de um nó para cada localização. Utilizamos o [Neo4J](https://neo4j.com/) — um banco de dados orientado a grafos — para realizar a modelagem: 
 
 
-![Gráfo gerado pelo Neo4J](./img/graph.png)
+![Grafo gerado pelo Neo4J](./img/graph.png)
 
 Cada nó possuem propriedades específicas, são elas:  
   - Id: Inteiro, Identificação única
@@ -131,8 +131,8 @@ Cada nó possuem propriedades específicas, são elas:
   - Altitude média
   - Latitude e Longitude
 
-E cada relação ("MOVES_TO") também possui proriedades próprias:
-  - Distância em kilômetros
+E cada relação ("MOVES_TO") também possui propriedades próprias:
+  - Distância em quilômetros
   - Diferença de altitude em metros (Caso esse "range" seja negativo, há uma descida entre um ponto e outro; caso não há uma subida)
   
 ### Benefícios
