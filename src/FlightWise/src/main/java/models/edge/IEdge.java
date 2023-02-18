@@ -1,5 +1,5 @@
 package models.edge;
 
 public interface IEdge {
-    public double getWeight();
+//    public double getWeight();
 }
