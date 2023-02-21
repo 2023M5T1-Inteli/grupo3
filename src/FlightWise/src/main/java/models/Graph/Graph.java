@@ -27,7 +27,7 @@ public class Graph {
 
                 double distanceToNextVertex = calculateDistanceToVertex(vertexes.get(i), vertexes.get(j));
 
-                if (distanceToNextVertex <= 30.0) {
+                if (distanceToNextVertex <= 0.7) {
                     vertexes.get(i).addEdge(vertexes.get(j).getIndex(), distanceToNextVertex);
                 }
             }
