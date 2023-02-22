@@ -122,6 +122,19 @@ Buscando-se obter o caminho mais otimizado, será priorizada, pelo algoritmo, a 
 
 ### Limitações existentes
 
+
+O alto uso de memória por parte do algoritmo é um grande desafio, já que o consumo aumenta de forma proporcional a distancia da rota. Por conta
+disso, a dificuldade em produzir uma solução escalável se torna ainda maior. 
+
+Além disso, existem dois fatores externos que aumentam de forma relevante a complexidade no desenvolvimento da solução: O clima e a altitude. 
+Ao traçar a rota da viajem, além de considerar o trajeto mais curto até o destino, é de grande importancia entender que outras variáveis também precisam 
+ser consideradas. O clima é um dos principais influenciadores para a segurança de um voo. Por isso, é primordial ententer como a densidade do ar, o clima, possibilidade 
+de chuva ou neve, tempestades e outros fenômenos naturais podem influenciar na qualidade do voo. Assim como o clima, a altitude também pode afetar diretamente o voo, já que 
+o algoritmo tem como objetivo gerar rotas para viagens de baixa altitude.  
+
+A experiência dos desenvolvedores na produção também pode ser um obstáculo, já que é necessário um aprofundamento considerável em métodos quantitativos e conceitos de modelagem 
+de algoritmos de alta performance. O projeto em si exige um processo constante de reflexão em busca de melhores maneiras de desenvolver o produto final.
+
 Durante o processo de desenvolvimento de uma trajetória, a solução deve considerar diversos fatores, a fim de prover a rota desejada. Entre estes, encontram-se como fatores limitantes: zonas de exclusão, máxima razão de curvatura horizontal, e raio mínimo de curvatura, além da velocidade máxima.
 
 #### Zonas de exclusão
