@@ -1,7 +1,5 @@
 package models.Graph;
 
-import models.edge.CoordinateEdge;
-import models.edge.IEdge;
 import models.vertex.CoordinateVertex;
 import models.vertex.IVertex;
 
@@ -20,7 +18,7 @@ public class Graph {
         return vertexes;
     }
 
-    public void addVertexEdges(){
+    public void addVertexEdgesByDistance(double distance){
         for (int i = 0; i < vertexes.size(); i++){
             for (int j = 0; j < vertexes.size(); j++){
                 if (i == j) continue;
@@ -28,7 +26,7 @@ public class Graph {
                 double distanceToNextVertex = calculateDistanceToVertex(vertexes.get(i), vertexes.get(j));
 
                 if (distanceToNextVertex <= 0.7) {
-                    vertexes.get(i).addEdge(vertexes.get(j).getIndex(), distanceToNextVertex);
+                    vertexes.get(i).addEdge(vertexes.get(j), distanceToNextVertex);
                 }
             }
         }
