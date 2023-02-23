@@ -10,6 +10,10 @@ public class CoordinateVertex implements IVertex {
     private int vertexIndex;
     private ArrayList<CoordinateEdge> adjacencies = new ArrayList<>();
     public double averageHeight;
+    public double minimalCost;
+    public double totalCost;
+    public double absoluteCost;
+    public CoordinateVertex previousVertex;
 
     private Point2D _position;
 
@@ -18,7 +22,7 @@ public class CoordinateVertex implements IVertex {
         this.averageHeight = averageHeight;
     }
 
-    public void addEdge(IVertex targetVertex, double distance) {
+    public void addEdge(CoordinateVertex targetVertex, double distance) {
         CoordinateEdge newEdge = new CoordinateEdge(targetVertex, distance, 0.0);
         this.adjacencies.add(newEdge);
     }

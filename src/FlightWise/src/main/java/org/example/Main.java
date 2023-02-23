@@ -7,6 +7,7 @@ import org.neo4j.driver.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
@@ -17,60 +18,32 @@ public class Main {
         String cypherQuery = "MATCH (n:Coordinate {index: $ind1})\n" +
                 "MATCH (c:Coordinate {index: $ind2})\n" +
                 "CREATE (n)-[r:Connection {distance: $dist, heighRange: $heig}]->(c)";
-        ArrayList<Thread> threads = new ArrayList<>();
 
         for (int i = 0; i < coordinates.size(); i++) {
             CoordinateVertex coordinateVertex = coordinates.get(i);
-
-            for (int j = 0; j < coordinateVertex.getEdges().size(); j++){
-                CoordinateEdge coordinateEdge = coordinateVertex.getEdges().get(j);
-
-                Thread thread = new Thread(() -> {
-                    try (Transaction tx = session.beginTransaction()) {
-                        tx.run(cypherQuery, Map.of("ind1", coordinateVertex.getIndex(), "ind2", coordinateEdge.targetVertex.getIndex(), "dist", coordinateEdge.distance, "heig", coordinateEdge.heightRange));
-                        tx.commit();
-                    }
-                });
-
-                threads.add(thread);
-                thread.start();
-            }
-        }
-
-        for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                // handle exception
+            try (Transaction tx = session.beginTransaction()) {
+                for (int j = 0; j < coordinateVertex.getEdges().size(); j++){
+                    CoordinateEdge coordinateEdge = coordinateVertex.getEdges().get(j);
+                    tx.run(cypherQuery, Map.of("ind1", coordinateVertex.getIndex(), "ind2", coordinateEdge.targetVertex.getIndex(), "dist", coordinateEdge.distance, "heig", coordinateEdge.heightRange));
+                }
+                tx.commit();
             }
         }
     }
 
     public static void createCoordinateNodesAsync(ArrayList<CoordinateVertex> coordinates, Session session) {
         String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight})";
-        ArrayList<Thread> threads = new ArrayList<>();
 
-        for (int i = 0; i < coordinates.size(); i++) {
-            CoordinateVertex coordinateVertex = coordinates.get(i);
-            Point2D position = coordinateVertex.getPosition();
+        try (Transaction tx = session.beginTransaction()) {
+            for (int i = 0; i < coordinates.size(); i++) {
+                CoordinateVertex coordinateVertex = coordinates.get(i);
+                Point2D position = coordinateVertex.getPosition();
 
-            Thread thread = new Thread(() -> {
-                try (Transaction tx = session.beginTransaction()) {
-                    tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex(), "lat", position.getX(), "long", position.getY(), "avgHeight", coordinateVertex.averageHeight));
-                    tx.commit();
-                }
-            });
 
-            threads.add(thread);
-            thread.start();
-        }
-
-        for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                // handle exception
+                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex(), "lat", position.getX(), "long", position.getY(), "avgHeight", coordinateVertex.averageHeight));
             }
+
+            tx.commit();
         }
     }
 
@@ -91,19 +64,13 @@ public class Main {
                 new Point2D.Double(49.990, 29.995),
                 new Point2D.Double(49.985, 29.995),
                 new Point2D.Double(49.980, 29.995),
-                new Point2D.Double(49.975, 29.995),
-                new Point2D.Double(50.0, 28.995),
-                new Point2D.Double(49.995, 28.995),
-                new Point2D.Double(49.990, 28.995),
-                new Point2D.Double(49.985, 28.995),
-                new Point2D.Double(49.980, 28.995),
-                new Point2D.Double(49.975, 28.995),
-                new Point2D.Double(49.970, 28.995),
-                new Point2D.Double(49.965, 27.995),
-                new Point2D.Double(49.960, 27.995),
-                new Point2D.Double(49.955, 27.995),
-                new Point2D.Double(49.950, 27.995),
-                new Point2D.Double(49.945, 27.995)
+                new Point2D.Double(49.975, 29.990),
+                new Point2D.Double(50.0, 29.990),
+                new Point2D.Double(49.995, 29.990),
+                new Point2D.Double(49.990, 29.990),
+                new Point2D.Double(49.985, 29.990),
+                new Point2D.Double(49.980, 29.990),
+                new Point2D.Double(49.975, 29.990)
         ));
         //endregion
 
@@ -115,11 +82,18 @@ public class Main {
         }
 
         newGraph.addVertexEdgesByDistance(0.7);
+        newGraph.ASearch(0, 17);
+
+        List<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(17));
+
+        for (CoordinateVertex v: newList){
+            System.out.println(v.getIndex());
+        }
 
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
             createCoordinateNodesAsync(newGraph.getVertexes(), session);
 
-            Thread.sleep(12500);
+            Thread.sleep(2500);
 
             createCordinateEdgesAsync(newGraph.getVertexes(), session);
         }

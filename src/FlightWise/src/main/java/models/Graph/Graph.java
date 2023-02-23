@@ -1,13 +1,13 @@
 package models.Graph;
 
 import models.Scorer.Harversine;
+import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
 import models.vertex.IVertex;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class Graph {
     private ArrayList<CoordinateVertex> vertexes = new ArrayList<>();
@@ -35,32 +35,71 @@ public class Graph {
         }
     }
 
-//    public double calculateDistanceToVertex(IVertex firstVertex, IVertex secondVertex) {
-//        Point2D firstVertexPosition = firstVertex.getPosition();
-//        Point2D secondVertexPosition = secondVertex.getPosition();
-//
-//        double secondVertexLat = secondVertexPosition.getX();
-//        double secondVertexLong = secondVertexPosition.getY();
-//
-//        double firstVertexLat = firstVertexPosition.getX();
-//        double firstVertexLong = firstVertexPosition.getY();
-//
-//        if (secondVertexLat == firstVertexLat && secondVertexLong == firstVertexLong)
-//            return 0.0;
-//
-//        double theta = firstVertexLong - secondVertexLong;
-//        double distance = Math.sin(Math.toRadians(firstVertexLat)) * Math.sin(Math.toRadians(secondVertexLat))
-//                + Math.cos(Math.toRadians(firstVertexLat)) * Math.cos(Math.toRadians(secondVertexLat))
-//                * Math.cos(Math.toRadians(theta));
-//        distance = Math.acos(distance);
-//        distance = Math.toDegrees(distance);
-//        distance = distance * 60 * 1.1515;
-//        distance = distance * 1.609344;
-//
-//        return distance;
-//    }
+    public List<CoordinateVertex> findPath(CoordinateVertex destinationVertex) {
+        List<CoordinateVertex> path = new ArrayList<CoordinateVertex>();
 
-    public CoordinateVertex[] findPath(CoordinateVertex destinationVertex) {
-        return  new CoordinateVertex[]{};
+        for (CoordinateVertex vertex = destinationVertex; vertex != null; vertex = vertex.previousVertex){
+            path.add(vertex);
+        }
+
+        Collections.reverse(path);
+
+        return path;
     }
+
+    public void ASearch(int indexInitial, int indexTarget){
+        Harversine scorer = new Harversine();
+
+        CoordinateVertex initialVertex = vertexes.get(indexInitial);
+        CoordinateVertex targetVertex = vertexes.get(indexTarget);
+
+        Set<CoordinateVertex> explored = new HashSet<CoordinateVertex>();
+        PriorityQueue<CoordinateVertex> queue = new PriorityQueue<CoordinateVertex>(getVertexes().size(),
+                new Comparator<CoordinateVertex>() {
+                    @Override
+                    public int compare(CoordinateVertex o1, CoordinateVertex o2) {
+                        return Double.compare((o1.totalCost + o1.minimalCost), (o2.totalCost + o2.minimalCost));
+                    }
+                });
+
+        initialVertex.totalCost = 0;
+        initialVertex.minimalCost = scorer.computeCost(initialVertex, targetVertex);
+
+        queue.add(initialVertex);
+
+        boolean found = false;
+
+        while (!queue.isEmpty() && !found){
+            CoordinateVertex currentVertex = queue.poll();
+
+            explored.add(currentVertex);
+
+            if (currentVertex.getIndex() == targetVertex.getIndex()){
+                found = true;
+            }
+
+            for (CoordinateEdge ce: currentVertex.getEdges()){
+                CoordinateVertex child = ce.targetVertex;
+                double cost = ce.distance;
+                double childTotalCost = currentVertex.totalCost + cost;
+                double absoluteCost = childTotalCost + child.minimalCost;
+
+                if (explored.contains(child) && (absoluteCost >= child.absoluteCost)){
+                    continue;
+                }
+                else if(!queue.contains(child) || (absoluteCost < child.absoluteCost)){
+                    child.previousVertex = currentVertex;
+                    child.totalCost = childTotalCost;
+                    child.absoluteCost = absoluteCost;
+
+                    if (queue.contains(child)){
+                        queue.remove(child);
+                    }
+
+                    queue.add(child);
+                }
+            }
+        }
+    }
+
 }

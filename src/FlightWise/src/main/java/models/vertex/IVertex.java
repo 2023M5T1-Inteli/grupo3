@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public interface IVertex {
-    public void addEdge(IVertex targetVertex, double distance);
+    public void addEdge(CoordinateVertex targetVertex, double distance);
     public Point2D getPosition();
 
     public void setIndex(int index);
