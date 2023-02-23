@@ -3,7 +3,7 @@ package models.edge;
 import models.vertex.CoordinateVertex;
 import models.vertex.IVertex;
 
-public class CoordinateEdge implements IEdge {
+public class  CoordinateEdge implements IEdge {
     public double distance;
     public double heightRange;
     public IVertex targetVertex;
