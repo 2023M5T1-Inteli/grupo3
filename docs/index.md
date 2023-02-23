@@ -192,18 +192,9 @@ Return r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10, r11, r12, r13
 ```
 
 
-![Grafo gerado pelo Neo4J](./img/graph.png)
+![Grafo gerado pelo Neo4J](./img/image.png)
 
-Cada nó possuem propriedades específicas, são elas:  
-  - Id: Inteiro, Identificação única
-  - Nome 
-  - Altitude média
-  - Latitude e Longitude
 
-E cada relação ("MOVES_TO") também possui propriedades próprias:
-  - Distância em quilômetros
-  - Diferença de altitude em metros (Caso esse "range" seja negativo, há uma descida entre um ponto e outro; caso não há uma subida)
-  
 ### Benefícios
 
 A proposta da solução oferece vários benefícios, incluindo uma visão completa do terreno e da rota, melhoria do consumo de combustível, redução de custos, economia de recursos e otimização do tempo na elaboração das rotas. Todos esses benefícios visam garantir a segurança do piloto.
