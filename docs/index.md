@@ -122,15 +122,6 @@ Buscando-se obter o caminho mais otimizado, será priorizada, pelo algoritmo, a 
 
 ### Limitações existentes
 
-
-O alto uso de memória por parte do algoritmo é um grande desafio, já que o consumo aumenta de forma proporcional a distancia da rota. Por conta
-disso, a dificuldade em produzir uma solução escalável se torna ainda maior. 
-
-Além disso, existem um fator externo que aumenta de forma relevante a complexidade no desenvolvimento da solução: A altitude. 
-Ao traçar a rota da viajem, além de considerar o trajeto mais curto até o destino, é de grande importancia entender que outras variáveis também precisam 
-ser consideradas. A altitude pode afetar diretamente o voo, já que 
-o algoritmo tem como objetivo gerar rotas para viagens de baixa altitude.  
-
 Durante o processo de desenvolvimento de uma trajetória, a solução deve considerar diversos fatores, a fim de prover a rota desejada. Entre estes, encontram-se como fatores limitantes: zonas de exclusão, máxima razão de curvatura horizontal, e raio mínimo de curvatura, além da velocidade máxima.
 
 #### Zonas de exclusão
@@ -152,9 +143,8 @@ Definem-se como zonas de exclusão os seguintes elementos:
 ![Fluxograma](./img/Fluxograma.png)
 
 ### Modelagem Inicial do Problema
-A priori, identificamos uma modelagem que consiste na criação de um nó para cada localização. Utilizamos o [Neo4J](https://neo4j.com/) — um banco de dados orientado a grafos — para realizar a modelagem: 
 
-Com o objetivo de representar o problema de uma forma quantitativamente eficiente, foram utilizados grafos. A visualização do problema em um grafo pode ser feita utilizando o banco de dados neo4j, com o código abaixo como exemplo: 
+Com o objetivo de representar o problema de uma forma quantitativamente eficiente, foram utilizados grafos. A visualização do problema em um grafo pode ser feita utilizando o banco de dados [Neo4J](https://neo4j.com/), com o código abaixo como exemplo: 
 
 ```cypher
 Create(r0:Petrópolis{nome:"Petrópolis",coord:"-22.507371108532418, -43.18604972500784",elev_m:2})
@@ -216,7 +206,7 @@ Return r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10, r11, r12, r13, r14, r15, r16, r17, r18
 
 ![Grafo gerado pelo Neo4J](./img/grafo_traj.png)
 
-Neste caso, o ponto de partida seria Petrópolis e o de destino Itaipava . Existem rotas impossíveis, que não tem arestas, como as regiões destacadas em vermelho. Também há rotas possíveis, porém não otimizadas, como as regiões pintadas em cinza. A solução proposta utiliza um algoritmo que encontra a rota mais eficiente entre o ponto de destino e origem, que passa pelas regiões destacadas em verde.
+Neste caso, o ponto de partida será Petrópolis e o de destino Itaipava. Existem rotas impossíveis, que não possuem saídas, como as regiões destacadas em vermelho. Também há rotas possíveis, porém não otimizadas, como as regiões pintadas em cinza. A solução proposta utiliza um algoritmo que encontra a rota mais eficiente entre o ponto de destino e origem, que passa pelas regiões destacadas em verde.
 
 ### Benefícios
 
