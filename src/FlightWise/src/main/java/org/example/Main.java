@@ -91,7 +91,19 @@ public class Main {
                 new Point2D.Double(49.990, 29.995),
                 new Point2D.Double(49.985, 29.995),
                 new Point2D.Double(49.980, 29.995),
-                new Point2D.Double(49.975, 29.995)
+                new Point2D.Double(49.975, 29.995),
+                new Point2D.Double(50.0, 28.995),
+                new Point2D.Double(49.995, 28.995),
+                new Point2D.Double(49.990, 28.995),
+                new Point2D.Double(49.985, 28.995),
+                new Point2D.Double(49.980, 28.995),
+                new Point2D.Double(49.975, 28.995),
+                new Point2D.Double(49.970, 28.995),
+                new Point2D.Double(49.965, 27.995),
+                new Point2D.Double(49.960, 27.995),
+                new Point2D.Double(49.955, 27.995),
+                new Point2D.Double(49.950, 27.995),
+                new Point2D.Double(49.945, 27.995)
         ));
         //endregion
 
