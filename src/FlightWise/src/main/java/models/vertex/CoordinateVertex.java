@@ -8,21 +8,19 @@ import java.util.ArrayList;
 
 public class CoordinateVertex implements IVertex {
     private int vertexIndex;
-    private ArrayList<CoordinateEdge> edges = new ArrayList<>();
+    private ArrayList<CoordinateEdge> adjacencies = new ArrayList<>();
     public double averageHeight;
 
     private Point2D _position;
 
-    public CoordinateVertex(Point2D position, double cAverageHeight) {
-        _position = position;
-        averageHeight = cAverageHeight;
+    public CoordinateVertex(Point2D position, double averageHeight) {
+        this._position = position;
+        this.averageHeight = averageHeight;
     }
 
-    public void addEdge(int targetVertexIndex, double distance) {
-//        double distance = this.calculateDistanceToVertex(targetVertex);
-
-        CoordinateEdge newEdge = new CoordinateEdge(vertexIndex, targetVertexIndex, distance, 0.0);
-        edges.add(newEdge);
+    public void addEdge(IVertex targetVertex, double distance) {
+        CoordinateEdge newEdge = new CoordinateEdge(targetVertex, distance, 0.0);
+        this.adjacencies.add(newEdge);
     }
 
     public void setIndex(int index){
@@ -36,12 +34,13 @@ public class CoordinateVertex implements IVertex {
     public Point2D getPosition() {
         return _position;
     }
+    
 
-    public void removeEdge(IVertex endVertex) {
-        edges.remove(edges.stream().filter(x -> x.toVertexIndex == endVertex.getIndex()));
+    public void removeEdge(IVertex targetVertex) {
+        adjacencies.remove(adjacencies.stream().filter(x -> x.targetVertex.getIndex() == targetVertex.getIndex()));
     }
 
     public ArrayList<CoordinateEdge> getEdges() {
-        return edges;
+        return adjacencies;
     }
 }

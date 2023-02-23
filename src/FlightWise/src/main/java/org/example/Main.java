@@ -11,8 +11,6 @@ import java.util.Map;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
 
-import java.util.concurrent.TimeUnit;
-
 
 public class Main {
     public static void createCordinateEdgesAsync(ArrayList<CoordinateVertex> coordinates, Session session){
@@ -29,7 +27,7 @@ public class Main {
 
                 Thread thread = new Thread(() -> {
                     try (Transaction tx = session.beginTransaction()) {
-                        tx.run(cypherQuery, Map.of("ind1", coordinateEdge.fromVertexIndex, "ind2", coordinateEdge.toVertexIndex, "dist", coordinateEdge.distance, "heig", coordinateEdge.heightRange));
+                        tx.run(cypherQuery, Map.of("ind1", coordinateVertex.getIndex(), "ind2", coordinateEdge.targetVertex.getIndex(), "dist", coordinateEdge.distance, "heig", coordinateEdge.heightRange));
                         tx.commit();
                     }
                 });
@@ -104,7 +102,7 @@ public class Main {
             newGraph.addVertex(newCoordinateVertex);
         }
 
-        newGraph.addVertexEdges();
+        newGraph.addVertexEdgesByDistance(0.7);
 
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
             createCoordinateNodesAsync(newGraph.getVertexes(), session);
