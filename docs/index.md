@@ -158,6 +158,39 @@ Definem-se como zonas de exclusão os seguintes elementos:
 ### Modelagem Inicial do Problema
 A priori, identificamos uma modelagem que consiste na criação de um nó para cada localização. Utilizamos o [Neo4J](https://neo4j.com/) — um banco de dados orientado a grafos — para realizar a modelagem: 
 
+Com o objetivo de representar o problema de uma forma quantitativamente eficiente, foram utilizados grafos. A visualização do problema em um grafo pode ser feita utilizando o banco de dados neo4j, com o código abaixo como exemplo: 
+
+```cypher
+Create(r0:Petrópolis{nome:"Petrópolis",coord:"-22.507371108532418, -43.18604972500784",elev_m:2})
+Create(r1:Region1{nome:"Regiao1",coord:"-22.49990803773384, -43.17923091529861",elev_m:17})
+Create(r2:Region2{nome:"Regiao2",coord:"-22.499393230127055, -43.1686337408087",elev_m:3})
+Create(r3:Region3{nome:"Regiao3",coord:"-22.499710420013947, -43.1686337408087",elev_m:150})
+Create(r4:Region4{nome:"Regiao 4",coord:"-22.491304642288366, -43.1633122381705",elev_m:80})
+Create(r5:Regiao5{nome:"Regiao5",coord:"-22.479567419238222, -43.15524415352548",elev_m:11})
+Create(r6:Region6{nome:"Regiao6",coord:"-22.473698434555835, -43.18133668259022",elev_m:11})
+Create(r7:Region7{nome:"Regiao7",coord:"-22.4512395961453, -43.16832775918275",elev_m:7})
+Create(r8:Region8{nome:"Regiao8",coord:"-22.426902150943395, -43.13980242471486",elev_m:116})
+Create(r9:Region9{nome:"Regiao9",coord:"-22.4273078100088, -43.14024127601437",elev_m:5})
+Create(r10:Region10{nome:"Regiao10",coord:"-22.435420742362048, -43.10996053634845",elev_m:60})
+Create(r11:Region11{nome:"Regiao11",coord:"-22.40621196717168, -43.1784213390714",elev_m:8})
+Create(r12:Region12{nome:"Regiao12",coord:"-22.399314554487333, -43.14857945070498",elev_m:130})
+Create(r13:Region13{nome:"Regiao13",coord:"-22.383489785287257, -43.13453620912079",elev_m:9})
+Create(r0)-[:var_0]->(r1)
+Create(r1)-[:var_1]->(r2)
+Create(r2)-[:var_2]->(r3)
+Create(r3)-[:var_3]->(r4)
+Create(r4)-[:var_4]->(r5)
+Create(r5)-[:var_5]->(r6)
+Create(r6)-[:var_6]->(r7)
+Create(r7)-[:var_7]->(r8)
+Create(r8)-[:var_8]->(r9)
+Create(r10)-[:var_9]->(r12)
+Create(r12)-[:var_12]->(r13)
+Create(r8)-[:var_13]->(r10)
+Create(r8)-[:var_14]->(r11)
+Return r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10, r11, r12, r13
+```
+
 
 ![Grafo gerado pelo Neo4J](./img/graph.png)
 
