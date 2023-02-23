@@ -31,6 +31,20 @@ public class Main {
         }
     }
 
+    public static void createFinalPathEdges(ArrayList<CoordinateVertex> coordinates, Session session){
+        String cypherQuery = "MATCH (n:Coordinate {index: $ind1})\n" +
+                "MATCH (c:Coordinate {index: $ind2})\n" +
+                "CREATE (n)-[r:Route]->(c)";
+        try (Transaction tx = session.beginTransaction()) {
+            for (int i = 0; i < coordinates.size() - 1; i++) {
+                CoordinateVertex coordinateVertex = coordinates.get(i);
+                CoordinateVertex nextVertex = coordinates.get(i+1);
+                tx.run(cypherQuery, Map.of("ind1", coordinateVertex.getIndex(), "ind2", nextVertex.getIndex()));
+            }
+            tx.commit();
+        }
+    }
+
     public static void createCoordinateNodesAsync(ArrayList<CoordinateVertex> coordinates, Session session) {
         String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight})";
 
@@ -84,11 +98,11 @@ public class Main {
         newGraph.addVertexEdgesByDistance(0.7);
         newGraph.ASearch(0, 17);
 
-        List<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(17));
+        ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(17));
 
-        for (CoordinateVertex v: newList){
-            System.out.println(v.getIndex());
-        }
+//        for (CoordinateVertex v: newList){
+//            System.out.println(v.getIndex());
+//        }
 
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
             createCoordinateNodesAsync(newGraph.getVertexes(), session);
@@ -96,6 +110,8 @@ public class Main {
             Thread.sleep(2500);
 
             createCordinateEdgesAsync(newGraph.getVertexes(), session);
+
+            createFinalPathEdges(newList, session);
         }
         catch (InterruptedException e) {
             // tratamento de exceção, se necessário

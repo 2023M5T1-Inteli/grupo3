@@ -35,8 +35,8 @@ public class Graph {
         }
     }
 
-    public List<CoordinateVertex> findPath(CoordinateVertex destinationVertex) {
-        List<CoordinateVertex> path = new ArrayList<CoordinateVertex>();
+    public ArrayList<CoordinateVertex> findPath(CoordinateVertex destinationVertex) {
+        ArrayList<CoordinateVertex> path = new ArrayList<CoordinateVertex>();
 
         for (CoordinateVertex vertex = destinationVertex; vertex != null; vertex = vertex.previousVertex){
             path.add(vertex);
