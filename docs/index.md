@@ -169,14 +169,21 @@ Definem-se como zonas de exclusão os seguintes elementos:
 ### Modelagem Matemática do Problema
 
 #### Tomada de Decisão - Variáveis de Decisão
+A tomada de decisão do problema consiste em um verdadeiro ou falso - verdadeiro (1) se passou pelo caminho e falso (0) se não passou pelo caminho.
 
 x<sub>ij</sub> {1 - se usar o caminho; 0 caso contrário
 
+i - nó de origem <br>
+j - nó de destino
+
 #### Objetivo - Função Objetivo
+
+O objetivo é minimizar o caminho percorrido de acordo com os pesos das arestas. Dessa forma, a função objetivo consiste na soma dos pesos vezes o valor da tomada de decisão (0 ou 1). Ou seja, apenas os caminhos usados realmente afetarão a função, já que aqueles que não forem usados serão multiplicados por 0.
 
 Min C = var_0.x<sub>P 1</sub> + var_1.x<sub>1 2</sub> + var_27.x<sub>12 1</sub> + var_15.x<sub>2 14</sub> + var_2.x<sub>2 3</sub> + var_17.x<sub>5 15</sub> + var_3.x<sub>3 4</sub> + var_4.x<sub>4 5</sub> + var_5.x<sub>5 6</sub> + var_6.x<sub>6 7</sub> + var_23.x<sub>7 19</sub> + var_7.x<sub>7 8</sub> + var_8.x<sub>8 9</sub> + var_14.x<sub>8 11</sub> + var_13.x<sub>8 10</sub> + var_9.x<sub>10 12</sub> + var_25.x<sub>12 20</sub> + var_12.x<sub>12 I</sub> + var_16.x<sub>14 3</sub> + var_19.x<sub>15 16</sub> + var_20.x<sub>16 17</sub> + var_21.x<sub>17 18</sub> + var_22.x<sub>18 7</sub>
 
 #### Restrições - Limitações
+As restrições consistem em que tudo que entra é igual ao que sai. No caso do nó "Petrópolis" (nó P) 1 será igual a tomada de decisão pois alguma aresta será utilizada obrigatoriamente e no caso do nó "Itaipava" (nó I) as tomadas de decisão serão iguais a 1 pois sempre chegará nele por uma aresta obrigatoriamente. 
 
 Nó P: 1 = x<sub>P 1</sub><br>
 Nó 1: x<sub>P 1</sub> = x<sub>12 1</sub> + x<sub>1 2</sub><br>
@@ -200,6 +207,7 @@ Nó 19: x<sub>7 19</sub> = x<sub>19 8 </sub><br>
 Nó 20: x<sub>12 20</sub> = x<sub>20 I</sub><br>
 Nó 21: x<sub>1 21</sub> = 0<br>
 Nó I: x<sub>12 I</sub> + x<sub>20 I</sub> = 1<br>
+x<sub>ij</sub> E {0, 1}
 
 ### Benefícios
 
