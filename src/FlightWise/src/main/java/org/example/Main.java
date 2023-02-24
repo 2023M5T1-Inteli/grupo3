@@ -45,6 +45,19 @@ public class Main {
         }
     }
 
+    public static void createFinalPathVertexes(ArrayList<CoordinateVertex> coordinates, Session session){
+        String cypherQuery = "MATCH (n:Coordinate {index: $ind})\n" +
+                "REMOVE n:Coordinate\n" +
+                "SET n:NewCoodinate";
+        try (Transaction tx = session.beginTransaction()) {
+            for (int i = 0; i < coordinates.size() - 1; i++) {
+                CoordinateVertex coordinateVertex = coordinates.get(i);
+                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex()));
+            }
+            tx.commit();
+        }
+    }
+
     public static void createCoordinateNodesAsync(ArrayList<CoordinateVertex> coordinates, Session session) {
         String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight})";
 
@@ -112,6 +125,8 @@ public class Main {
             createCordinateEdgesAsync(newGraph.getVertexes(), session);
 
             createFinalPathEdges(newList, session);
+
+            createFinalPathVertexes(newList, session);
         }
         catch (InterruptedException e) {
             // tratamento de exceção, se necessário
