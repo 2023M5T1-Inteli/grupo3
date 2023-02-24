@@ -168,6 +168,8 @@ Definem-se como zonas de exclusão os seguintes elementos:
 
 ### Modelagem Matemática do Problema
 
+OBS: A solução final terá mais pontos do que descrito abaixo. A modelagem foi feita a partir do grafo mencionado anteriormente que representa uma ideia inicial.
+
 #### Tomada de Decisão - Variáveis de Decisão
 A tomada de decisão do problema consiste em um verdadeiro ou falso - verdadeiro (1) se passou pelo caminho e falso (0) se não passou pelo caminho.
 
