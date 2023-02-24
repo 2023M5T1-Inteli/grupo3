@@ -174,7 +174,6 @@ Create(r19:Region19{nome:"19",coord:"-22.48536712547217, -43.163713802991154",el
 Create(r20:Region20{nome:"20",coord:"-22.482296472705713, -43.1586311664437",elev_m:109})
 Create(r21:Region21{nome:"21",coord:"-22.474256762705713, -43.1586311664437",elev_m:90})
 
-
 Create(r0)-[:var_0]->(r1)
 Create(r1)-[:var_1]->(r2)
 Create(r2)-[:var_2]->(r3)
