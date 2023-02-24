@@ -21,8 +21,11 @@ Planejador de trajetórias para voos em baixa altitude
   - [Solução](#solução)
     - [Solução proposta](#solução-proposta)
     - [Como utilizar](#como-utilizar)
-    - [Tomada de Decisão](#tomada-de-decisão)
-    - [Limitações Existentes](#limitações-existentes)
+    - [Tomada de decisão](#tomada-de-decisão)
+    - [Limitações existentes](#limitações-existentes)
+      - [Zonas de exclusão](#zonas-de-exclusão)
+      - [Máxima Razão de Curvatura Horizontal](#máxima-razão-de-curvatura-horizontal)
+      - [Mínimo Raio de Curvatura](#mínimo-raio-de-curvatura)
     - [Fluxograma (Arquitetura inicial)](#fluxograma-arquitetura-inicial)
     - [Modelagem Inicial do Problema](#modelagem-inicial-do-problema)
     - [Benefícios](#benefícios)
@@ -172,7 +175,6 @@ Create(r20:Region20{nome:"20",coord:"-22.482296472705713, -43.1586311664437",ele
 Create(r21:Region21{nome:"21",coord:"-22.474256762705713, -43.1586311664437",elev_m:90})
 
 
-
 Create(r0)-[:var_0]->(r1)
 Create(r1)-[:var_1]->(r2)
 Create(r2)-[:var_2]->(r3)
@@ -204,9 +206,13 @@ Return r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10, r11, r12, r13, r14, r15, r16, r17, r18
 ```
 
 
-![Grafo gerado pelo Neo4J](./img/grafo_traj.png)
+![Grafo gerado pelo Neo4J](./img/grafo_otimizado.png)
 
 Neste caso, o ponto de partida será Petrópolis e o de destino Itaipava. Existem rotas impossíveis, que não possuem saídas, como as regiões destacadas em vermelho. Também há rotas possíveis, porém não otimizadas, como as regiões pintadas em cinza. A solução proposta utiliza um algoritmo que encontra a rota mais eficiente entre o ponto de destino e origem, que passa pelas regiões destacadas em verde.
+
+Neste caso, o ponto de partida seria Petrópolis e o de destino Itaipava. Existem rotas impossíveis, que não tem arestas, como as regiões destacadas em vermelho. Também há rotas possíveis, porém não otimizadas, como as regiões pintadas em cinza, seja por algum motivo relacionado à irregularidade na topografia local ou maior distância para alcançar o destino final. A solução proposta utiliza um algoritmo que encontra a rota mais eficiente entre o ponto de destino e origem, que passa pelas regiões destacadas em verde.
+
+ Outro ponto a ser destacado são as variações de cores das arestas (linhas que relacionam os nós)elas são o range entre as coordenadas, sendo que dentro da representação acima a cor laranja exprime um aclive entre um ponto ao outro do terreno, a cor azul apresenta um declive e as destacadas em cinza são coordenadas com altitudes iguais. Além disso, a expessura das arestas representam um caminho sugerido a ser seguido, logo quanto mais expessa a aresta, mais recomendado seguir esse caminho, visto que é a rota mais otimizada.
 
 ### Benefícios
 
