@@ -221,7 +221,9 @@ Return r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10, r11, r12, r13, r14, r15, r16, r17, r18
 
 Neste caso, o ponto de partida seria Petrópolis e o de destino Itaipava. Existem rotas impossíveis, que não tem arestas, como as regiões destacadas em vermelho. Também há rotas possíveis, porém não otimizadas, como as regiões pintadas em cinza, seja por algum motivo relacionado à irregularidade na topografia local ou maior distância para alcançar o destino final. A solução proposta utiliza um algoritmo que encontra a rota mais eficiente entre o ponto de destino e origem, que passa pelas regiões destacadas em verde.
 
- Outro ponto a ser destacado são as variações de cores das arestas (linhas que relacionam os nós)elas são o range entre as coordenadas, sendo que dentro da representação acima a cor laranja exprime um aclive entre um ponto ao outro do terreno, a cor azul apresenta um declive e as destacadas em cinza são coordenadas com altitudes iguais. Além disso, a expessura das arestas representam um caminho sugerido a ser seguido, logo quanto mais expessa a aresta, mais recomendado seguir esse caminho, visto que é a rota mais otimizada.
+ É importante destacar as variações de cores das arestas, que representam o range entre os nós no mapa. Na representação apresentada, a cor laranja indica um aclive entre um ponto e outro do terreno, a cor azul indica um declive, e as arestas em cinza representam altitudes iguais. A espessura das arestas indica o caminho sugerido a ser seguido. Quanto mais espessa a aresta, mais recomendado é seguir esse caminho, pois é a rota mais otimizada. As arestas contêm informações sobre a distância entre as regiões demarcadas e a diferença de altitude entre elas, que são usadas para realizar ponderações e determinar a rota mais otimizada para a missão.
+
+ 
 
 ### Benefícios
 
