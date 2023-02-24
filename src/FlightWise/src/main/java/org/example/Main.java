@@ -120,16 +120,11 @@ public class Main {
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
             createCoordinateNodesAsync(newGraph.getVertexes(), session);
 
-            Thread.sleep(2500);
-
             createCordinateEdgesAsync(newGraph.getVertexes(), session);
 
             createFinalPathEdges(newList, session);
 
             createFinalPathVertexes(newList, session);
-        }
-        catch (InterruptedException e) {
-            // tratamento de exceção, se necessário
         }
 
 
