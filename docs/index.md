@@ -21,10 +21,17 @@ Planejador de trajetórias para voos em baixa altitude
   - [Solução](#solução)
     - [Solução proposta](#solução-proposta)
     - [Como utilizar](#como-utilizar)
-    - [Tomada de Decisão](#tomada-de-decisão)
-    - [Limitações Existentes](#limitações-existentes)
     - [Fluxograma (Arquitetura inicial)](#fluxograma-arquitetura-inicial)
     - [Modelagem Inicial do Problema](#modelagem-inicial-do-problema)
+    - [Tomada de decisão](#tomada-de-decisão)
+    - [Limitações existentes](#limitações-existentes)
+      - [Zonas de exclusão](#zonas-de-exclusão)
+      - [Máxima Razão de Curvatura Horizontal](#máxima-razão-de-curvatura-horizontal)
+      - [Mínimo Raio de Curvatura](#mínimo-raio-de-curvatura)
+    - [Modelagem Matemática do Problema](#modelagem-matemática-do-problema)
+      - [Tomada de Decisão - Variáveis de Decisão](#tomada-de-decisão---variáveis-de-decisão)
+      - [Objetivo - Função Objetivo](#objetivo---função-objetivo)
+      - [Restrições - Limitações](#restrições---limitações)
     - [Benefícios](#benefícios)
     - [Critério de sucesso](#critério-de-sucesso)
   - [Objetivos](#objetivos)
@@ -116,6 +123,26 @@ Na visualização do banco de dados do terreno, será utilizado o software GIS, 
 
 A solução proposta será aplicada de forma para determinar a rota mais adequada levando em conta os fatores presentes na área de voo. Ela se fundamenta em informações geográficas relacionadas ao terreno, bem como no desempenho das aeronaves e outros aspectos operacionais, visando minimizar os riscos. O principal usuário da solução poderá incluir parâmetros de software, resultando em uma visualização da rota de voo.
 
+### Fluxograma (Arquitetura inicial)
+
+![Fluxograma](./img/Fluxograma.png)
+
+### Modelagem Inicial do Problema
+A priori, identificamos uma modelagem que consiste na criação de um nó para cada localização. Utilizamos o [Neo4J](https://neo4j.com/) — um banco de dados orientado a grafos — para realizar a modelagem: 
+
+
+![Grafo gerado pelo Neo4J](./img/graph.png)
+
+Cada nó possuem propriedades específicas, são elas:  
+  - Id: Inteiro, Identificação única
+  - Nome 
+  - Altitude média
+  - Latitude e Longitude
+
+E cada relação ("MOVES_TO") também possui propriedades próprias:
+  - Distância em quilômetros
+  - Diferença de altitude em metros (Caso esse "range" seja negativo, há uma descida entre um ponto e outro; caso não há uma subida)
+
 ### Tomada de decisão
 
 Buscando-se obter o caminho mais otimizado, será priorizada, pelo algoritmo, a rota que suprir os requisitos e parâmetros de entrada, devendo esta, não atingir pontos de exclusão, respeitar os limites de vôo da aeronave, como velocidade máxima, raio de curvatura e outros, além de buscar diminuir o consumo de combustível e distância entre o ponto inicial e final, passando por localizações pré-definidas, caso estas sejam especificadas.
@@ -138,26 +165,52 @@ Definem-se como zonas de exclusão os seguintes elementos:
 - Define o raio mínimo em que uma aeronave pode se curvar
 - ![RaioMinimoAviao](./img/airplane-01.png)
 
-### Fluxograma (Arquitetura inicial)
 
-![Fluxograma](./img/Fluxograma.png)
+### Modelagem Matemática do Problema
 
-### Modelagem Inicial do Problema
-A priori, identificamos uma modelagem que consiste na criação de um nó para cada localização. Utilizamos o [Neo4J](https://neo4j.com/) — um banco de dados orientado a grafos — para realizar a modelagem: 
+OBS: A solução final terá mais pontos do que descrito abaixo. A modelagem foi feita a partir do grafo mencionado anteriormente que representa uma ideia inicial.
 
+#### Tomada de Decisão - Variáveis de Decisão
+A tomada de decisão do problema consiste em um verdadeiro ou falso - verdadeiro (1) se passou pelo caminho e falso (0) se não passou pelo caminho.
 
-![Grafo gerado pelo Neo4J](./img/graph.png)
+x<sub>ij</sub> {1 - se usar o caminho; 0 caso contrário
 
-Cada nó possuem propriedades específicas, são elas:  
-  - Id: Inteiro, Identificação única
-  - Nome 
-  - Altitude média
-  - Latitude e Longitude
+i - nó de origem <br>
+j - nó de destino
 
-E cada relação ("MOVES_TO") também possui propriedades próprias:
-  - Distância em quilômetros
-  - Diferença de altitude em metros (Caso esse "range" seja negativo, há uma descida entre um ponto e outro; caso não há uma subida)
-  
+#### Objetivo - Função Objetivo
+
+O objetivo é minimizar o caminho percorrido de acordo com os pesos das arestas. Dessa forma, a função objetivo consiste na soma dos pesos vezes o valor da tomada de decisão (0 ou 1). Ou seja, apenas os caminhos usados realmente afetarão a função, já que aqueles que não forem usados serão multiplicados por 0.
+
+Min C = var_0.x<sub>P 1</sub> + var_1.x<sub>1 2</sub> + var_27.x<sub>12 1</sub> + var_15.x<sub>2 14</sub> + var_2.x<sub>2 3</sub> + var_17.x<sub>5 15</sub> + var_3.x<sub>3 4</sub> + var_4.x<sub>4 5</sub> + var_5.x<sub>5 6</sub> + var_6.x<sub>6 7</sub> + var_23.x<sub>7 19</sub> + var_7.x<sub>7 8</sub> + var_8.x<sub>8 9</sub> + var_14.x<sub>8 11</sub> + var_13.x<sub>8 10</sub> + var_9.x<sub>10 12</sub> + var_25.x<sub>12 20</sub> + var_12.x<sub>12 I</sub> + var_16.x<sub>14 3</sub> + var_19.x<sub>15 16</sub> + var_20.x<sub>16 17</sub> + var_21.x<sub>17 18</sub> + var_22.x<sub>18 7</sub>
+
+#### Restrições - Limitações
+As restrições consistem em que tudo que entra é igual ao que sai. No caso do nó "Petrópolis" (nó P) 1 será igual a tomada de decisão pois alguma aresta será utilizada obrigatoriamente e no caso do nó "Itaipava" (nó I) as tomadas de decisão serão iguais a 1 pois sempre chegará nele por uma aresta obrigatoriamente. 
+
+Nó P: 1 = x<sub>P 1</sub><br>
+Nó 1: x<sub>P 1</sub> = x<sub>12 1</sub> + x<sub>1 2</sub><br>
+Nó 2: x<sub>1 2</sub> = x<sub>21 4</sub> + x<sub>2 3</sub><br>
+Nó 3: x<sub>2 3</sub> + x<sub>14 3</sub> = x<sub>3 15</sub> + x<sub>3 4</sub><br>
+Nó 4: x<sub>3 4</sub> + x<sub>15 4</sub> = x<sub>4 5</sub><br>
+Nó 5: x<sub>4 5</sub> = x<sub>5 6</sub><br>
+Nó 6: x<sub>5 6</sub> = x<sub>6 7</sub><br>
+Nó 7: x<sub>6 7</sub> + x<sub>18 7</sub> = x<sub>7 18</sub> + x<sub>7 8</sub><br>
+Nó 8: x<sub>7 8</sub> + x<sub>19 8</sub> = x<sub>8 9</sub> + x<sub>8 10</sub> + x<sub>8 11</sub><br>
+Nó 9: x<sub>8 9</sub> = 0<br>
+Nó 10: x<sub>8 10</sub> = x<sub>10 12</sub><br>
+Nó 11: x<sub>8 11</sub> = 0 <br>
+Nó 12: x<sub>10 12</sub> = x<sub>12 20</sub> + x<sub>12 I</sub><br>
+Nó 14: x<sub>2 14</sub> = x<sub>14 3</sub><br>
+Nó 15: x<sub>3 15</sub> = x<sub>15 16</sub> + x<sub>15 4</sub><br>
+Nó 16: x<sub>15 16</sub> = x<sub>16 17</sub><br>
+Nó 17: x<sub>16 17</sub> = x<sub>17 18</sub><br>
+Nó 18: x<sub>17 18</sub> = x<sub>18 7</sub><br>
+Nó 19: x<sub>7 19</sub> = x<sub>19 8 </sub><br>
+Nó 20: x<sub>12 20</sub> = x<sub>20 I</sub><br>
+Nó 21: x<sub>1 21</sub> = 0<br>
+Nó I: x<sub>12 I</sub> + x<sub>20 I</sub> = 1<br>
+x<sub>ij</sub> E {0, 1}
+
 ### Benefícios
 
 A proposta da solução oferece vários benefícios, incluindo uma visão completa do terreno e da rota, melhoria do consumo de combustível, redução de custos, economia de recursos e otimização do tempo na elaboração das rotas. Todos esses benefícios visam garantir a segurança do piloto.
