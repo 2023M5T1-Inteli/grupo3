@@ -208,7 +208,6 @@ Return r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10, r11, r12, r13, r14, r15, r16, r17, r18
 
 ![Grafo gerado pelo Neo4J](./img/grafo_otimizado.png)
 
-Neste caso, o ponto de partida será Petrópolis e o de destino Itaipava. Existem rotas impossíveis, que não possuem saídas, como as regiões destacadas em vermelho. Também há rotas possíveis, porém não otimizadas, como as regiões pintadas em cinza. A solução proposta utiliza um algoritmo que encontra a rota mais eficiente entre o ponto de destino e origem, que passa pelas regiões destacadas em verde.
 
 Neste caso, o ponto de partida seria Petrópolis e o de destino Itaipava. Existem rotas impossíveis, que não tem arestas, como as regiões destacadas em vermelho. Também há rotas possíveis, porém não otimizadas, como as regiões pintadas em cinza, seja por algum motivo relacionado à irregularidade na topografia local ou maior distância para alcançar o destino final. A solução proposta utiliza um algoritmo que encontra a rota mais eficiente entre o ponto de destino e origem, que passa pelas regiões destacadas em verde.
 
