@@ -15,9 +15,9 @@ public class CoordinateVertex implements IVertex {
     private ArrayList<CoordinateEdge> adjacencies = new ArrayList<>(); //The adjacencies ArrayList allows us to keep all the edges the vertex makes with other vertices.
     public double averageHeight; // The avarege height of the geolocation
     public double minimalCost; // The minimum value of the relationship  between other vertices.
-    public double totalCost; // ...
-    public double absoluteCost; // ...
-    public CoordinateVertex previousVertex; // ...
+    public double totalCost; // The sum of the previous cost, is used in the A* algorithm
+    public double absoluteCost; // Cost distance between the current vertex and the target
+    public CoordinateVertex previousVertex;
 
     private Point2D _position; // 2D point that representes tha longitude and latitude.
 
@@ -48,11 +48,6 @@ public class CoordinateVertex implements IVertex {
     // Returning a Point2D with XY position
     public Point2D getPosition() {
         return _position;
-    }
-    
-    // Removing an edge from the ArrayList. It takes the targetVertex and do a filter in searching for the correspondent index
-    public void removeEdge(IVertex targetVertex) {
-        adjacencies.remove(adjacencies.stream().filter(x -> x.targetVertex.getIndex() == targetVertex.getIndex()));
     }
 
     // Returning an ArrayList with the edges connected with the current vertex

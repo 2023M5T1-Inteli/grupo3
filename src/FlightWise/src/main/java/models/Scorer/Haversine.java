@@ -2,7 +2,12 @@ package models.Scorer;
 
 import models.vertex.IVertex;
 
-public class Harversine implements IScorer {
+
+/*
+* The haversine formula determines the great-circle distance between two points on a sphere given
+* their longitudes and latitudes.
+* */
+public class Haversine implements IScorer {
     @Override
     public double computeCost(IVertex from, IVertex to) {
         double R = 6372.8; // Earth's Radius, in kilometers

@@ -1,14 +1,11 @@
 package models.Graph;
 
 // Importing necessary libraries
-import models.Scorer.Harversine;
+import models.Scorer.Haversine;
 import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
-import models.vertex.IVertex;
 
-import java.awt.geom.Point2D;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /*
 * The class Graph is the base to create the hole graph that represents a trajectory.
@@ -28,8 +25,14 @@ public class Graph {
         return vertices;
     }
 
+    /*
+    * `addVertexEdgesByDistance` uses the distance property of each vertex to determinate if the vertex can make a edge between two vertices
+    * The distance is calculated using the Haversine Formula:
+    * */
     public void addVertexEdgesByDistance(double distance){
-        Harversine scorer = new Harversine();
+        Haversine scorer = new Haversine();
+
+        // Calculating the distance between a currentVertex (i) and the other vertices (j)
         for (int i = 0; i < vertices.size(); i++){
             for (int j = 0; j < vertices.size(); j++){
                 if (i == j) continue;
@@ -42,6 +45,7 @@ public class Graph {
         }
     }
 
+    // Finding a path (insert comment)
     public ArrayList<CoordinateVertex> findPath(CoordinateVertex destinationVertex) {
         ArrayList<CoordinateVertex> path = new ArrayList<CoordinateVertex>();
 
@@ -54,8 +58,9 @@ public class Graph {
         return path;
     }
 
+    // ASearch innserting comment
     public void ASearch(int indexInitial, int indexTarget){
-        Harversine scorer = new Harversine();
+        Haversine scorer = new Haversine();
 
         CoordinateVertex initialVertex = vertices.get(indexInitial);
         CoordinateVertex targetVertex = vertices.get(indexTarget);

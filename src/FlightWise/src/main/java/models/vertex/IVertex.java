@@ -10,11 +10,12 @@ import java.util.ArrayList;
 // This interface intends to be developed during the next sprint
 public interface IVertex {
     public void addEdge(CoordinateVertex targetVertex, double distance);
+
     public Point2D getPosition();
 
     public void setIndex(int index);
+
     public int getIndex();
 
-    public void removeEdge(IVertex targetVertex);
     public ArrayList<CoordinateEdge> getEdges();
 }
