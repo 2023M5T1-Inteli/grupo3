@@ -7,6 +7,7 @@ import org.neo4j.driver.util.Pair;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+// This interface intends to be developed during the next sprint
 public interface IVertex {
     public void addEdge(CoordinateVertex targetVertex, double distance);
     public Point2D getPosition();
