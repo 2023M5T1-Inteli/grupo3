@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CoordinateVertexTest {
-    CoordinateVertex currentVertexToTest = new CoordinateVertex((new Point2D.Double(30.4, 12.3)), 1000);
 
     /*
     * "addEdge" is a void method, so it's hard to determine if it is performing as expected.
@@ -14,6 +13,7 @@ class CoordinateVertexTest {
     *
     * By using this approach, we can test both the "addEdge" and "getEdge" methods at the same time.
     * */
+    CoordinateVertex currentVertexToTest = new CoordinateVertex((new Point2D.Double(30.4, 12.3)), 1000);
     @Test
     void addEdge() {
         CoordinateVertex targetVertexToTest = new CoordinateVertex((new Point2D.Double(50.3, 20.3)), 500);
