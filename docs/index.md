@@ -350,6 +350,7 @@ Rode o software, e após a execução, insira a seguinte query no banco:
 Match (n)-[r]->(m)
 Return n,r,m
 ```
+O seguinte resultado deve ser obtido:
 
 ![Grafo gerado](img/graph-neo4j.png)
 
