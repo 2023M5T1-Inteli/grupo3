@@ -28,15 +28,15 @@ public class GraphTest {
     }
 
     /*
-    * "addVertexEdgesByDistance" only add an Edge between two vertices if is in the range of a specific distance.
-    *
-    * To test it, we will add two vertices more into the graph: one of them, is not in the specific range of distance, and
-    * the other is in.
-    * */
+     * "addVertexEdgesByDistance" only add an Edge between two vertices if is in the range of a specific distance.
+     *
+     * To test it, we will add two vertices more into the graph: one of them, is not in the specific range of distance, and
+     * the other is in.
+     * */
 
     /*
-    * The test bellow will be implemented in the next sprint, with the implementation of the interface
-    * */
+     * The test bellow will be implemented in the next sprint, with the implementation of the interface
+     * */
     @org.junit.jupiter.api.Test
     void addVertexEdgesByDistance() {
 

@@ -7,12 +7,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class CoordinateVertexTest {
 
     /*
-    * "addEdge" is a void method, so it's hard to determine if it is performing as expected.
-    * To verify this, we can initialize two "CoordinateVertex" objects and compare the size of the
-    * ArrayList before and after calling "addEdge".
-    *
-    * By using this approach, we can test both the "addEdge" and "getEdge" methods at the same time.
-    * */
+     * "addEdge" is a void method, so it's hard to determine if it is performing as expected.
+     * To verify this, we can initialize two "CoordinateVertex" objects and compare the size of the
+     * ArrayList before and after calling "addEdge".
+     *
+     * By using this approach, we can test both the "addEdge" and "getEdge" methods at the same time.
+     * */
     CoordinateVertex currentVertexToTest = new CoordinateVertex((new Point2D.Double(30.4, 12.3)), 1000);
     @Test
     void addEdge() {
@@ -23,10 +23,10 @@ class CoordinateVertexTest {
     }
 
     /*
-    * Asserting the "vertexIndex" property was changed after calling "setIndex" method.
-    *
-    * By using this approach, we can test both the "setIndex" and "getIndex" methods at the same time.
-    * */
+     * Asserting the "vertexIndex" property was changed after calling "setIndex" method.
+     *
+     * By using this approach, we can test both the "setIndex" and "getIndex" methods at the same time.
+     * */
     @Test
     void setIndex() {
         currentVertexToTest.setIndex(10);
@@ -34,10 +34,10 @@ class CoordinateVertexTest {
     }
 
     /*
-    * To verify this method, we will do an assertion on the X and Y values.
-    *
-    * Using the "currentVertexToTest," the expected values for X and Y are 30.4 and 12.3, respectively.
-    * */
+     * To verify this method, we will do an assertion on the X and Y values.
+     *
+     * Using the "currentVertexToTest," the expected values for X and Y are 30.4 and 12.3, respectively.
+     * */
     @Test
     void getPosition() {
         assertEquals(30.4, currentVertexToTest.getPosition().getX());
