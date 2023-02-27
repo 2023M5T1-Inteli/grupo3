@@ -71,10 +71,11 @@ Planejador de trajetórias para voos em baixa altitude
   - [Modelo Conceitual](#modelo-conceitual)
   - [Modelo Lógico](#modelo-lógico)
 - [Teste de Software](#teste-de-software)
+  - [Testes de Integração - Neo4J](#testes-de-integração---neo4j)
   - [Testes Unitários](#testes-unitários)
-    - [Graph](#graph)
-    - [CoordinateEdge](#coordinateedge)
     - [CoordinateVertex](#coordinatevertex)
+    - [CoordinateEdge](#coordinateedge)
+    - [Graph](#graph)
     - [Haversine](#haversine)
   - [Teste de Usabilidade](#teste-de-usabilidade)
 - [Análise de Dados](#análise-de-dados)
@@ -432,6 +433,31 @@ A AEL Sistemas se dedica ao projeto, desenvolvimento, fabricação, manutenção
 
 
 # Teste de Software
+## Testes de Integração - Neo4J
+Para exibir o grafo e caminhos gerados pelo programa, no banco de dados [Neo4J](https://neo4j.com/), é necessário seguir os seguintes passos:
+
+Nesta seção de código, substitua `<DATABASE-URI>` pela URI gerada no Neo4J, e `<DATABASE-USERNAME>` `<DATABASE-PASSWORD>` pelas credenciais do banco.
+
+```java
+Driver driver = GraphDatabase.driver("<DATABASE-URI>",
+        AuthTokens.basic("<DATABASE-USERNAME>","<DATABASE-PASSWORD>"));
+```
+
+Logo após, rode a seguinte query para garantir a limpeza total do banco:
+
+```cypher
+MATCH (n)
+DETACH DELETE n
+```
+Rode o software, e após a execução, insira a seguinte query no banco:
+
+```cypher
+Match (n)-[r]->(m)
+Return n,r,m
+```
+O seguinte resultado deve ser obtido:
+
+![Grafo gerado](img/graph-neo4j.png)
 
 ## Testes Unitários
 Para a realização dos Testes Unitários, utilizamos a ferramenta [JUnit 5](https://www.jetbrains.com/help/idea/junit.html). Ela partimite rodar testes unitários de forma fácil e automatizada, e sua integração com IDEs como o IntelliJ, Eclipse, dentre outras, facilita o uso. 
@@ -449,9 +475,27 @@ Para cada arquivo principal existe um arquivo de mesmo nome com "Test" ao final.
 A seguir, estão os resultados esperados para as funções dos arquivos mencionados anteriormente. 
 
 
-### Graph
-### CoordinateEdge
 ### CoordinateVertex
+Esta classe representa um vértice, que na modelagem do nosso problema se trata de um ponto geográfico com longitude e latitude. Utilizamos o tipo abstrato `Point2D` para representar o ponto no espaço. 
+
+O método `addEdge` cria uma aresta entre o nó atual e o nó alvo (_targetVertex_) e insere ela em um ArrayList do tipo `CoordinateEdge`. O método `getEdges` retorna este ArrayList. Para testar utilizamos a mesma lógica da classe Graph.
+
+O método `setIndex` modifica a propriedade `vertexIndex` para o número inteiro que é passado pelo usuário.
+
+O método `getPosition` retorna um `Point2D` com as coordenadas. 
+
+![Resultados do teste unitário para a classe: Coordinate Vertex](img/CoordinateVertex.png)
+### CoordinateEdge
+A classe possui apenas sua inicialização. Portanto, o teste unitário realizado foi baseado na correta inicialização de suas propriedades, sem o uso do JUnit. Para inicializar esta classe, deve-se passar um vértice alvo (`targetVertex: CoordinateVertex`), um valor do tipo `double` que determina a distância e outro `double` para a altura.
+### Graph
+Esta classe é a base para a criação da trajetória, nela está contida os métodos responsáveis por adicionarem os vértices, arestas e utiliza o  [algoritmo A*](https://pt.wikipedia.org/wiki/Algoritmo_A*) para encontrar o caminho de menor custo.
+
+`addVertex`: adicionam um vértice a um ArrayList do tipo `CoordinateVertex`.
+`getVertices`: retorna o ArrayList. 
+
+Para testa-las verificamos o tamanho do ArrayList antes e depois da inserão. 
+
+![Resultados do teste unitário para a classe: Graph](img/GraphTestAddVertex.png)
 ### Haversine
 O intuito da função `computeCost` é, dado dois pontos no espaço com longitude e latitude, calcular a distância entre esse dois pontos. 
 
@@ -462,7 +506,7 @@ Podemos utilizar como pontos as seguintes coordenadas para teste:
 A distância aproximadamente seria de 2311 quilômetros. 
 Utilizando a função `assertEquals` podemos verificar que a o método `computeCost` funciona perfeitamente: 
 
-![Haversine Test](img/HaversineTest.png)
+![Resultados do teste unitário para a classe: Haversine](img/HaversineTest.png)
 
 ## Teste de Usabilidade
 
