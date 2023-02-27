@@ -14,6 +14,8 @@ import org.neo4j.driver.Transaction;
 
 
 public class Main {
+
+    // Inserts into the Neo4J database, all coordinate connections
     public static void createCordinateEdgesAsync(ArrayList<CoordinateVertex> coordinates, Session session){
         String cypherQuery = "MATCH (n:Coordinate {index: $ind1})\n" +
                 "MATCH (c:Coordinate {index: $ind2})\n" +
@@ -31,6 +33,7 @@ public class Main {
         }
     }
 
+    // Inserts into the Neo4J database, the final optimal path as a new connection type
     public static void createFinalPathEdges(ArrayList<CoordinateVertex> coordinates, Session session){
         String cypherQuery = "MATCH (n:Coordinate {index: $ind1})\n" +
                 "MATCH (c:Coordinate {index: $ind2})\n" +
@@ -45,6 +48,7 @@ public class Main {
         }
     }
 
+    // Updates the Neo4J database, changing the final path vertexes type
     public static void createFinalPathVertexes(ArrayList<CoordinateVertex> coordinates, Session session){
         String cypherQuery = "MATCH (n:Coordinate {index: $ind})\n" +
                 "REMOVE n:Coordinate\n" +
@@ -58,6 +62,7 @@ public class Main {
         }
     }
 
+    // Inserts into the Neo4J database all the coordinate vertexes
     public static void createCoordinateNodesAsync(ArrayList<CoordinateVertex> coordinates, Session session) {
         String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight})";
 
@@ -75,8 +80,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Driver driver = GraphDatabase.driver("neo4j+s://41f6b34f.databases.neo4j.io",
-                AuthTokens.basic("neo4j","9Mk9OO68J2Xw1z-GaVY2XcPdIa-y4gwwcIqdKXdGYWE"));
+        Driver driver = GraphDatabase.driver("<DATABASE-URI>",
+                AuthTokens.basic("<DATABASE-USERNAME>","<DATABASE-PASSWORD>"));
 
         //region creating cordinate nodes
         ArrayList<Point2D> positionsArray = new ArrayList<>(Arrays.asList(
@@ -101,22 +106,28 @@ public class Main {
         ));
         //endregion
 
+
+        // Initializes a new Graph()
         Graph newGraph = new Graph();
 
+
+        // Adds all positions to the new Graph
         for (int i = 0; i < positionsArray.size(); i++){
             CoordinateVertex newCoordinateVertex = new CoordinateVertex(positionsArray.get(i), 100.0);
             newGraph.addVertex(newCoordinateVertex);
         }
 
+
+        // Create all vertex edges based on distance
         newGraph.addVertexEdgesByDistance(0.7);
+
+        // Calculates the optimal path between two nodes(vertex)
         newGraph.ASearch(0, 17);
 
+        // Returns the generated optimal path as an ArrayList;
         ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(17));
 
-//        for (CoordinateVertex v: newList){
-//            System.out.println(v.getIndex());
-//        }
-
+        // Send the local Graph structure to neo4J
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
             createCoordinateNodesAsync(newGraph.getVertexes(), session);
 
@@ -127,7 +138,7 @@ public class Main {
             createFinalPathVertexes(newList, session);
         }
 
-
+        // Ends the Neo4J session
         driver.close();
     }
 }
