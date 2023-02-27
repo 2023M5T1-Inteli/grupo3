@@ -72,6 +72,10 @@ Planejador de trajetórias para voos em baixa altitude
   - [Modelo Lógico](#modelo-lógico)
 - [Teste de Software](#teste-de-software)
   - [Testes Unitários](#testes-unitários)
+    - [Graph](#graph)
+    - [CoordinateEdge](#coordinateedge)
+    - [CoordinateVertex](#coordinatevertex)
+    - [Haversine](#haversine)
   - [Teste de Usabilidade](#teste-de-usabilidade)
 - [Análise de Dados](#análise-de-dados)
 - [Manuais](#manuais)
@@ -430,6 +434,35 @@ A AEL Sistemas se dedica ao projeto, desenvolvimento, fabricação, manutenção
 # Teste de Software
 
 ## Testes Unitários
+Para a realização dos Testes Unitários, utilizamos a ferramenta [JUnit 5](https://www.jetbrains.com/help/idea/junit.html). Ela partimite rodar testes unitários de forma fácil e automatizada, e sua integração com IDEs como o IntelliJ, Eclipse, dentre outras, facilita o uso. 
+
+Para simplificar o uso, recomendamos o uso do [IntelliJ IDEA](https://www.jetbrains.com/pt-br/idea/) para executar os testes. 
+
+Dentro da pasta _src/FlightWise/src/main/java/models_ você encontrará quatro pastas:
+- **edge**: arquivo principal (CoordinateEdge.java)
+- **Graph**: arquivo principal (Graph.java)
+- **Scorer**: arquivo principal (Haversine.java)
+- **vertex**: arquivo principal (CoordinateVertex.java)
+
+Para cada arquivo principal existe um arquivo de mesmo nome com "Test" ao final. Nele estão contidos os testes unitários de cada função presente nos arquivos principais. Ao compilar e rodar os arquivos de teste poderá ver que todos os assertions executam devidamente. 
+
+A seguir, estão os resultados esperados para as funções dos arquivos mencionados anteriormente. 
+
+
+### Graph
+### CoordinateEdge
+### CoordinateVertex
+### Haversine
+O intuito da função `computeCost` é, dado dois pontos no espaço com longitude e latitude, calcular a distância entre esse dois pontos. 
+
+Podemos utilizar como pontos as seguintes coordenadas para teste:
+- $x_1$ = 30.4 longitude e 12.3 para a latitude
+- $x_2$ = 50.3 longitude e 20.3 para a latitude
+
+A distância aproximadamente seria de 2311 quilômetros. 
+Utilizando a função `assertEquals` podemos verificar que a o método `computeCost` funciona perfeitamente: 
+
+![Haversine Test](img/HaversineTest.png)
 
 ## Teste de Usabilidade
 
