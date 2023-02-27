@@ -21,13 +21,17 @@ Planejador de trajetórias para voos em baixa altitude
   - [Solução](#solução)
     - [Solução proposta](#solução-proposta)
     - [Como utilizar](#como-utilizar)
+    - [Fluxograma (Arquitetura inicial)](#fluxograma-arquitetura-inicial)
+    - [Modelagem Inicial do Problema](#modelagem-inicial-do-problema)
     - [Tomada de decisão](#tomada-de-decisão)
     - [Limitações existentes](#limitações-existentes)
       - [Zonas de exclusão](#zonas-de-exclusão)
       - [Máxima Razão de Curvatura Horizontal](#máxima-razão-de-curvatura-horizontal)
       - [Mínimo Raio de Curvatura](#mínimo-raio-de-curvatura)
-    - [Fluxograma (Arquitetura inicial)](#fluxograma-arquitetura-inicial)
-    - [Modelagem Inicial do Problema](#modelagem-inicial-do-problema)
+    - [Modelagem Matemática do Problema](#modelagem-matemática-do-problema)
+      - [Tomada de Decisão - Variáveis de Decisão](#tomada-de-decisão---variáveis-de-decisão)
+      - [Objetivo - Função Objetivo](#objetivo---função-objetivo)
+      - [Restrições - Limitações](#restrições---limitações)
     - [Benefícios](#benefícios)
     - [Critério de sucesso](#critério-de-sucesso)
   - [Objetivos](#objetivos)
@@ -123,6 +127,81 @@ Na visualização do banco de dados do terreno, será utilizado o software GIS, 
 
 A solução proposta será aplicada de forma para determinar a rota mais adequada levando em conta os fatores presentes na área de voo. Ela se fundamenta em informações geográficas relacionadas ao terreno, bem como no desempenho das aeronaves e outros aspectos operacionais, visando minimizar os riscos. O principal usuário da solução poderá incluir parâmetros de software, resultando em uma visualização da rota de voo.
 
+### Fluxograma (Arquitetura inicial)
+
+![Fluxograma](./img/Fluxograma.png)
+
+### Modelagem Inicial do Problema
+
+Com o objetivo de representar o problema de uma forma quantitativamente eficiente, foram utilizados grafos. A visualização do problema em um grafo pode ser feita utilizando o banco de dados [Neo4J](https://neo4j.com/), com o código abaixo como exemplo: 
+
+```cypher
+Create(r0:Petrópolis{nome:"Petrópolis",coord:"-22.507371108532418, -43.18604972500784",elev_m:2})
+Create(r1:Region1{nome:"1",coord:"-22.49990803773384, -43.17923091529861",elev_m:17})
+Create(r2:Region2{nome:"2",coord:"-22.499393230127055, -43.1686337408087",elev_m:3})
+Create(r3:Region3{nome:"3",coord:"-22.499710420013947, -43.1686337408087",elev_m:150})
+Create(r4:Region4{nome:" 4",coord:"-22.491304642288366, -43.1633122381705",elev_m:80})
+Create(r5:Region5{nome:"5",coord:"-22.479567419238222, -43.15524415352548",elev_m:11})
+Create(r6:Region6{nome:"6",coord:"-22.473698434555835, -43.18133668259022",elev_m:11})
+Create(r7:Region7{nome:"7",coord:"-22.4512395961453, -43.16832775918275",elev_m:7})
+Create(r8:Region8{nome:"8",coord:"-22.426902150943395, -43.13980242471486",elev_m:116})
+Create(r9:Region9{nome:"9",coord:"-22.4273078100088, -43.14024127601437",elev_m:5})
+Create(r10:Region10{nome:"10",coord:"-22.435420742362048, -43.10996053634845",elev_m:60})
+Create(r11:Region11{nome:"11",coord:"-22.40621196717168, -43.1784213390714",elev_m:8})
+Create(r12:Region12{nome:"12",coord:"-22.399314554487333, -43.14857945070498",elev_m:130})
+Create(r13:Region13{nome:"Itaipava",coord:"-22.383489785287257, -43.13453620912079",elev_m:9})
+
+Create(r14:Region14{nome:"14",coord:"-22.500738057367546, -43.18531385801286",elev_m:12})
+Create(r15:Region15{nome:"15",coord:"-22.49843672013675, -43.18485257244116",elev_m:25})
+Create(r16:Region16{nome:"16",coord:"-22.484201672569323, -43.18365322995473",elev_m:19})
+Create(r17:Region17{nome:"17",coord:"-22.471277687477787, -43.178179768549334",elev_m:29})
+Create(r18:Region18{nome:"18",coord:"-22.4962041789774867, -43.16860095351757",elev_m:9})
+Create(r19:Region19{nome:"19",coord:"-22.48536712547217, -43.163713802991154",elev_m:98})
+Create(r20:Region20{nome:"20",coord:"-22.482296472705713, -43.1586311664437",elev_m:109})
+Create(r21:Region21{nome:"21",coord:"-22.474256762705713, -43.1586311664437",elev_m:90})
+
+
+Create(r0)-[:var_0]->(r1)
+Create(r1)-[:var_1]->(r2)
+Create(r2)-[:var_2]->(r3)
+Create(r3)-[:var_3]->(r4)
+Create(r4)-[:var_4]->(r5)
+Create(r5)-[:var_5]->(r6)
+Create(r6)-[:var_6]->(r7)
+Create(r7)-[:var_7]->(r8)
+Create(r8)-[:var_8]->(r9)
+Create(r10)-[:var_9]->(r12)
+Create(r12)-[:var_12]->(r13)
+Create(r8)-[:var_13]->(r10)
+Create(r8)-[:var_14]->(r11)
+Create (r2)-[:var_15]->(r14)
+Create (r14)-[:var_16]->(r3)
+Create (r3)-[:var_17]->(r15)
+Create(r15)-[:var_18]->(r4)
+Create(r15)-[:var_19]->(r16)
+Create(r16)-[:var_20]->(r17)
+Create(r17)-[:var_21]->(r18)
+Create(r18)-[:var_22]->(r7)
+Create(r7)-[:var_23]->(r19)
+Create(r19)-[:var_24]->(r8)
+Create(r12)-[:var_25]->(r20)
+Create(r20)-[:var_26]->(r13)
+Create(r1)-[:var_27]->(r21)
+
+Return r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21
+```
+
+
+![Grafo gerado pelo Neo4J](./img/grafo_otimizado.png)
+
+
+Neste caso, o ponto de partida seria Petrópolis e o de destino Itaipava, evidenciados na cor amarela. No grafo, existem rotas impossíveis destacadas em vermelho, seja pela presença de um radar inimigo ou uma circunstância que impossibilite/dificulte a passagem naquela região. Também há rotas possíveis, porém não otimizadas, como as regiões pintadas em cinza, seja por algum motivo relacionado à irregularidade na topografia local ou maior distância para alcançar o destino final. A solução proposta utiliza um algoritmo que encontra a rota mais eficiente entre o ponto de destino e origem, que passa pelas regiões destacadas em verde.
+
+ É importante destacar as variações de cores das arestas, que representam o range entre os nós no mapa. Na representação apresentada, a cor laranja indica um aclive entre um ponto e outro do terreno, a cor azul indica um declive, e as arestas em cinza representam altitudes iguais. A espessura das arestas indica o caminho sugerido a ser seguido. Quanto mais espessa a aresta, mais recomendado é seguir esse caminho, pois é a rota mais otimizada. As arestas contêm informações sobre a distância entre as regiões demarcadas e a diferença de altitude entre elas, que são usadas para realizar ponderações e determinar a rota mais otimizada para a missão.
+
+ 
+
+
 ### Tomada de decisão
 
 Buscando-se obter o caminho mais otimizado, será priorizada, pelo algoritmo, a rota que suprir os requisitos e parâmetros de entrada, devendo esta, não atingir pontos de exclusão, respeitar os limites de vôo da aeronave, como velocidade máxima, raio de curvatura e outros, além de buscar diminuir o consumo de combustível e distância entre o ponto inicial e final, passando por localizações pré-definidas, caso estas sejam especificadas.
@@ -145,26 +224,52 @@ Definem-se como zonas de exclusão os seguintes elementos:
 - Define o raio mínimo em que uma aeronave pode se curvar
 - ![RaioMinimoAviao](./img/airplane-01.png)
 
-### Fluxograma (Arquitetura inicial)
 
-![Fluxograma](./img/Fluxograma.png)
+### Modelagem Matemática do Problema
 
-### Modelagem Inicial do Problema
-A priori, identificamos uma modelagem que consiste na criação de um nó para cada localização. Utilizamos o [Neo4J](https://neo4j.com/) — um banco de dados orientado a grafos — para realizar a modelagem: 
+OBS: A solução final terá mais pontos do que descrito abaixo. A modelagem foi feita a partir do grafo mencionado anteriormente que representa uma ideia inicial.
 
+#### Tomada de Decisão - Variáveis de Decisão
+A tomada de decisão do problema consiste em um verdadeiro ou falso - verdadeiro (1) se passou pelo caminho e falso (0) se não passou pelo caminho.
 
-![Grafo gerado pelo Neo4J](./img/graph.png)
+x<sub>ij</sub> {1 - se usar o caminho; 0 caso contrário
 
-Cada nó possuem propriedades específicas, são elas:  
-  - Id: Inteiro, Identificação única
-  - Nome 
-  - Altitude média
-  - Latitude e Longitude
+i - nó de origem <br>
+j - nó de destino
 
-E cada relação ("MOVES_TO") também possui propriedades próprias:
-  - Distância em quilômetros
-  - Diferença de altitude em metros (Caso esse "range" seja negativo, há uma descida entre um ponto e outro; caso não há uma subida)
-  
+#### Objetivo - Função Objetivo
+
+O objetivo é minimizar o caminho percorrido de acordo com os pesos das arestas. Dessa forma, a função objetivo consiste na soma dos pesos vezes o valor da tomada de decisão (0 ou 1). Ou seja, apenas os caminhos usados realmente afetarão a função, já que aqueles que não forem usados serão multiplicados por 0.
+
+Min C = var_0.x<sub>P 1</sub> + var_1.x<sub>1 2</sub> + var_27.x<sub>12 1</sub> + var_15.x<sub>2 14</sub> + var_2.x<sub>2 3</sub> + var_17.x<sub>5 15</sub> + var_3.x<sub>3 4</sub> + var_4.x<sub>4 5</sub> + var_5.x<sub>5 6</sub> + var_6.x<sub>6 7</sub> + var_23.x<sub>7 19</sub> + var_7.x<sub>7 8</sub> + var_8.x<sub>8 9</sub> + var_14.x<sub>8 11</sub> + var_13.x<sub>8 10</sub> + var_9.x<sub>10 12</sub> + var_25.x<sub>12 20</sub> + var_12.x<sub>12 I</sub> + var_16.x<sub>14 3</sub> + var_19.x<sub>15 16</sub> + var_20.x<sub>16 17</sub> + var_21.x<sub>17 18</sub> + var_22.x<sub>18 7</sub>
+
+#### Restrições - Limitações
+As restrições consistem em que tudo que entra é igual ao que sai. No caso do nó "Petrópolis" (nó P) 1 será igual a tomada de decisão pois alguma aresta será utilizada obrigatoriamente e no caso do nó "Itaipava" (nó I) as tomadas de decisão serão iguais a 1 pois sempre chegará nele por uma aresta obrigatoriamente. 
+
+Nó P: 1 = x<sub>P 1</sub><br>
+Nó 1: x<sub>P 1</sub> = x<sub>12 1</sub> + x<sub>1 2</sub><br>
+Nó 2: x<sub>1 2</sub> = x<sub>21 4</sub> + x<sub>2 3</sub><br>
+Nó 3: x<sub>2 3</sub> + x<sub>14 3</sub> = x<sub>3 15</sub> + x<sub>3 4</sub><br>
+Nó 4: x<sub>3 4</sub> + x<sub>15 4</sub> = x<sub>4 5</sub><br>
+Nó 5: x<sub>4 5</sub> = x<sub>5 6</sub><br>
+Nó 6: x<sub>5 6</sub> = x<sub>6 7</sub><br>
+Nó 7: x<sub>6 7</sub> + x<sub>18 7</sub> = x<sub>7 18</sub> + x<sub>7 8</sub><br>
+Nó 8: x<sub>7 8</sub> + x<sub>19 8</sub> = x<sub>8 9</sub> + x<sub>8 10</sub> + x<sub>8 11</sub><br>
+Nó 9: x<sub>8 9</sub> = 0<br>
+Nó 10: x<sub>8 10</sub> = x<sub>10 12</sub><br>
+Nó 11: x<sub>8 11</sub> = 0 <br>
+Nó 12: x<sub>10 12</sub> = x<sub>12 20</sub> + x<sub>12 I</sub><br>
+Nó 14: x<sub>2 14</sub> = x<sub>14 3</sub><br>
+Nó 15: x<sub>3 15</sub> = x<sub>15 16</sub> + x<sub>15 4</sub><br>
+Nó 16: x<sub>15 16</sub> = x<sub>16 17</sub><br>
+Nó 17: x<sub>16 17</sub> = x<sub>17 18</sub><br>
+Nó 18: x<sub>17 18</sub> = x<sub>18 7</sub><br>
+Nó 19: x<sub>7 19</sub> = x<sub>19 8 </sub><br>
+Nó 20: x<sub>12 20</sub> = x<sub>20 I</sub><br>
+Nó 21: x<sub>1 21</sub> = 0<br>
+Nó I: x<sub>12 I</sub> + x<sub>20 I</sub> = 1<br>
+x<sub>ij</sub> E {0, 1}
+
 ### Benefícios
 
 A proposta da solução oferece vários benefícios, incluindo uma visão completa do terreno e da rota, melhoria do consumo de combustível, redução de custos, economia de recursos e otimização do tempo na elaboração das rotas. Todos esses benefícios visam garantir a segurança do piloto.
