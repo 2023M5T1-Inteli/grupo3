@@ -67,6 +67,7 @@ Planejador de trajetórias para voos em baixa altitude
   - [Modelo Conceitual](#modelo-conceitual)
   - [Modelo Lógico](#modelo-lógico)
 - [Teste de Software](#teste-de-software)
+  - [Testes de Integração - Neo4J](#testes-de-integração---neo4j)
   - [Testes Unitários](#testes-unitários)
     - [CoordinateVertex](#coordinatevertex)
     - [CoordinateEdge](#coordinateedge)
@@ -327,6 +328,28 @@ A AEL Sistemas se dedica ao projeto, desenvolvimento, fabricação, manutenção
 
 
 # Teste de Software
+## Testes de Integração - Neo4J
+Para exibir o grafo e caminhos gerados pelo programa, no banco de dados [Neo4J](https://neo4j.com/), é necessário seguir os seguintes passos:
+
+Nesta seção de código, substitua `<DATABASE-URI>` pela URI gerada no Neo4J, e `<DATABASE-USERNAME>` `<DATABASE-PASSWORD>` pelas credenciais do banco.
+
+```java
+Driver driver = GraphDatabase.driver("<DATABASE-URI>",
+        AuthTokens.basic("<DATABASE-USERNAME>","<DATABASE-PASSWORD>"));
+```
+
+Logo após, rode a seguinte query para garantir a limpeza total do banco:
+
+```cypher
+MATCH (n)
+DETACH DELETE n
+```
+Rode o software, e após a execução, insira a seguinte query no banco:
+
+```cypher
+Match (n)-[r]->(m)
+Return n,r,m
+```
 
 ## Testes Unitários
 Para a realização dos Testes Unitários, utilizamos a ferramenta [JUnit 5](https://www.jetbrains.com/help/idea/junit.html). Ela partimite rodar testes unitários de forma fácil e automatizada, e sua integração com IDEs como o IntelliJ, Eclipse, dentre outras, facilita o uso. 
@@ -357,7 +380,7 @@ O método `getPosition` retorna um `Point2D` com as coordenadas.
 ### CoordinateEdge
 A classe possui apenas sua inicialização. Portanto, o teste unitário realizado foi baseado na correta inicialização de suas propriedades, sem o uso do JUnit. Para inicializar esta classe, deve-se passar um vértice alvo (`targetVertex: CoordinateVertex`), um valor do tipo `double` que determina a distância e outro `double` para a altura.
 ### Graph
-Esta classe é a base para a criação da trajetória, nela está contida os métodos responsáveis por adicionarem os vértices, arestas e utiliza o  [algoritmo A*]() para encontrar o caminho de menor custo.
+Esta classe é a base para a criação da trajetória, nela está contida os métodos responsáveis por adicionarem os vértices, arestas e utiliza o  [algoritmo A*](https://pt.wikipedia.org/wiki/Algoritmo_A*) para encontrar o caminho de menor custo.
 
 `addVertex`: adicionam um vértice a um ArrayList do tipo `CoordinateVertex`.
 `getVertices`: retorna o ArrayList. 
