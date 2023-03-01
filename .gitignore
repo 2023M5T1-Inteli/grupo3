@@ -3,3 +3,4 @@ target
 *.docx
 *.pdf
 .DS_Store
+src/frontend/node_modules
