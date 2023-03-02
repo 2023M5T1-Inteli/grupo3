@@ -13,6 +13,8 @@
     bottom: 0;
     height: 100vh;
     display: flex;
+    transition: transform .6s ease-in-out;
+    transform: translateX(-100%);
 }
 
 .menu, .background {
@@ -27,4 +29,13 @@
 .menu {
     background-color: white;
     width: 30%;
+    transform: translateX(-100%);
+}
+
+.container.show {
+    transform: translateX(0%);
+}
+
+.menu.show {
+    transform: translateX(0%);
 }

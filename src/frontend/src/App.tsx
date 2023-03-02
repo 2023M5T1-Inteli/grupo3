@@ -25,7 +25,7 @@ function App() {
           Learn React
         </button>
       </header>
-      {showFilter && <Filter />}
+      <Filter show={showFilter} />
     </div>
   );
 }
