@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './components/Filter.css';
+import Filter from './components/Filter';
 
 function App() {
+  const [showFilter, setShowFilter] = useState(false);
+
+  const toogleFilter = () => {
+    setShowFilter(!showFilter)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -10,15 +18,14 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <a
+        <button
           className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+          onClick={toogleFilter}
         >
           Learn React
-        </a>
+        </button>
       </header>
+      {showFilter && <Filter />}
     </div>
   );
 }
