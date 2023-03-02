@@ -39,3 +39,42 @@
 .menu.show {
     transform: translateX(0%);
 }
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.filter-header p {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+#close-button {
+    background-color: transparent;
+    border: none;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    gap: .4rem;
+    align-items: center;
+}
+
+.filter-button {
+    width: 70%;
+    height: 2rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.filter-button:hover, .filter-button.clicked {
+    background-color: transparent;
+    border: 1px solid #bababa;
+    color:#bababa;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import './components/Filter.css';
@@ -25,7 +25,7 @@ function App() {
           Learn React
         </button>
       </header>
-      <Filter show={showFilter} />
+      <Filter show={showFilter} toggleFilter={toogleFilter}/>
     </div>
   );
 }
