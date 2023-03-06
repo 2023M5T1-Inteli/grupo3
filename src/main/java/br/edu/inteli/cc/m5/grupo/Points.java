@@ -61,7 +61,9 @@ public static void main(String[] args) {
   double[][] coordData = getCoord(dbRio, lonInitial, latInitial, rows, cols, lonStep, latStep);
 
   for (int i = 0; i < rows * cols; i++) {
-    System.out.println(i + ": (" + coordData[i][1] + ", " + coordData[i][0] + ", " + coordData[i][2] + ")");
+    for (int j = 0; j < 3; j++) {
+      System.out.println(coordData[i][j]);
+    }
   }
 }
 
