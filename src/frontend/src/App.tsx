@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import './components/Filter.css';
 import Filter from './components/Filter';
+import { TextField } from '@mui/material';
 
 function App() {
   const [showFilter, setShowFilter] = useState(false);
@@ -22,8 +23,12 @@ function App() {
           className="App-link"
           onClick={toogleFilter}
         >
+          
           Learn React
         </button>
+        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+          <TextField id="filled-basic" label="Filled" variant="filled" />
+          <TextField id="standard-basic" label="Standard" variant="standard" />
       </header>
       <Filter show={showFilter} toggleFilter={toogleFilter}/>
     </div>
