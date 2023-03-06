@@ -17,8 +17,6 @@ function Filter(props: FilterProps) {
     else setClickedButtons([...clickedButtons, index])
   }
 
-
-
   return (
     <div className={`container ${show ? 'show' : ''}`}>
       <div className={`menu ${show ? 'show' : ''}`}>
@@ -28,9 +26,10 @@ function Filter(props: FilterProps) {
         </div>
         <hr/>
         <div className="filter-buttons">
-        <button id='1' className={`filter-button ${clickedButtons.includes(1)  ? "clicked" : ""}`} onClick={() => handleClick(1)}>Zonas de Exclusão</button>
-        <button id='2' className={`filter-button ${clickedButtons.includes(2)  ? "clicked" : ""}`} onClick={() => handleClick(2)}>X</button>
-        <button id='3' className={`filter-button ${clickedButtons.includes(3)  ? "clicked" : ""}`} onClick={() => handleClick(3)}>X</button>
+          <button id='1' className={`filter-button ${clickedButtons.includes(1)  ? "clicked" : ""}`} onClick={() => handleClick(1)}>Mostrar zonas de exclusão</button>
+          <button id='2' className={`filter-button ${clickedButtons.includes(2)  ? "clicked" : ""}`} onClick={() => handleClick(2)}>Altitude nos nós</button>
+          <button id='3' className={`filter-button ${clickedButtons.includes(3)  ? "clicked" : ""}`} onClick={() => handleClick(3)}>Mudar tipo de visualização do mapa</button>
+          <button id='3' className={`filter-button ${clickedButtons.includes(4)  ? "clicked" : ""}`} onClick={() => handleClick(4)}>Ativar variação de altitude nas arestas</button>
         </div>
       </div>
       <div className="background"></div>
