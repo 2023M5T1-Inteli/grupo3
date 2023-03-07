@@ -1,36 +1,35 @@
-import { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import './components/Filter.css';
-import Filter from './components/Filter';
-import { TextField } from '@mui/material';
+import { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import "./components/Filter.css";
+import Filter from "./components/Filter";
+import { AppBar, Button, TextField } from "@mui/material";
+import { Box, Container, height } from "@mui/system";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import AdbIcon from "@mui/icons-material/Adb";
+import Typography from "@mui/material/Typography";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import GenerateBar from "./components/GenerateBar";
+import Header from "./components/Header";
 
 function App() {
   const [showFilter, setShowFilter] = useState(false);
 
   const toogleFilter = () => {
-    setShowFilter(!showFilter)
-  }
+    setShowFilter(!showFilter);
+  };
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <button
-          className="App-link"
-          onClick={toogleFilter}
-        >
-          
-          Learn React
-        </button>
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-          <TextField id="filled-basic" label="Filled" variant="filled" />
-          <TextField id="standard-basic" label="Standard" variant="standard" />
-      </header>
-      <Filter show={showFilter} toggleFilter={toogleFilter}/>
+      <Container maxWidth={false}>
+        <Header />
+        <GenerateBar />
+      </Container>
+
+      <button className="App-link" onClick={toogleFilter}>
+        Settings
+      </button>
+      <Filter show={showFilter} toggleFilter={toogleFilter} />
     </div>
   );
 }
