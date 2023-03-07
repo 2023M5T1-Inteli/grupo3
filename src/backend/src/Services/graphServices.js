@@ -17,7 +17,7 @@ class GraphService {
             // console.log(node.properties.name)
         } 
         finally {
-            await session.close()
+            return await session.close()
         }
 
         // on application exit:
@@ -32,7 +32,11 @@ class GraphService {
                 'MATCH (n) RETURN n'
             )
             
-            return result;
+            const nodeFields = result.records.map(queries => queries._fields[0]);
+            console.log(nodeFields);
+            const nodeProperties = result.records.map(fields => fields);
+
+            return nodeProperties;
         } 
         finally {
             await session.close()
