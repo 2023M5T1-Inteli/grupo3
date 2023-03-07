@@ -36,6 +36,8 @@ Ping Lu e Bion L. Pierson publicaram um estudo no Journal of Guidance, Control, 
 
 O segmento de terrenos em voos de baixa altitude é um desafio constante na aviação. Para evitar colisões, é fundamental manter uma distância segura em relação ao terreno. Nesse contexto, a tese de doutorado LAPP, de Tiffany Rae, desenvolvida no Massachusetts Institute of Technology (MIT), propõe uma técnica inovadora de controle de voo baseada no controle preditivo de modelos. O objetivo é ajustar continuamente o voo com base em leituras do terreno, considerando diversos fatores, como a dinâmica do vento, altitude, velocidade, aceleração e ângulo de inclinação da aeronave. Essa técnica tem o potencial de melhorar significativamente a segurança e precisão da navegação em voos de baixa altitude.
 
+Os estudos mencionados acima tratam de aplicações de tecnologia de veículos aéreos não tripulados (UAVs) em diferentes áreas, como busca e salvamento, inspeção de linhas de energia, monitoramento de áreas remotas e estimativa de rendimento agrícola. Eles mostram que o uso de UAVs pode ser vantajoso em termos de eficiência e precisão na coleta de dados e informações, mas também destacam a necessidade de considerar questões técnicas e de segurança, como a interação com outras aeronaves e a intervenção humana em situações críticas.
+
 # Descrição da estratégia adotada para resolver o problema
 
 # Análise da complexidade da solução proposta
