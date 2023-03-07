@@ -2,7 +2,7 @@ import { Button, Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
-function GenerateBar() {
+function PathInputBox() {
   return (
     <Grid2
       container
@@ -90,4 +90,4 @@ function GenerateBar() {
   );
 }
 
-export default GenerateBar;
+export default PathInputBox;

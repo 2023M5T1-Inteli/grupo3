@@ -9,7 +9,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import AdbIcon from "@mui/icons-material/Adb";
 import Typography from "@mui/material/Typography";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
-import GenerateBar from "./components/GenerateBar";
+import PathInputBox from "./components/PathInputBox";
 import Header from "./components/Header";
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
     <div className="App">
       <Container maxWidth={false}>
         <Header />
-        <GenerateBar />
+        <PathInputBox />
       </Container>
 
       <button className="App-link" onClick={toogleFilter}>
