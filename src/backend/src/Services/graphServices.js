@@ -29,12 +29,12 @@ class GraphService {
 
         try {
             const result = await session.run(
-                'MATCH (n) RETURN n'
+                'MATCH (n:NewCoodinate) RETURN n'
             )
             
             const nodeFields = result.records.map(queries => queries._fields[0]);
-            console.log(nodeFields);
-            const nodeProperties = result.records.map(fields => fields);
+            
+            const nodeProperties = nodeFields.map(fields => fields.properties);
 
             return nodeProperties;
         } 
