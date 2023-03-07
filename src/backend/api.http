@@ -1,5 +1,0 @@
-GET http://localhost:3000/graph
-
-###
-
-POST http://localhost:3000/graph
