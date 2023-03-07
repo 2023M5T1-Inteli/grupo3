@@ -47,12 +47,12 @@ public class Points {
     return coordData;
   }
 
-public void Coordinates(String dtedPath, double lonInitial, double latInitial,double lonStep, double latStep) {
+public double[][] Coordinates(String dtedPath, double lonInitial, double latInitial, int rows, int cols, double lonStep, double latStep) {
   // Here we open the DTED database located at the path "dted/rio"
   DtedDatabaseHandler dbRio = openDtedDB(dtedPath);
 
   // Here we define the initial coordinates, the number of rows and columns, and the step between the points
-  int rows = 5, cols = 4;
+//  int rows = 5, cols = 4;
 //  double lonInitial = -43.4082;
 //  double latInitial = -22.1780;
 //  double lonStep = 0.0013;
@@ -60,11 +60,7 @@ public void Coordinates(String dtedPath, double lonInitial, double latInitial,do
 
   double[][] coordData = getCoord(dbRio, lonInitial, latInitial, rows, cols, lonStep, latStep);
 
-  for (int i = 0; i < rows * cols; i++) {
-    for (int j = 0; j < 3; j++) {
-      System.out.println(coordData[i][j]);
-    }
-  }
+  return coordData;
 }
 
 

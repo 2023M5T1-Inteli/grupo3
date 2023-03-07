@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
+import utils.Points;
 
 
 public class Main {
@@ -80,30 +81,34 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Driver driver = GraphDatabase.driver("<DATABASE-URI>",
-                AuthTokens.basic("<DATABASE-USERNAME>","<DATABASE-PASSWORD>"));
+        Driver driver = GraphDatabase.driver("neo4j+s://ea367293.databases.neo4j.io",
+                AuthTokens.basic("neo4j","74OQ-dnMkAEveBhfOKbD1BBTTnvQ4ubORS86TwvT8mo"));
 
         //region creating cordinate nodes
-        ArrayList<Point2D> positionsArray = new ArrayList<>(Arrays.asList(
-                new Point2D.Double(50.0, 30.0),
-                new Point2D.Double(49.995, 30.0),
-                new Point2D.Double(49.990, 30.0),
-                new Point2D.Double(49.985, 30.0),
-                new Point2D.Double(49.980, 30.0),
-                new Point2D.Double(49.975, 30.0),
-                new Point2D.Double(50.0, 29.995),
-                new Point2D.Double(49.995, 29.995),
-                new Point2D.Double(49.990, 29.995),
-                new Point2D.Double(49.985, 29.995),
-                new Point2D.Double(49.980, 29.995),
-                new Point2D.Double(49.975, 29.990),
-                new Point2D.Double(50.0, 29.990),
-                new Point2D.Double(49.995, 29.990),
-                new Point2D.Double(49.990, 29.990),
-                new Point2D.Double(49.985, 29.990),
-                new Point2D.Double(49.980, 29.990),
-                new Point2D.Double(49.975, 29.990)
-        ));
+        Points points = new Points();
+        double[][] coordinates = points.Coordinates("dted/rio", -43.4082, -22.1780, 5, 4, 0.0013, 0.0011);
+
+
+//        ArrayList<Point2D> positionsArray = new ArrayList<>(Arrays.asList(
+//                new Point2D.Double(50.0, 30.0),
+//                new Point2D.Double(49.995, 30.0),
+//                new Point2D.Double(49.990, 30.0),
+//                new Point2D.Double(49.985, 30.0),
+//                new Point2D.Double(49.980, 30.0),
+//                new Point2D.Double(49.975, 30.0),
+//                new Point2D.Double(50.0, 29.995),
+//                new Point2D.Double(49.995, 29.995),
+//                new Point2D.Double(49.990, 29.995),
+//                new Point2D.Double(49.985, 29.995),
+//                new Point2D.Double(49.980, 29.995),
+//                new Point2D.Double(49.975, 29.990),
+//                new Point2D.Double(50.0, 29.990),
+//                new Point2D.Double(49.995, 29.990),
+//                new Point2D.Double(49.990, 29.990),
+//                new Point2D.Double(49.985, 29.990),
+//                new Point2D.Double(49.980, 29.990),
+//                new Point2D.Double(49.975, 29.990)
+//        ));
         //endregion
 
 
@@ -112,14 +117,15 @@ public class Main {
 
 
         // Adds all positions to the new Graph
-        for (int i = 0; i < positionsArray.size(); i++){
-            CoordinateVertex newCoordinateVertex = new CoordinateVertex(positionsArray.get(i), 100.0);
+        for (int i = 0; i < coordinates.length; i++){
+            Point2D currentPoint = new Point2D.Double(coordinates[i][1],  coordinates[i][0]);
+            CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
             newGraph.addVertex(newCoordinateVertex);
         }
 
 
         // Create all vertex edges based on distance
-        newGraph.addVertexEdgesByDistance(0.7);
+        newGraph.addVertexEdgesByDistance(0.200);
 
         // Calculates the optimal path between two nodes(vertex)
         newGraph.ASearch(0, 17);

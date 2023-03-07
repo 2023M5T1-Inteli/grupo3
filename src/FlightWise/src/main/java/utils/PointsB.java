@@ -55,7 +55,7 @@ public static void main(String[] args) {
 
   double[][] coordData = getCoord(dbRio, lonInitial, latInitial, rows, cols, lonStep, latStep);
 
-  for (int i = 0; i < rows * cols; i++) {
+  for (int i = 0; i < coordData.length; i++) {
     System.out.println(i + ": (" + coordData[i][1] + ", " + coordData[i][0] + ", " + coordData[i][2] + ")");
   }
 }
