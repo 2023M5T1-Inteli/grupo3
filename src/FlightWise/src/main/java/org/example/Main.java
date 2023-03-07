@@ -81,8 +81,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Driver driver = GraphDatabase.driver("neo4j+s://ea367293.databases.neo4j.io",
-                AuthTokens.basic("neo4j","74OQ-dnMkAEveBhfOKbD1BBTTnvQ4ubORS86TwvT8mo"));
+        Driver driver = GraphDatabase.driver("<DATABASE-URI>",
+                AuthTokens.basic("<DATABASE-USERNAME>","DATABASE-PASSWORD"));
 
         //region creating cordinate nodes
         Points points = new Points();
