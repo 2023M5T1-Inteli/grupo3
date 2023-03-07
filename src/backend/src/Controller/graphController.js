@@ -12,8 +12,8 @@ class GraphController {
 		await graphService.createNode();
 	}
 
-	async getNode(req, res){
-		res.send(await graphService.getNode());
+	async getFinalPath(req, res){
+		res.send(await graphService.getFinalPath());
 	}
 
 }

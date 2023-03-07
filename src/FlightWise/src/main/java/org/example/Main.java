@@ -64,15 +64,21 @@ public class Main {
 
     // Inserts into the Neo4J database all the coordinate vertexes
     public static void createCoordinateNodesAsync(ArrayList<CoordinateVertex> coordinates, Session session) {
-        String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight})";
+        String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight, lastNode: $last})";
 
         try (Transaction tx = session.beginTransaction()) {
             for (int i = 0; i < coordinates.size(); i++) {
                 CoordinateVertex coordinateVertex = coordinates.get(i);
                 Point2D position = coordinateVertex.getPosition();
 
+                int lastNodeIndex = -1;
 
-                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex(), "lat", position.getX(), "long", position.getY(), "avgHeight", coordinateVertex.averageHeight));
+                if (coordinateVertex.previousVertex != null){
+                    lastNodeIndex = coordinateVertex.previousVertex.getIndex();
+                }
+
+
+                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex(), "lat", position.getX(), "long", position.getY(), "avgHeight", coordinateVertex.averageHeight, "last", lastNodeIndex));
             }
 
             tx.commit();

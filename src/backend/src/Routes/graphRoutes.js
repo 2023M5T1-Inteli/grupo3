@@ -1,12 +1,12 @@
 import express from "express";
 import graphController from "../Controller/graphController.js";
 
-const { getGraph, createNode, getNode } = graphController;
+const { getGraph, createNode, getFinalPath } = graphController;
 
 const router = express.Router();
 
 // GET /api/graph
-router.get("/", getNode);
+router.get("/", getFinalPath);
 router.post("/", createNode);
 
 export default router;
