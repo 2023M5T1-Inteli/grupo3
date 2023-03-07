@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="bacf09db-9238-41d3-a427-7bbb765f2d74" name="Changes" comment="" />
+    <list default="true" id="bacf09db-9238-41d3-a427-7bbb765f2d74" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/grupo3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/grupo3.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/FlightWise.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/FlightWise.iml" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/FlightWise.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/inteli/cc/m5/dted/DtedDatabaseHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/inteli/cc/m5/grupo/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/inteli/cc/m5/grupo/AppDted.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/inteli/cc/m5/grupo/Points.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dted/Rio/W043_S23.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dted/Rio/W043_S24.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dted/Rio/W044_S23.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dted/Rio/W044_S24.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dted/SaoPaulo/W045_S23.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dted/SaoPaulo/W045_S24.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dted/SaoPaulo/W046_S23.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dted/SaoPaulo/W046_S24.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dted/SaoPaulo/W047_S23.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dted/SaoPaulo/W047_S24.dt2" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +40,19 @@
   <component name="FindBugs-IDEA-Workspace">
     <analyzeAfterCompile>true</analyzeAfterCompile>
     <toolWindowToFront>false</toolWindowToFront>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
   </component>
   <component name="ProjectId" id="2MIHp7toVZKdRbTDiBsgAtd9q5g" />
   <component name="ProjectViewState">
@@ -32,14 +72,16 @@
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/gabrielcarneiro/Documents/GitHub/grupo3"
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Inteli/Documents/Trabalho/grupo3/src/FlightWise",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RunManager">
-    <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
@@ -53,6 +95,53 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bacf09db-9238-41d3-a427-7bbb765f2d74" name="Changes" comment="" />
+      <created>1678135223106</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678135223106</updated>
+      <workItem from="1678135223738" duration="706000" />
+      <workItem from="1678199156120" duration="2065000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
 </project>
