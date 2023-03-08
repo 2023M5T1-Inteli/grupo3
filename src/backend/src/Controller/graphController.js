@@ -17,7 +17,7 @@ class GraphController {
 	}
 
 	async getFinalPath(req, res){
-		res.send(await graphService.getFinalPath());
+		res.send(await graphService.getFinalPath(req.body.pathID));
 	}
 
 }

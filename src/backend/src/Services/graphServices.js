@@ -11,12 +11,15 @@ class GraphService {
         }
     }
 
-    async getFinalPath(){
+    async getFinalPath(pathID){
         const session = driver.session();
 
         try {
             const result = await session.run(
-                'MATCH (n:NewCoodinate) RETURN n'
+                'MATCH (n:NewCoordinate {pathID: $path}) RETURN n',
+                {
+                    path: pathID
+                }
             );
             
             const nodeFields = result.records.map(queries => queries._fields[0]);
