@@ -1,4 +1,8 @@
-package br.edu.inteli.cc.m5.dted;
+package utils.dted;
+
+import org.gdal.gdal.Dataset;
+import org.gdal.gdal.gdal;
+import org.gdal.gdalconst.gdalconst;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,10 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.gdal.gdal.gdal;
-import org.gdal.gdal.Dataset;
-import org.gdal.gdalconst.gdalconst;
 
 /**
  * Implementa operações básicas de acesso a dados geográficos armazenados em arquivos
