@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import './components/Filter.css';
 import Filter from './components/Filter';
@@ -15,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <svg width="600" height="500"></svg>
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
