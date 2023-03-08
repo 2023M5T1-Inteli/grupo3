@@ -6,7 +6,6 @@ abstract: Como parte das atividades do módulo 5, cada grupo deverá redigir um 
 ---
 
 # Introdução
-Voos em baixa altitude, principalmente em áreas montanhosas, é considerado uma tarefa complexa utilizada em diversas aplicações. Evitar detecções inimigas e melhorar as chances de sobrevivência são os principais propóstios no setor militar. Além disso, no setor civil é usada para reconhecimento de baixo nível, entrega de material em locais remotos, busca e resgate, e evacuação de vítimas (JIN et al., 2022).  Além disso, serve em situações de terremotos, em que é necessário se aproximar das construções (QI et al., 2016), ou na estimativa de rendimento e precisão na agricultura (REZA et al., 2019). Dessa forma, tornar esses voos mais seguros e otimizados é essencial para que tais propósitos sejam atendidos de forma rápida e da melhor forma possível.
 
 Entretanto, nesse tipo de voo o risco iminente de colisão com o solo (CFIT) é alto. Acidentes de CFIT ocorrem quando uma aeronave, sob o controle de um piloto, atinge involuntariamente um terreno, água ou obstáculos (MATTESON, 2001). Em voos comerciais, mais de 30% dos acidentes fatais são categorizados como CFIT (ARTHUR III, 2003). Assim, no setor militar é imprescindível a construção de uma trajetória de voo que utiliza o terreno ao seu favor para evitar detecções, evadindo sistemas de monitoramento, e ao mesmo tempo reduz as chances de colisão. Para tentar amenizar esse problema allgumas soluções já são desenvolvidas com a finalidade de garantir maior segurança ao piloto.
 
@@ -37,6 +36,60 @@ Ping Lu e Bion L. Pierson publicaram um estudo no Journal of Guidance, Control, 
 O segmento de terrenos em voos de baixa altitude é um desafio constante na aviação. Para evitar colisões, é fundamental manter uma distância segura em relação ao terreno. Nesse contexto, a tese de doutorado LAPP, de Tiffany Rae, desenvolvida no Massachusetts Institute of Technology (MIT), propõe uma técnica inovadora de controle de voo baseada no controle preditivo de modelos. O objetivo é ajustar continuamente o voo com base em leituras do terreno, considerando diversos fatores, como a dinâmica do vento, altitude, velocidade, aceleração e ângulo de inclinação da aeronave. Essa técnica tem o potencial de melhorar significativamente a segurança e precisão da navegação em voos de baixa altitude.
 
 Os estudos mencionados acima tratam de aplicações de tecnologia de veículos aéreos não tripulados (UAVs) em diferentes áreas, como busca e salvamento, inspeção de linhas de energia, monitoramento de áreas remotas e estimativa de rendimento agrícola. Eles mostram que o uso de UAVs pode ser vantajoso em termos de eficiência e precisão na coleta de dados e informações, mas também destacam a necessidade de considerar questões técnicas e de segurança, como a interação com outras aeronaves e a intervenção humana em situações críticas.
+
+# Metodologia 
+
+Nesta seção, introduziremos os detalhes e procedimentos realizados para chegar na solução do planejador de trajetórias em baixa altitude. O processo de construção do planejador pode ser dividido na Analise mercadológica e a análise e modelagem do problema.
+
+## 1- Analise mercadológica
+
+O planejamento de trajetória para voos em baixa altitude é uma técnica utilizada em sistemas de controle de voo de aeronaves para planejar e executar trajetórias seguras e eficientes em ambientes com obstáculos e/ou terreno acidentado. Essa técnica é essencial em missões de mapeamento e inspeção, em que é importante garantir que a aeronave siga uma trajetória e evite colisões com obstáculos.
+Para iniciarmos o projeto com total entendimento do problema foram realizadas pesquisas preliminares para contextualização, utilizando ferramentas como matriz fofa, canvas da proposta de valor entre outros artefatos que podem ser consultados …
+
+## 2 Análise e modelagem do problema
+
+O planejador de trajetórias para voos em baixa altitude utiliza uma variedade de dados e informações para planejar uma rota otimizada para as aeronaves. Isso inclui, informações sobre a localização e altura do terreno — mapas topográficos no formato dt2 obtidos em [inserir data do gdal] — assim como informações sobre a capacidade da aeronave: velocidade máxima, capacidade de manobra e combustível, por exemplo.
+
+A abordagem para o planejamento das rotas é com o uso de algoritmos, que determinam a melhor trajetória para a aeronave a seguir com base nos dados disponíveis. O algoritmo é baseado em grafos, que representam o ambiente de voo como um conjunto de nós e arestas, e usam técnicas de busca em grafos para determinar o caminho mais curto ou mais seguro entre dois pontos
+
+## 2.1 Modelagem dos grafos
+
+Em nossa solução os vértices atuam como posições geográficas e possuem latitude, longitude e altitude média. Tratando-se de um grafo direcionado, as arestas que conectam os vértices atuam como direção para a trajetória e carregam consigo as propriedades de distância, variação de altura e custo de viagem. O custo da viagem é a abordagem utilizada para conferir peso a aresta relacionando a distância da viagem e os fatores determinados anteriormente, como combustível, aeronave e etc.
+
+O algoritmo A* (a-star) foi escolhido para a busca de caminhos do grafo, ele utiliza uma heurística para avaliar a "distância" restante do nó atual até o objetivo final, o que ajuda a evitar que o algoritmo explore caminhos desnecessários. Ele é uma extensão do algoritmo de busca em largura (BFS) e do algoritmo de busca em profundidade (DFS), que utilizam uma estratégia de busca "cega", percorrendo todos os caminhos possíveis até encontrar a solução.
+
+
+## 2.2 Algoritmo de construção de trajetória
+
+O objetivo do algoritmo A* é encontrar o caminho mais curto entre um vértice de origem s e um vértice de destino t. Para fazer isso, ele usa uma função heurística h(v) que estima a distância mais curta entre um vértice v e o vértice de destino t. Esta função é chamada de função heurística admissível se ela nunca superestimar a distância real entre v e t.
+
+O algoritmo opera com duas listas: uma lista aberta e uma lista fechada. A lista aberta contém os nós que ainda precisam ser explorados, enquanto a lista fechada contém os nós que já foram visitados. A execução dele começa pela adição do nó de origem à lista aberta.
+
+Em cada iteração, o algoritmo A* seleciona o vértice v da lista aberta que tem o menor valor de f(v) = g(v) + h(v), onde g(v) é o custo total de se mover de s até v e h(v) é a estimativa da distância mais curta de v até t. Se v for o vértice de destino t, o algoritmo termina e retorna o caminho encontrado. Caso contrário, o algoritmo remove v da lista aberta e adiciona-o à lista fechada.
+
+Para cada vértice adjacente u de v, o algoritmo A* calcula o custo total g(u) = g(v) + w(e), onde e é a aresta que conecta v a u. Se u já estiver na lista fechada e g(u) for maior do que o custo total anterior, o algoritmo ignora u e passa para o próximo vértice adjacente. Caso contrário, se u já estiver na lista aberta e g(u) for maior do que o custo total anterior, o algoritmo atualiza o valor de g(u) e redefine o pai de u para v. Se u ainda não estiver na lista aberta, o algoritmo adiciona u à lista aberta e define o pai de u como v.
+
+O algoritmo continua iterando até que a lista aberta esteja vazia ou o vértice de destino t seja encontrado. Se a lista aberta estiver vazia, isso significa que não há caminho de s para t. Caso contrário, o algoritmo constrói o caminho do vértice de destino t até o vértice de origem s, seguindo os pais de cada vértice a partir de t.
+
+## Exemplo
+
+Considere o seguinte grafo: 
+
+<center> FIGURA 1 </center>
+
+![figura 1](../docs/img/graph1.png)
+
+Devemos encontrar o caminho mais barato iniciando no vertice A e terminando no vértice J. Onde os números nas arestas indicam a distância entre os nós, e os números em cada nó representam o valor da heurística. 
+
+Primeiramente, é necessário localizar o vértice de partida e, em seguida, identificar as arestas que estão conectadas a ele (F e B). Depois disso, devemos adicionar o valor de cada aresta ao seu respectivo valor heurístico e selecionar o caminho que apresentar o menor valor total. Esse procedimento é repetido até que se alcance a aresta de destino.
+
+
+
+<center> FIGURA 2 </center>
+
+![figura 2](../docs/img/graph2.png)
+
+
 
 # Descrição da estratégia adotada para resolver o problema
 
