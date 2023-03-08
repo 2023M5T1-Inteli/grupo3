@@ -35,13 +35,15 @@ class GraphService {
         await this.connect();
         
         const minhaColecao = client.db('Flightwise').collection('routes');
+        
+        const code = await this.generateCode();
 
-        const documento = { routeID: await this.generateCode(), status: 'Creating' };
+        const documento = { routeID: code, status: 'Creating' };
         const resultado = await minhaColecao.insertOne(await documento);
         
-        // await client.close();
+        await client.close();
 
-        return resultado;
+        return code;
     }
     
     async generateCode() {
@@ -71,8 +73,10 @@ class GraphService {
         const collection = await client.db("Flightwise").collection('routes');
 
         const result = await collection.findOne({ routeID: id });
-        console.log(result);
+        
         await client.close();
+        
+        return result;
       }
 }
 
