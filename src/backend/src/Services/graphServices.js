@@ -36,11 +36,44 @@ class GraphService {
         
         const minhaColecao = client.db('Flightwise').collection('routes');
 
-        const documento = { routeID: '', status: 'Creating' };
-        const resultado = await minhaColecao.insertOne(documento);
+        const documento = { routeID: await this.generateCode(), status: 'Creating' };
+        const resultado = await minhaColecao.insertOne(await documento);
         
-        await client.close();
+        // await client.close();
+
+        return resultado;
     }
+    
+    async generateCode() {
+        const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const numeros = '0123456789';
+    
+        let code = '';
+    
+        for (let i = 0; i < 7; i++) {
+            if (i < 3) {
+                code += letras.charAt(Math.floor(Math.random() * letras.length));
+            } 
+            else if (i < 6) {
+                code += numeros.charAt(Math.floor(Math.random() * numeros.length));
+            } 
+            else {
+                code += letras.charAt(Math.floor(Math.random() * letras.length));
+            }
+        }
+
+        return code;
+      }
+
+      async checkRouteStatus(id){
+        await this.connect();
+
+        const collection = await client.db("Flightwise").collection('routes');
+
+        const result = await collection.findOne({ routeID: id });
+        console.log(result);
+        await client.close();
+      }
 }
 
 export default new GraphService();

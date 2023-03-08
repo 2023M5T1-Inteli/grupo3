@@ -9,7 +9,11 @@ class GraphController {
 	}
     
 	async createRoute(req, res) {
-		await graphService.createRoute();
+		res.send(await graphService.createRoute());
+	}
+
+	async checkRouteStatus(req, res){
+		res.send(await graphService.checkRouteStatus(req.body.routeID));
 	}
 
 	async getFinalPath(req, res){
