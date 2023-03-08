@@ -8,8 +8,8 @@ class GraphController {
 	
 	}
     
-	async createNode(req, res) {
-		await graphService.createNode();
+	async createRoute(req, res) {
+		await graphService.createRoute();
 	}
 
 	async getFinalPath(req, res){
