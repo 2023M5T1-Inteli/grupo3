@@ -115,6 +115,7 @@ public class DtedDatabaseHandler {
         return retCode;
     }
 
+    // Verify if a coordinate is inside the database
     public Optional<Integer> QueryLatLonElevation(Double queryLon, Double queryLat)
     {
         Optional<Integer> ret = null;
@@ -130,15 +131,18 @@ public class DtedDatabaseHandler {
         return ret;
     }
 
+    // Defines a private variable to hold the list of datasets
     private List<Dataset> m_DatabaseDtedDatasets;
 
+    // Get extension of a file
     private static Optional<String> getExtensionByStringHandling(String filename)
-    {
+    {   
         return Optional.ofNullable(filename)
                 .filter(f -> f.contains("."))
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
     }
 
+    // Verify if a coordinate is inside a dataset
     private static boolean isCoordinateInsideDataset(Dataset d, Double lon, Double lat)
     {
         boolean retCode = false;
@@ -154,19 +158,24 @@ public class DtedDatabaseHandler {
         double maxLat = geoTransform[3];
         double minLat = maxLat + (ysize-1)*geoTransform[5];
 
+        // Variable that returns true if the coordinate is inside the dataset and false otherwise
         retCode = (maxLat > lat) && (minLat < lat) &&
                 (maxLon > lon) && (minLon < lon);
 
         return retCode;
     }
 
+    // Method to query the elevation of a coordinate
     private static int queryDataset(Dataset d, Double lon, Double lat)
     {
+        // Declares an integer variable xsize and initializes it to the value of the xsize attribute of the d object.
         int xsize = d.getRasterXSize();
         int ysize = d.getRasterYSize();
 
+        // Declares a double array variable geoTransform and initializes it to the value of the GetGeoTransform method of the d object.
         double[] geoTransform = d.GetGeoTransform();
 
+        
         double minLon = geoTransform[0];
         double maxLon = minLon  + (xsize-1)*geoTransform[1];
 
@@ -180,6 +189,8 @@ public class DtedDatabaseHandler {
         int queryOffsetY = queryOffsetYDouble.intValue();
 
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 );
+
+        // Setting the byte order of byteBuffer to the native byte order of the system.
         byteBuffer.order(ByteOrder.nativeOrder());
         d.GetRasterBand(1).ReadRaster_Direct(queryOffsetX, queryOffsetY, 1, 1,1,1, gdalconst.GDT_Int32, byteBuffer );
         int queryResult = byteBuffer.getInt(0);
