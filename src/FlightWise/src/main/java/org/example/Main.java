@@ -4,6 +4,8 @@ import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
 import org.neo4j.driver.*;
 
+import org.json.*;
+
 import java.awt.geom.Point2D;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -103,23 +105,20 @@ public class Main {
         return "";
     }
 
-    @PostMapping("astar/executeAlg")
-    public ResponseEntity<String> executeAlg(@RequestBody String data) throws UnsupportedEncodingException {
-        String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8.toString());
-        String[] dataSplited = dataDecoded.split("&");
-        String [] dataOnlyValues = new String[dataSplited.length];
+    @PostMapping("executeAlg")
+    public String executeAlg(@RequestBody String data) throws JSONException {
+        String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8);
 
-        // The order of the array is: lonInitial, latInitial, lonFinal, latFinal, dt2File
-        for (int i = 0; i < dataOnlyValues.length; i++) {
-            dataOnlyValues[i] = getCharactersAfter(dataSplited[i], '=');
-        }
+        JSONObject obj = new JSONObject(dataDecoded);
+        Double lonInitial = obj.getDouble("lonInitial");
+        Double latInitial = obj.getDouble("latInitial");
 
         Driver driver = GraphDatabase.driver("neo4j+s://ea367293.databases.neo4j.io",
                 AuthTokens.basic("neo4j","74OQ-dnMkAEveBhfOKbD1BBTTnvQ4ubORS86TwvT8mo"));
 
         //region creating cordinate nodes
         Points points = new Points();
-        double[][] coordinates = points.Coordinates("dted/rio", Double.parseDouble(dataOnlyValues[0]), Double.parseDouble(dataOnlyValues[1]), 5, 4, 0.0013, 0.0011);
+        double[][] coordinates = points.Coordinates("dted/rio", lonInitial, -22.1780, 5, 4, 0.0013, 0.0011);
 
 
 //        ArrayList<Point2D> positionsArray = new ArrayList<>(Arrays.asList(
@@ -180,6 +179,6 @@ public class Main {
         // Ends the Neo4J session
         driver.close();
 
-        return ResponseEntity.ok("Foi");
+        return "Foi";
     }
 }
