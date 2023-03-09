@@ -82,8 +82,8 @@ public class Main {
     }
 
     // Inserts into the Neo4J database all the coordinate vertexes
-    public static void createCoordinateNodesAsync(ArrayList<CoordinateVertex> coordinates, Session session) {
-        String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight})";
+    public static void createCoordinateNodesAsync(ArrayList<CoordinateVertex> coordinates, Session session, String pathID) {
+        String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight, pathID: $path})";
 
         try (Transaction tx = session.beginTransaction()) {
             for (int i = 0; i < coordinates.size(); i++) {
@@ -91,7 +91,7 @@ public class Main {
                 Point2D position = coordinateVertex.getPosition();
 
 
-                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex(), "lat", position.getX(), "long", position.getY(), "avgHeight", coordinateVertex.averageHeight));
+                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex(), "lat", position.getX(), "long", position.getY(), "avgHeight", coordinateVertex.averageHeight, "path", pathID));
             }
 
             tx.commit();
@@ -122,36 +122,14 @@ public class Main {
         Double lonFinal = obj.getDouble("lonFinal");
         Double latFinal = obj.getDouble("latFinal");
 
+        String pathID = obj.getString("pathID");
+
         Driver driver = GraphDatabase.driver("neo4j+s://ea367293.databases.neo4j.io",
                 AuthTokens.basic("neo4j","74OQ-dnMkAEveBhfOKbD1BBTTnvQ4ubORS86TwvT8mo"));
 
         //region creating cordinate nodes
         Points points = new Points();
         double[][] coordinates = points.Coordinates("dted/rio", lonInitial, latInitial, 5, 4, 0.0013, 0.0011);
-
-
-//        ArrayList<Point2D> positionsArray = new ArrayList<>(Arrays.asList(
-//                new Point2D.Double(50.0, 30.0),
-//                new Point2D.Double(49.995, 30.0),
-//                new Point2D.Double(49.990, 30.0),
-//                new Point2D.Double(49.985, 30.0),
-//                new Point2D.Double(49.980, 30.0),
-//                new Point2D.Double(49.975, 30.0),
-//                new Point2D.Double(50.0, 29.995),
-//                new Point2D.Double(49.995, 29.995),
-//                new Point2D.Double(49.990, 29.995),
-//                new Point2D.Double(49.985, 29.995),
-//                new Point2D.Double(49.980, 29.995),
-//                new Point2D.Double(49.975, 29.990),
-//                new Point2D.Double(50.0, 29.990),
-//                new Point2D.Double(49.995, 29.990),
-//                new Point2D.Double(49.990, 29.990),
-//                new Point2D.Double(49.985, 29.990),
-//                new Point2D.Double(49.980, 29.990),
-//                new Point2D.Double(49.975, 29.990)
-//        ));
-        //endregion
-
 
         // Initializes a new Graph()
         Graph newGraph = new Graph();
@@ -169,9 +147,7 @@ public class Main {
         newGraph.addVertexEdgesByDistance(0.200);
 
         int targetIndex = getVertexIndex(newGraph, lonFinal, latFinal);
-        System.out.println(lonFinal);
-        System.out.println(latFinal);
-        System.out.println(targetIndex);
+
         // Calculates the optimal path between two nodes(vertex)
         newGraph.ASearch(0, targetIndex);
 
@@ -180,7 +156,7 @@ public class Main {
 
         // Send the local Graph structure to neo4J
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
-            createCoordinateNodesAsync(newGraph.getVertexes(), session);
+            createCoordinateNodesAsync(newGraph.getVertexes(), session, pathID);
 
             createCordinateEdgesAsync(newGraph.getVertexes(), session);
 
