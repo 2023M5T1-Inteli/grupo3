@@ -105,6 +105,19 @@ public class Main {
         return "";
     }
 
+    public int getVertexIndex(Graph g, double lon, double lat) {
+        ArrayList<CoordinateVertex> vertices = g.getVertexes();
+        int index = -1;
+        for (CoordinateVertex vertex: vertices ) {
+            Point2D location = vertex.getPosition();
+            if (location.getX() == lon && location.getY() == lat) {
+                index = vertex.getIndex();
+            }
+        }
+
+        return index;
+    }
+
     @PostMapping("executeAlg")
     public String executeAlg(@RequestBody String data) throws JSONException {
         String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8);
@@ -113,12 +126,15 @@ public class Main {
         Double lonInitial = obj.getDouble("lonInitial");
         Double latInitial = obj.getDouble("latInitial");
 
+        Double lonFinal = obj.getDouble("lonFinal");
+        Double latFinal = obj.getDouble("latFinal");
+
         Driver driver = GraphDatabase.driver("neo4j+s://ea367293.databases.neo4j.io",
                 AuthTokens.basic("neo4j","74OQ-dnMkAEveBhfOKbD1BBTTnvQ4ubORS86TwvT8mo"));
 
         //region creating cordinate nodes
         Points points = new Points();
-        double[][] coordinates = points.Coordinates("dted/rio", lonInitial, -22.1780, 5, 4, 0.0013, 0.0011);
+        double[][] coordinates = points.Coordinates("dted/rio", lonInitial, latInitial, 5, 4, 0.0013, 0.0011);
 
 
 //        ArrayList<Point2D> positionsArray = new ArrayList<>(Arrays.asList(
@@ -159,8 +175,10 @@ public class Main {
         // Create all vertex edges based on distance
         newGraph.addVertexEdgesByDistance(0.200);
 
+        int targetIndex = getVertexIndex(newGraph, lonFinal, latFinal);
+
         // Calculates the optimal path between two nodes(vertex)
-        newGraph.ASearch(0, 17);
+        newGraph.ASearch(0, targetIndex);
 
         // Returns the generated optimal path as an ArrayList;
         ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(17));
