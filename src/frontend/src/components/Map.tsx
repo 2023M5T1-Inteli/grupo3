@@ -14,7 +14,7 @@ export default function Map() {
         position: "relative",
         overflow: "hidden"
       }}>
-        <MapContainer center={center} zoom={10} style={{
+        <MapContainer center={center} zoom={15} zoomControl={false} style={{
           position: "relative",
           width: "100%",
           height: "100%"

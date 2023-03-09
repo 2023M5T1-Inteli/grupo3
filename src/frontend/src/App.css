@@ -40,6 +40,14 @@
 svg {
   background-color: #F1F1F1;
 }
+
+.graph {
+  background-color: transparent;
+  position: absolute;
+  z-index:400;
+  background-color: transparent;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

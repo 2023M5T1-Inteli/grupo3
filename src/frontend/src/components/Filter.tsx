@@ -1,5 +1,5 @@
 import './Filter.css'
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 import { useState } from 'react';
 import * as d3 from 'd3';
 
@@ -97,10 +97,11 @@ function Filter(props: FilterProps) {
 
   return (
     <div className={`container ${show ? 'show' : ''}`}>
+       <div className="background"></div>
       <div className={`menu ${show ? 'show' : ''}`}>
         <div className="filter-header">
+          <button id='close-button' onClick={toggleFilter} style={{"cursor" : "pointer"}} ><IoIosArrowForward /></button>
           <p>Filtro</p>
-          <button id='close-button' onClick={toggleFilter} style={{"cursor" : "pointer"}} ><IoIosArrowBack /></button>
         </div>
         <hr/>
         <div className="filter-buttons">
@@ -110,7 +111,7 @@ function Filter(props: FilterProps) {
           <button id='4' className={`filter-button ${clickedButtons.includes(4)  ? "clicked" : ""}`} onClick={() => handleClick(4)}>Ativar variação de altitude nas arestas</button>
         </div>
       </div>
-      <div className="background"></div>
+     
     </div>
   )
 }
