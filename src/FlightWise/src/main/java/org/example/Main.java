@@ -2,6 +2,7 @@ package org.example;
 import models.Graph.Graph;
 import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
+import org.jetbrains.annotations.NotNull;
 import org.neo4j.driver.*;
 
 import org.json.*;
@@ -97,15 +98,7 @@ public class Main {
         }
     }
 
-    public static String getCharactersAfter(String input, char c) {
-        int index = input.indexOf(c);
-        if (index >= 0) {
-            return input.substring(index + 1);
-        }
-        return "";
-    }
-
-    public int getVertexIndex(Graph g, double lon, double lat) {
+    public int getVertexIndex(@NotNull Graph g, double lon, double lat) {
         ArrayList<CoordinateVertex> vertices = g.getVertexes();
         int index = -1;
         for (CoordinateVertex vertex: vertices ) {
@@ -166,7 +159,7 @@ public class Main {
 
         // Adds all positions to the new Graph
         for (int i = 0; i < coordinates.length; i++){
-            Point2D currentPoint = new Point2D.Double(coordinates[i][1],  coordinates[i][0]);
+            Point2D currentPoint = new Point2D.Double(coordinates[i][0],  coordinates[i][1]);
             CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
             newGraph.addVertex(newCoordinateVertex);
         }
@@ -176,12 +169,14 @@ public class Main {
         newGraph.addVertexEdgesByDistance(0.200);
 
         int targetIndex = getVertexIndex(newGraph, lonFinal, latFinal);
-
+        System.out.println(lonFinal);
+        System.out.println(latFinal);
+        System.out.println(targetIndex);
         // Calculates the optimal path between two nodes(vertex)
         newGraph.ASearch(0, targetIndex);
 
         // Returns the generated optimal path as an ArrayList;
-        ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(17));
+        ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(targetIndex));
 
         // Send the local Graph structure to neo4J
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
