@@ -41,25 +41,25 @@ Os estudos mencionados acima tratam de aplicações de tecnologia de veículos a
 
 Nesta seção, introduziremos os detalhes e procedimentos realizados para chegar na solução do planejador de trajetórias em baixa altitude. O processo de construção do planejador pode ser dividido na Analise mercadológica e a análise e modelagem do problema.
 
-## 1- Analise mercadológica
+## 1 - Analise mercadológica
 
 O planejamento de trajetória para voos em baixa altitude é uma técnica utilizada em sistemas de controle de voo de aeronaves para planejar e executar trajetórias seguras e eficientes em ambientes com obstáculos e/ou terreno acidentado. Essa técnica é essencial em missões de mapeamento e inspeção, em que é importante garantir que a aeronave siga uma trajetória e evite colisões com obstáculos.
 Para iniciarmos o projeto com total entendimento do problema foram realizadas pesquisas preliminares para contextualização, utilizando ferramentas como matriz fofa, canvas da proposta de valor entre outros artefatos que podem ser consultados …
 
-## 2 Análise e modelagem do problema
+## 2 - Análise e modelagem do problema
 
 O planejador de trajetórias para voos em baixa altitude utiliza uma variedade de dados e informações para planejar uma rota otimizada para as aeronaves. Isso inclui, informações sobre a localização e altura do terreno — mapas topográficos no formato dt2 obtidos em [inserir data do gdal] — assim como informações sobre a capacidade da aeronave: velocidade máxima, capacidade de manobra e combustível, por exemplo.
 
 A abordagem para o planejamento das rotas é com o uso de algoritmos, que determinam a melhor trajetória para a aeronave a seguir com base nos dados disponíveis. O algoritmo é baseado em grafos, que representam o ambiente de voo como um conjunto de nós e arestas, e usam técnicas de busca em grafos para determinar o caminho mais curto ou mais seguro entre dois pontos
 
-## 2.1 Modelagem dos grafos
+## 2.1 - Modelagem dos grafos
 
 Em nossa solução os vértices atuam como posições geográficas e possuem latitude, longitude e altitude média. Tratando-se de um grafo direcionado, as arestas que conectam os vértices atuam como direção para a trajetória e carregam consigo as propriedades de distância, variação de altura e custo de viagem. O custo da viagem é a abordagem utilizada para conferir peso a aresta relacionando a distância da viagem e os fatores determinados anteriormente, como combustível, aeronave e etc.
 
-O algoritmo A* (a-star) foi escolhido para a busca de caminhos do grafo, ele utiliza uma heurística para avaliar a "distância" restante do nó atual até o objetivo final, o que ajuda a evitar que o algoritmo explore caminhos desnecessários. Ele é uma extensão do algoritmo de busca em largura (BFS) e do algoritmo de busca em profundidade (DFS), que utilizam uma estratégia de busca "cega", percorrendo todos os caminhos possíveis até encontrar a solução.
+O algoritmo A* (a-star) foi escolhido para a busca de caminhos do grafo, ele utiliza uma heurística para avaliar a distância restante do nó atual até o objetivo final, o que ajuda a evitar que o algoritmo explore caminhos desnecessários. Ele é uma extensão do algoritmo de busca em largura (BFS) e do algoritmo de busca em profundidade (DFS), que utilizam uma estratégia de busca "cega", percorrendo todos os caminhos possíveis até encontrar a solução.
 
 
-## 2.2 Algoritmo de construção de trajetória
+## 2.2 - Algoritmo de construção de trajetória
 
 O objetivo do algoritmo A* é encontrar o caminho mais curto entre um vértice de origem s e um vértice de destino t. Para fazer isso, ele usa uma função heurística h(v) que estima a distância mais curta entre um vértice v e o vértice de destino t. Esta função é chamada de função heurística admissível se ela nunca superestimar a distância real entre v e t.
 
@@ -71,7 +71,7 @@ Para cada vértice adjacente u de v, o algoritmo A* calcula o custo total g(u) =
 
 O algoritmo continua iterando até que a lista aberta esteja vazia ou o vértice de destino t seja encontrado. Se a lista aberta estiver vazia, isso significa que não há caminho de s para t. Caso contrário, o algoritmo constrói o caminho do vértice de destino t até o vértice de origem s, seguindo os pais de cada vértice a partir de t.
 
-## Exemplo
+## 2.3 - Exemplo
 
 Considere o seguinte grafo: 
 
@@ -79,17 +79,15 @@ Considere o seguinte grafo:
 
 ![figura 1](../docs/img/graph1.png)
 
-Devemos encontrar o caminho mais barato iniciando no vertice A e terminando no vértice J. Onde os números nas arestas indicam a distância entre os nós, e os números em cada nó representam o valor da heurística. 
+Devemos encontrar o caminho mais barato iniciando no vertice A e terminando no vértice J. Os números nas arestas indicam a distância entre os nós, e os números em cada nó representam o valor da heurística. 
 
 Primeiramente, é necessário localizar o vértice de partida e, em seguida, identificar as arestas que estão conectadas a ele (F e B). Depois disso, devemos adicionar o valor de cada aresta ao seu respectivo valor heurístico e selecionar o caminho que apresentar o menor valor total. Esse procedimento é repetido até que se alcance a aresta de destino.
-
-
 
 <center> FIGURA 2 </center>
 
 ![figura 2](../docs/img/graph2.png)
 
-
+No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre produz o caminho mais curto para um destino. Apesar dessa limitação, o algoritmo A* continua sendo uma ferramenta poderosa para uma ampla gama de aplicações, equilibrando a necessidade de encontrar caminhos eficientes com o potencial de erros ocasionais.
 
 # Descrição da estratégia adotada para resolver o problema
 
