@@ -57,6 +57,7 @@ public static void main(String[] args) {
 
   for (int i = 0; i < coordData.length; i++) {
     System.out.println(i + ": (" + coordData[i][1] + ", " + coordData[i][0] + ", " + coordData[i][2] + ")");
+    // (0: Longitude, 1:latitude)
   }
 }
 
