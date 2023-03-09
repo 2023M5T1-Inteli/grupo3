@@ -1,4 +1,5 @@
 package org.example;
+import com.example.mdbspringboot.RouteRepository;
 import models.Graph.Graph;
 import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -174,6 +176,8 @@ public class Main {
 
         // Ends the Neo4J session
         driver.close();
+
+        RouteRepository routeRepository;
 
         return "Foi";
     }
