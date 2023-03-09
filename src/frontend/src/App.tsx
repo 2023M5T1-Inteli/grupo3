@@ -3,21 +3,25 @@ import './App.css';
 import './components/Filter.css';
 import Filter from './components/Filter';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import "./App.css";
+import "./components/Filter.css";
+import { Container } from "@mui/system";
+import PathInputBox from "./components/PathInputBox";
+import Header from "./components/Header";
 
 function App() {
   const [showFilter, setShowFilter] = useState(false);
 
   const toogleFilter = () => {
-    setShowFilter(!showFilter)
-  }
+    setShowFilter(!showFilter);
+  };
 
   return (
     <div className="App">
-      <header className="App-header">
-        <svg width="600" height="500"></svg>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <Container maxWidth={false}>
+          <Header />
+          <PathInputBox />
+        </Container>
         <button
           className="App-link"
           onClick={toogleFilter}
@@ -25,8 +29,8 @@ function App() {
           
           <FilterAltIcon />
         </button>
-      </header>
-      <Filter show={showFilter} toggleFilter={toogleFilter}/>
+      <Filter show={showFilter} toggleFilter={toogleFilter} />
+      <svg className='graph' width="600" height="500"></svg>
     </div>
   );
 }
