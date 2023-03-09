@@ -5,16 +5,31 @@ import models.vertex.CoordinateVertex;
 import org.neo4j.driver.*;
 
 import java.awt.geom.Point2D;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
+import org.springframework.boot.SpringApplication;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import utils.Points;
 
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@RestController
 public class Main {
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
 
     // Inserts into the Neo4J database, all coordinate connections
     public static void createCordinateEdgesAsync(ArrayList<CoordinateVertex> coordinates, Session session){
@@ -80,13 +95,31 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        Driver driver = GraphDatabase.driver("<DATABASE-URI>",
-                AuthTokens.basic("<DATABASE-USERNAME>","DATABASE-PASSWORD"));
+    public static String getCharactersAfter(String input, char c) {
+        int index = input.indexOf(c);
+        if (index >= 0) {
+            return input.substring(index + 1);
+        }
+        return "";
+    }
+
+    @PostMapping("astar/executeAlg")
+    public ResponseEntity<String> executeAlg(@RequestBody String data) throws UnsupportedEncodingException {
+        String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8.toString());
+        String[] dataSplited = dataDecoded.split("&");
+        String [] dataOnlyValues = new String[dataSplited.length];
+
+        // The order of the array is: lonInitial, latInitial, lonFinal, latFinal, dt2File
+        for (int i = 0; i < dataOnlyValues.length; i++) {
+            dataOnlyValues[i] = getCharactersAfter(dataSplited[i], '=');
+        }
+
+        Driver driver = GraphDatabase.driver("neo4j+s://ea367293.databases.neo4j.io",
+                AuthTokens.basic("neo4j","74OQ-dnMkAEveBhfOKbD1BBTTnvQ4ubORS86TwvT8mo"));
 
         //region creating cordinate nodes
         Points points = new Points();
-        double[][] coordinates = points.Coordinates("dted/rio", -43.4082, -22.1780, 5, 4, 0.0013, 0.0011);
+        double[][] coordinates = points.Coordinates("dted/rio", Double.parseDouble(dataOnlyValues[0]), Double.parseDouble(dataOnlyValues[1]), 5, 4, 0.0013, 0.0011);
 
 
 //        ArrayList<Point2D> positionsArray = new ArrayList<>(Arrays.asList(
@@ -146,5 +179,7 @@ public class Main {
 
         // Ends the Neo4J session
         driver.close();
+
+        return ResponseEntity.ok("Foi");
     }
 }
