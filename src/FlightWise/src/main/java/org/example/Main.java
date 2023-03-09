@@ -18,13 +18,6 @@ import java.util.List;
 import java.util.Map;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import utils.Points;
 
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -107,53 +100,47 @@ public class Main {
         }
     }
 
-    public int getVertexIndex(@NotNull Graph g, double lon, double lat) {
-        ArrayList<CoordinateVertex> vertices = g.getVertexes();
-        int index = -1;
-        for (CoordinateVertex vertex: vertices ) {
-            Point2D location = vertex.getPosition();
-            if (location.getX() == lon && location.getY() == lat) {
-                index = vertex.getIndex();
-            }
-        }
-
-        return index;
-    }
-
-    @PostMapping("executeAlg")
-    public String executeAlg(@RequestBody String data) throws JSONException {
-        String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8);
-
-        JSONObject obj = new JSONObject(dataDecoded);
-        Double lonInitial = obj.getDouble("lonInitial");
-        Double latInitial = obj.getDouble("latInitial");
-
-        Double lonFinal = obj.getDouble("lonFinal");
-        Double latFinal = obj.getDouble("latFinal");
-
-        String pathID = obj.getString("pathID");
-
-        Driver driver = GraphDatabase.driver("neo4j+s://ea367293.databases.neo4j.io",
-                AuthTokens.basic("neo4j","74OQ-dnMkAEveBhfOKbD1BBTTnvQ4ubORS86TwvT8mo"));
+    public static void main(String[] args) {
+        Driver driver = GraphDatabase.driver("<DATABASE-URI>",
+                AuthTokens.basic("<DATABASE-USERNAME>","<DATABASE-PASSWORD>"));
 
         //region creating cordinate nodes
-        Points points = new Points();
-        double[][] coordinates = points.Coordinates("dted/rio", lonInitial, latInitial, 5, 4, 0.0013, 0.0011);
+        ArrayList<Point2D> positionsArray = new ArrayList<>(Arrays.asList(
+                new Point2D.Double(50.0, 30.0),
+                new Point2D.Double(49.995, 30.0),
+                new Point2D.Double(49.990, 30.0),
+                new Point2D.Double(49.985, 30.0),
+                new Point2D.Double(49.980, 30.0),
+                new Point2D.Double(49.975, 30.0),
+                new Point2D.Double(50.0, 29.995),
+                new Point2D.Double(49.995, 29.995),
+                new Point2D.Double(49.990, 29.995),
+                new Point2D.Double(49.985, 29.995),
+                new Point2D.Double(49.980, 29.995),
+                new Point2D.Double(49.975, 29.990),
+                new Point2D.Double(50.0, 29.990),
+                new Point2D.Double(49.995, 29.990),
+                new Point2D.Double(49.990, 29.990),
+                new Point2D.Double(49.985, 29.990),
+                new Point2D.Double(49.980, 29.990),
+                new Point2D.Double(49.975, 29.990)
+        ));
+        //endregion
+
 
         // Initializes a new Graph()
         Graph newGraph = new Graph();
 
 
         // Adds all positions to the new Graph
-        for (int i = 0; i < coordinates.length; i++){
-            Point2D currentPoint = new Point2D.Double(coordinates[i][0],  coordinates[i][1]);
-            CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
+        for (int i = 0; i < positionsArray.size(); i++){
+            CoordinateVertex newCoordinateVertex = new CoordinateVertex(positionsArray.get(i), 100.0);
             newGraph.addVertex(newCoordinateVertex);
         }
 
 
         // Create all vertex edges based on distance
-        newGraph.addVertexEdgesByDistance(0.200);
+        newGraph.addVertexEdgesByDistance(0.7);
 
         int targetIndex = getVertexIndex(newGraph, lonFinal, latFinal);
 

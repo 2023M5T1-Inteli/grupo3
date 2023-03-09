@@ -1,7 +1,6 @@
-import { AppBar, Button, Grid, TextField } from "@mui/material";
+import { AppBar } from "@mui/material";
 import { Box } from "@mui/system";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import React from "react";
 
 function Header() {
   return (
@@ -17,6 +16,7 @@ function Header() {
               width={70}
               height={70}
               style={{ borderRadius: 16 }}
+              alt="logo"
             ></img>
           </Box>
         </Grid2>
