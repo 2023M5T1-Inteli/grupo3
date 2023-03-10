@@ -25,7 +25,7 @@
 }
 
 .App-link {
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   color: #000;
   border-radius: 10px;
   border: none;
@@ -33,18 +33,18 @@
   cursor: pointer;
   display: block;
   justify-content: end;
-  margin-top: .7rem;
+  margin-top: 0.7rem;
   margin-left: 88%;
 }
 
-svg {
+.graph {
   background-color: #F1F1F1;
 }
 
 .graph {
   background-color: transparent;
   position: absolute;
-  z-index:400;
+  z-index: 400;
   background-color: transparent;
 }
 

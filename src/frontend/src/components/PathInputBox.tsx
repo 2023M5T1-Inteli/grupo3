@@ -16,10 +16,11 @@ function PathInputBox() {
     target: Node;
   }
   
-  const nodes: Node[] = [];
+  let nodes: Node[] = [];
   
-  const links: Link[] = [];
+  let links: Link[] = [];
   
+
   async function getGraph() {
     await fetch("http://localhost:4000/graph").then(response => response.json()).then(data => {
       data.forEach(function(element: any) {
@@ -34,9 +35,15 @@ function PathInputBox() {
   }
   
   async function createGraph() {
+    nodes = [];
+    links = [];
     await getGraph()
     // Visualização do grafo
+    // d3.selectAll("svg > *").remove();
+
     const svg = d3.select<SVGElement, unknown>(".graph");
+    svg.selectAll("*").remove();
+
     const width = +svg.attr("width")!;
     const height = +svg.attr("height")!;
 
