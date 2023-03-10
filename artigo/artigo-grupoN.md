@@ -80,6 +80,7 @@ Considere o seguinte grafo:
 <center> FIGURA 1 </center>
 
 ![figura 1](../docs/img/graph1.png)
+Fonte: www.gatevidyalay.com
 
 Devemos encontrar o caminho mais barato iniciando no vertice A e terminando no vértice J. Os números nas arestas indicam a distância entre os nós, e os números em cada nó representam o valor da heurística. 
 
@@ -88,6 +89,7 @@ Primeiramente, é necessário localizar o vértice de partida e, em seguida, ide
 <center> FIGURA 2 </center>
 
 ![figura 2](../docs/img/graph2.png)
+Fonte: www.gatevidyalay.com
 
 No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre produz o caminho mais curto para um destino. Apesar dessa limitação, o algoritmo A* continua sendo uma ferramenta poderosa para uma ampla gama de aplicações, equilibrando a necessidade de encontrar caminhos eficientes com o potencial de erros ocasionais.
 
