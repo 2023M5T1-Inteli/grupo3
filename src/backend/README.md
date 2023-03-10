@@ -4,7 +4,7 @@
 ### Retorna a rota final
 
 ```http
-  GET http://localhost:4000/graph
+  GET /graph
 ```
 
 | Parâmetro   | Tipo       | Descrição                           |
@@ -34,7 +34,7 @@
 ### Retorna um item
 
 ```http
-  GET http://localhost:3000/graph/checkRouteStatus
+  GET /graph/checkRouteStatus
 ```
 
 | Parâmetro   | Tipo       | Descrição                                   |
@@ -52,7 +52,7 @@
 
 ### Solicita a criação da rota e retorna o código da rota
 ```http
-  POST http://localhost:3000/graph
+  POST /graph
 ```
 ##### Expected response
 ```javascript
