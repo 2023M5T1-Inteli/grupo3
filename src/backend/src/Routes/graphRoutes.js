@@ -1,12 +1,17 @@
+// Import necessary modules
 import express from "express";
 import graphController from "../Controller/graphController.js";
 
-const { getGraph, createNode, getFinalPath } = graphController;
+const { createRoute, getFinalPath, checkRouteStatus } = graphController;
 
+// Create a new router object using the express.Router() method
 const router = express.Router();
 
-// GET /api/graph
+// GET route for "/"
 router.get("/", getFinalPath);
-router.post("/", createNode);
+// GET route for "/checkRouteStatus"
+router.get("/checkRouteStatus", checkRouteStatus);
+// POST route for "/"
+router.post("/", createRoute);
 
 export default router;

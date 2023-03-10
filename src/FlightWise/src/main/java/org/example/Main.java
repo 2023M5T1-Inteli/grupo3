@@ -1,10 +1,17 @@
 package org.example;
+import com.example.mdbspringboot.RouteRepository;
 import models.Graph.Graph;
 import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
+import org.jetbrains.annotations.NotNull;
 import org.neo4j.driver.*;
 
+import org.json.*;
+
 import java.awt.geom.Point2D;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +20,14 @@ import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
 
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@RestController
 public class Main {
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
 
     // Inserts into the Neo4J database, all coordinate connections
     public static void createCordinateEdgesAsync(ArrayList<CoordinateVertex> coordinates, Session session){
@@ -63,8 +77,9 @@ public class Main {
     }
 
     // Inserts into the Neo4J database all the coordinate vertexes
-    public static void createCoordinateNodesAsync(ArrayList<CoordinateVertex> coordinates, Session session) {
-        String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight, lastNode: $last})";
+
+    public static void createCoordinateNodesAsync(ArrayList<CoordinateVertex> coordinates, Session session, String pathID) {
+        String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight, pathID: $path})";
 
         try (Transaction tx = session.beginTransaction()) {
             for (int i = 0; i < coordinates.size(); i++) {
@@ -78,7 +93,7 @@ public class Main {
                 }
 
 
-                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex(), "lat", position.getX(), "long", position.getY(), "avgHeight", coordinateVertex.averageHeight, "last", lastNodeIndex));
+                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex(), "lat", position.getX(), "long", position.getY(), "avgHeight", coordinateVertex.averageHeight, "path", pathID));
             }
 
             tx.commit();
@@ -127,15 +142,17 @@ public class Main {
         // Create all vertex edges based on distance
         newGraph.addVertexEdgesByDistance(0.7);
 
+        int targetIndex = getVertexIndex(newGraph, lonFinal, latFinal);
+
         // Calculates the optimal path between two nodes(vertex)
-        newGraph.ASearch(0, 17);
+        newGraph.ASearch(0, targetIndex);
 
         // Returns the generated optimal path as an ArrayList;
-        ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(17));
+        ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(targetIndex));
 
         // Send the local Graph structure to neo4J
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
-            createCoordinateNodesAsync(newGraph.getVertexes(), session);
+            createCoordinateNodesAsync(newGraph.getVertexes(), session, pathID);
 
             createCordinateEdgesAsync(newGraph.getVertexes(), session);
 
@@ -146,5 +163,9 @@ public class Main {
 
         // Ends the Neo4J session
         driver.close();
+
+        RouteRepository routeRepository;
+
+        return "Foi";
     }
 }
