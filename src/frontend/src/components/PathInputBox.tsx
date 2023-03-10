@@ -26,7 +26,7 @@ function PathInputBox() {
   // The function getGraph() is used to get the nodes and links of the graph from the backend api. 
   // It adds the nodes and links to the nodes and links arrays respectively.
   async function getGraph() {
-    await fetch("http://localhost:4000/graph").then(response => response.json()).then(data => {
+    await fetch("http://localhost:4000/grap").then(response => response.json()).then(data => {
       // For each element in the data array, push the node to the nodes array.
       data.forEach(function(element: any) {
         nodes.push({id: element.index.low, name: "A", x: element.latitude, y: element.longitude})
@@ -38,7 +38,7 @@ function PathInputBox() {
         // If the lastNodeIndex is not equal to the NodeIndex, push the link to the links array. This avoids adding a link to the same node (self-loop).
         if (lastNodeIndex !== NodeIndex) links.push({source: nodes[lastNodeIndex], target: nodes[NodeIndex]})
       });
-    });
+    }).catch(error => alert(error.message));
   }
   
   // The function createGraph() is used to create the graph using the d3 library and the nodes and links arrays.

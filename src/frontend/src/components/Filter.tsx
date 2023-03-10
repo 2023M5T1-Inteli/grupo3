@@ -20,7 +20,7 @@ async function getHeights() {
     data.forEach(function(element: any) {
       heigths.push(element.averageHeight)
     })
-  })
+  }).catch(error => alert(error.message));
   return heigths;
 }
 
