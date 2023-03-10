@@ -26,7 +26,7 @@ function PathInputBox() {
   // The function getGraph() is used to get the nodes and links of the graph from the backend api. 
   // It adds the nodes and links to the nodes and links arrays respectively.
   async function getGraph() {
-    await fetch("http://localhost:4000/grap").then(response => response.json()).then(data => {
+    await fetch("http://localhost:4000/graph").then(response => response.json()).then(data => {
       // For each element in the data array, push the node to the nodes array.
       data.forEach(function(element: any) {
         nodes.push({id: element.index.low, name: "A", x: element.latitude, y: element.longitude})
