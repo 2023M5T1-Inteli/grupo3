@@ -1,4 +1,5 @@
 package org.example;
+import com.example.mongodb.AccessingDataMongodbApplication;
 import models.Graph.Graph;
 import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
@@ -112,7 +113,7 @@ public class Main {
     }
 
     @PostMapping("executeAlg")
-    public String executeAlg(@RequestBody String data) throws JSONException {
+    public ResponseEntity<String> executeAlg(@RequestBody String data) throws Exception {
         String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8);
 
         JSONObject obj = new JSONObject(dataDecoded);
@@ -168,6 +169,10 @@ public class Main {
         // Ends the Neo4J session
         driver.close();
 
-        return "Foi";
+        AccessingDataMongodbApplication mongo = new AccessingDataMongodbApplication();
+
+        mongo.searchARoute(pathID);
+
+        return ResponseEntity.ok("Rota criada com sucesso!");
     }
 }
