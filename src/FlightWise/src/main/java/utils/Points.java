@@ -4,6 +4,7 @@ import utils.dted.DtedDatabaseHandler;
 
 import java.util.Optional;
 
+// This class is only used to test the reading of dt2 files
 public class Points {
   // Open DTed DataBase
 

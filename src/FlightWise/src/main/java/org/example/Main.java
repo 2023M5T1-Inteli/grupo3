@@ -1,5 +1,4 @@
 package org.example;
-import com.example.mongodb.AccessingDataMongodbApplication;
 import models.Graph.Graph;
 import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
@@ -9,12 +8,9 @@ import org.neo4j.driver.*;
 import org.json.*;
 
 import java.awt.geom.Point2D;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
@@ -28,9 +24,11 @@ import utils.Points;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+// Turning this class into a Spring Boot Application
 @SpringBootApplication
 @RestController
 public class Main {
+    // Now the main method is only providing the server in the localhost 3000
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
@@ -99,6 +97,9 @@ public class Main {
         }
     }
 
+    /*
+    * This method returns the index of the determined vertex, getting the vertices of the graph, and searching for the necessary position
+    * */
     public int getVertexIndex(@NotNull Graph g, double lon, double lat) {
         ArrayList<CoordinateVertex> vertices = g.getVertexes();
         int index = -1;
@@ -112,10 +113,25 @@ public class Main {
         return index;
     }
 
+    /**
+    * You can test this route accessing: http://localhost:3000/executeAlg
+     * @param data information provided at the moment that the API are called:
+     *    {
+     *     “lonInitial”: Double,
+     *     “latInitial”: Double,
+     *     “lonFinal”: Double,
+     *     “latFinal”: Double,
+     *     “pathID”: String,
+     *     “dt2file”: String (are not used yet)
+     *    }
+     * @return ResponseEntity is an HTTP response
+    * */
     @PostMapping("executeAlg")
     public ResponseEntity<String> executeAlg(@RequestBody String data) throws Exception {
+        // Decoding the characters to UTF-8
         String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8);
 
+        // Parsing the decoded string to a JSON object and extracting the values
         JSONObject obj = new JSONObject(dataDecoded);
         Double lonInitial = obj.getDouble("lonInitial");
         Double latInitial = obj.getDouble("latInitial");
@@ -125,10 +141,10 @@ public class Main {
 
         String pathID = obj.getString("pathID");
 
-        Driver driver = GraphDatabase.driver("neo4j+s://ea367293.databases.neo4j.io",
-                AuthTokens.basic("neo4j","74OQ-dnMkAEveBhfOKbD1BBTTnvQ4ubORS86TwvT8mo"));
+        Driver driver = GraphDatabase.driver("<DATABASE-URI>",
+                AuthTokens.basic("<DATABASE-USERNAME>","<DATABASE-PASSWORD>"));
 
-        //region creating cordinate nodes
+        // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
         double[][] coordinates = points.Coordinates("dted/rio", lonInitial, latInitial, 5, 4, 0.0013, 0.0011);
 
@@ -147,6 +163,7 @@ public class Main {
         // Create all vertex edges based on distance
         newGraph.addVertexEdgesByDistance(0.200);
 
+        // Taking the index of the target position
         int targetIndex = getVertexIndex(newGraph, lonFinal, latFinal);
 
         // Calculates the optimal path between two nodes(vertex)
@@ -169,10 +186,7 @@ public class Main {
         // Ends the Neo4J session
         driver.close();
 
-        AccessingDataMongodbApplication mongo = new AccessingDataMongodbApplication();
-
-        mongo.searchARoute(pathID);
-
+        // Returns this message after complete
         return ResponseEntity.ok("Rota criada com sucesso!");
     }
 }
