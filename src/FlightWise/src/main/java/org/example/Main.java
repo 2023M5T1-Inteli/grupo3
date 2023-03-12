@@ -1,4 +1,5 @@
 package org.example;
+import com.example.mdbspringboot.RouteRepository;
 import models.Graph.Graph;
 import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
@@ -14,12 +15,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
-import org.springframework.boot.SpringApplication;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import utils.Points;
 
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -81,6 +76,7 @@ public class Main {
     }
 
     // Inserts into the Neo4J database all the coordinate vertexes
+
     public static void createCoordinateNodesAsync(ArrayList<CoordinateVertex> coordinates, Session session, String pathID) {
         String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight, pathID: $path})";
 
@@ -88,6 +84,12 @@ public class Main {
             for (int i = 0; i < coordinates.size(); i++) {
                 CoordinateVertex coordinateVertex = coordinates.get(i);
                 Point2D position = coordinateVertex.getPosition();
+
+                int lastNodeIndex = -1;
+
+                if (coordinateVertex.previousVertex != null){
+                    lastNodeIndex = coordinateVertex.previousVertex.getIndex();
+                }
 
 
                 tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex(), "lat", position.getX(), "long", position.getY(), "avgHeight", coordinateVertex.averageHeight, "path", pathID));
@@ -153,15 +155,14 @@ public class Main {
 
 
         // Adds all positions to the new Graph
-        for (int i = 0; i < coordinates.length; i++){
-            Point2D currentPoint = new Point2D.Double(coordinates[i][0],  coordinates[i][1]);
-            CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
+        for (int i = 0; i < positionsArray.size(); i++){
+            CoordinateVertex newCoordinateVertex = new CoordinateVertex(positionsArray.get(i), 100.0);
             newGraph.addVertex(newCoordinateVertex);
         }
 
 
         // Create all vertex edges based on distance
-        newGraph.addVertexEdgesByDistance(0.200);
+        newGraph.addVertexEdgesByDistance(0.7);
 
         // Taking the index of the target position
         int targetIndex = getVertexIndex(newGraph, lonFinal, latFinal);

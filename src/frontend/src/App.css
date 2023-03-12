@@ -25,7 +25,27 @@
 }
 
 .App-link {
-  color: #61dafb;
+  background-color: #F1F1F1;
+  color: #000;
+  border-radius: 10px;
+  border: none;
+  padding: 0.3rem;
+  cursor: pointer;
+  display: block;
+  justify-content: end;
+  margin-top: .7rem;
+  margin-left: 88%;
+}
+
+svg {
+  background-color: #F1F1F1;
+}
+
+.graph {
+  background-color: transparent;
+  position: absolute;
+  z-index:400;
+  background-color: transparent;
 }
 
 @keyframes App-logo-spin {

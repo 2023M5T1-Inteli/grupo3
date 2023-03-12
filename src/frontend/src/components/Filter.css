@@ -13,8 +13,8 @@
     bottom: 0;
     height: 100vh;
     display: flex;
-    transition: transform .6s ease-in-out;
-    transform: translateX(-100%);
+    z-index: 1000;
+    transform: translateX(100%);
 }
 
 .menu, .background {
@@ -71,6 +71,16 @@
     cursor: pointer;
     font-size: 1.1rem;
     padding: 0.5rem;
+}
+
+.node {
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
+
+.link {
+    stroke-opacity: 0.6;
+    stroke-width: 1.5px;
 }
 
 
