@@ -1,12 +1,14 @@
+// Import the necessary components from the Material-UI library
 import { AppBar } from "@mui/material";
 import { Box } from "@mui/system";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
+
 function Header() {
   return (
     <AppBar
-      sx={{ bgcolor: "transparent", boxShadow: "none" }}
-      position="static"
+      sx={{ bgcolor: "transparent", boxShadow: "none" }} // Customize the style of the AppBar
+      position="static" // Set the position of the AppBar
     >
       <Grid2 container>
         <Grid2 xs={12} padding={2}>
