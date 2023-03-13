@@ -460,6 +460,11 @@ O seguinte resultado deve ser obtido:
 ![Grafo gerado](img/graph-neo4j.png)
 
 ## Teste Backend
+Para testar as rotas fornecidas pelo GraphController, você precisará de uma ferramenta de teste de API, como o Postman ou o Insomnia. Essas ferramentas permitem enviar solicitações HTTP para o servidor e visualizar a resposta.
+
+Antes de testar as rotas, certifique-se de que o servidor esteja em execução e que o GraphController esteja conectado corretamente. Em seguida, abra a ferramenta de teste de API e crie uma solicitação HTTP para cada rota que deseja testar.
+
+Os resultados de cada solicitação devem ser iguais ou semelhantes aos documentados na [Documentação da API](https://github.com/2023M5T1-Inteli/grupo3/blob/master/src/backend/README.md)
 
 ## Testes Unitários
 Para a realização dos Testes Unitários, utilizamos a ferramenta [JUnit 5](https://www.jetbrains.com/help/idea/junit.html). Ela partimite rodar testes unitários de forma fácil e automatizada, e sua integração com IDEs como o IntelliJ, Eclipse, dentre outras, facilita o uso. 
