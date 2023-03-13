@@ -33,7 +33,30 @@ A seguir estão os passos sugeridos para a preparação do seu grupo no início 
 
 Os arquivos da documentação deste projeto estão na pasta [/docs](/docs), e o seu conteúdo é publicado em https://2023m5t1-inteli.github.io/grupo3.
 
+## Documentação da API 
 
+### Spring Boot
+
+Gera o grafo utilizandoo algoritmo A*
+```http
+POST /executeAlg
+``` 
+
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `lonInitial` | `double` | Longitude inicial (saída) |
+| `latInitial` | `double` | Latitude inicial (saída) | 
+| `lonFinal` | `double` | Longitude final (destino) |
+| `latFinal` | `double` | Latitude final (destino) |
+| `pathID` | `string` | ID para identificar esta rota |
+| `dt2file` | `file` | Arquivo DT2 para leitura |
+
+
+##### Expected response
+```JSON
+"Rota criada com sucesso!"
+```
 # Artigo
 
 Os arquivos do artigo estão na pasta [/artigo](/artigo). Um arquivo gerado no formato PDF deverá ser anexado a cada *release* do projeto.
