@@ -466,6 +466,38 @@ Antes de testar as rotas, certifique-se de que o servidor esteja em execução e
 
 Os resultados de cada solicitação devem ser iguais ou semelhantes aos documentados na [Documentação da API](https://github.com/2023M5T1-Inteli/grupo3/blob/master/src/backend/README.md)
 
+## Teste Frontend
+Para rodar o frontend da aplicação, siga os seguintes passos:
+
+1. Certifique-se de ter o Node.js instalado em sua máquina. Você pode verificar se o Node.js está instalado executando o seguinte comando no terminal:
+```
+node -v
+```
+Se o Node.js não estiver instalado, faça o download da versão v18.0.0 em https://nodejs.org.
+
+2. Navegue até o diretório "frontend" no terminal e instale as dependências do projeto usando o gerenciador de pacotes NPM (Node Package Manager):
+```
+npm install
+```
+Certifique-se de que o servidor backend está sendo executado na porta 4000. Para isso, basta executar todos os passos mencionados anteriormente, substituindo a pasta frontend por backend. Logo após, ainda na pasta "backend", execute:  `node ./src/app.js`
+
+3. Inicie o servidor de desenvolvimento do frontend executando o seguinte comando:
+
+```
+npm start
+```
+
+4. Abra o navegador e navegue até o endereço http://localhost:3000 para visualizar a aplicação em execução.
+Com esses passos, você deverá ser capaz de executar o frontend da aplicação sem problemas. Certifique-se de ter seguido todas as etapas com cuidado e, se encontrar algum problema, verifique se os logs do terminal indicam algum erro ou aviso.
+
+A seguinte página deve ser exibida:
+
+![Frontend](img/frontendV1.png)
+
+5. Pressione o botão gerar, e espere alguns segundos. Logo após, um grafo deve ser gerado dentro da área do mapa.
+
+![Frontend-Grafo](img/frontendGrafos.png)
+
 ## Testes Unitários
 Para a realização dos Testes Unitários, utilizamos a ferramenta [JUnit 5](https://www.jetbrains.com/help/idea/junit.html). Ela partimite rodar testes unitários de forma fácil e automatizada, e sua integração com IDEs como o IntelliJ, Eclipse, dentre outras, facilita o uso. 
 
