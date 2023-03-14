@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import { Box } from '@mui/material';
 import Map from './components/Map';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
+import { LatLngExpression } from 'leaflet';
 
 function App() {
   // Define a state variable called `showFilter` and its updater function `setShowFilter` using the `useState` hook, initialized to `false`
@@ -19,6 +20,15 @@ function App() {
     setShowFilter(!showFilter);
   };
 
+
+    let points: LatLngExpression[] = [
+    {lat: -23.871744, lng: -47.075852}, 
+    {lat:-23.869291, lng:-47.022447}, 
+    {lat: -23.867960, lng:-46.989146}, 
+    {lat: -23.870317, lng:-46.944851}, 
+    {lat: -23.880317, lng:-46.924851}, 
+    // {lat: 49.995, lng:  29.995}, 
+  ]
   // Render the main JSX:
   return (
     <div className="App">
@@ -40,7 +50,7 @@ function App() {
         <Box width={1250} height={500}>
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             {/* Render a `Map` component */}
-            <Map />
+            <Map points={points} />
           </Box>
         </Box>
         {/* Render an SVG element with class `graph` */}
