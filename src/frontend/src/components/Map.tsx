@@ -1,11 +1,26 @@
 import * as React from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet'; // Remove unused imports
+import { MapContainer, TileLayer, Circle, LayerGroup, LayersControl , Polyline } from 'react-leaflet'; // Remove unused imports
 import { Box } from '@mui/system';
 import "leaflet/dist/leaflet.css";
 import './Map.css';
+import { LatLngExpression } from 'leaflet';
 
-export default function Map() {
-  const center: [number, number] = [-22.1780, -43.4082]; // Define the center of the map using an array
+interface IMapProps {
+  points: LatLngExpression[];
+}
+
+export default function Map(props: IMapProps) {
+  const center: [number, number] = [49.99, 29.99]; // Define the center of the map using an array
+
+  let elements = [];
+  let edges =  [];
+  const points = props.points;
+  for (let i = 0; i < points.length; i++) {
+    elements.push(<LayerGroup> <Circle center={points[i]} radius={100} pathOptions={{ fillColor: 'blue' }}/></LayerGroup>)
+    if(i+1 < points.length) {
+      edges.push(<LayerGroup> <Polyline positions={[points[i], points[i+1]]} pathOptions={{ color: 'red' }}/></LayerGroup>)
+    }
+  }
 
   return (
     <Box sx={ {
@@ -15,14 +30,35 @@ export default function Map() {
         overflow: "hidden"
       }}>
         {/* Define the MapContainer with the center and zoom level */}
-        <MapContainer center={center} zoom={15} zoomControl={false} style={{
+        <MapContainer center={points[0]} zoom={13} zoomControl={true} style={{
           position: "relative",
           width: "100%",
           height: "100%"
         }}>
         {/* Define the TileLayer using the World Imagery Service */}
-        <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+        <TileLayer  url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+        <LayersControl>
+       <LayersControl.Overlay checked name={"test"}>
+       {/* <LayerGroup>
+       <Circle
+            center={center}
+            pathOptions={{ fillColor: 'blue' }}
+            radius={200}
+          />
+          <Circle
+            center={center}
+            pathOptions={{ fillColor: 'red' }}
+            radius={100}
+            stroke={false}
+          />
+       </LayerGroup> */}
+       {elements.map(element=> element)}
+       {edges.map(element=> element)}
+       </LayersControl.Overlay>
+       </LayersControl>
         </MapContainer>
     </Box>
   );
 }
+
+

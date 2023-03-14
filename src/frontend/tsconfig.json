@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-  ]
+, "src/__tests__/Header.test.tsx, tsx"  ]
 }
