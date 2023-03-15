@@ -1,6 +1,9 @@
 import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
 
-const uri = "<URI>";
+dotenv.config({ path: '../.env' });
+
+const uri = process.env.MONGODB_URL
 
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
