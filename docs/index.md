@@ -72,12 +72,20 @@ Planejador de trajetórias para voos em baixa altitude
   - [Modelo Lógico](#modelo-lógico)
 - [Teste de Software](#teste-de-software)
   - [Testes de Integração - Neo4J](#testes-de-integração---neo4j)
+  - [Teste Backend](#teste-backend)
+  - [Teste Frontend](#teste-frontend)
   - [Testes Unitários](#testes-unitários)
     - [CoordinateVertex](#coordinatevertex)
     - [CoordinateEdge](#coordinateedge)
     - [Graph](#graph)
     - [Haversine](#haversine)
   - [Teste de Usabilidade](#teste-de-usabilidade)
+- [Complexidade e Corretude do Algoritmo](#complexidade-e-corretude-do-algoritmo)
+  - [Pior caso](#pior-caso)
+  - [Melhor caso](#melhor-caso)
+  - [Observação](#observação)
+  - [Corretude do Algoritmo](#corretude-do-algoritmo)
+    - [Invariante do laço](#invariante-do-laço)
 - [Análise de Dados](#análise-de-dados)
 - [Manuais](#manuais)
   - [Manual de Implantação](#manual-de-implantação)
@@ -549,6 +557,15 @@ Utilizando a função `assertEquals` podemos verificar que a o método `computeC
 
 ## Teste de Usabilidade
 
+# Complexidade e Corretude do Algoritmo
+## Pior caso
+
+## Melhor caso
+
+## Observação
+
+## Corretude do Algoritmo
+### Invariante do laço
 
 # Análise de Dados
 
