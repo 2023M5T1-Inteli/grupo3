@@ -1,5 +1,6 @@
 package controller;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import models.Graph.Graph;
 import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
@@ -33,6 +34,7 @@ import org.neo4j.driver.Transaction;
 @RestController
 public class AStarController {
     // Now the main method is only providing the server in the localhost 3000
+    Dotenv dotenv = Dotenv.load();
     public static void main(String[] args) {
         SpringApplication.run(AStarController.class, args);
     }
@@ -137,8 +139,12 @@ public class AStarController {
 
         String pathID = obj.getString("pathID");
 
-        Driver driver = GraphDatabase.driver("<DATABASE-URI>",
-                AuthTokens.basic("<DATABASE-USERNAME>","<DATABASE-PASSWORD>"));
+        String neo4jURI = dotenv.get("NEO4J_URI");
+        String neo4jUsername = dotenv.get("NEO4J_Username");
+        String neo4jPassword = dotenv.get("NEO4J_PASSOWORD");
+
+        Driver driver = GraphDatabase.driver(neo4jURI,
+                AuthTokens.basic(neo4jUsername,neo4jPassword));
 
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
