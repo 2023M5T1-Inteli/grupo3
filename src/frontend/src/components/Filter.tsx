@@ -15,7 +15,7 @@ interface FilterProps {
 // It returns an array of numbers representing the heights of each node.
 async function getHeights() {
   let heigths: number[] = [];
-  await fetch("http://10.128.64.241:4000/graph").then(response => response.json()).then(data => {
+  await fetch("http://localhost:4000/graph").then(response => response.json()).then(data => {
     // for each element in the data array, push the averageHeight property to the heigths array.
     data.forEach(function(element: any) {
       heigths.push(element.averageHeight)
