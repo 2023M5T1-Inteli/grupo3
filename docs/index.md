@@ -311,20 +311,20 @@ Os interessados da AEL Sistemas (parceiro direto do projeto) são:
 Possíveis interessados são os clientes da AEL (como o governo) e as equipes destes clientes, que utilizarão efetivamente a solução do projeto.
 
 # Análise do Problema
-
+As Cinco Forças de Porter e o modelo de negócios foram feitos com base em informações do site oficial da empresa [1], do linkedin da empresa [2] e na apresentação institucional.
 ## Análise da área de atuação
 
 ### Principais Players
 
 Os principais players globais do setor de
-fabricação de componentes de aviação e aeroespaciais e de defesa são: <br>
+fabricação de componentes de aviação e aeroespaciais e de defesa são [3]: <br>
 1. Lockheed Martin - É a maior empresa de armamentos do mundo, atuando também no setor aeroespacial e de aviação. Na área de Defesa, uma de suas especialidades são os caças e aviões militares.
 2. BAE Systems - É a segunda maior empresa do mundo no setor de Defesa, além de atuar também em aviação, tecnologia aeroespacial e segurança. Seus principais projetos envolvem a produção de caças.
 3. Boeing - Apesar de ser mais conhecida pela aviação comercial, também atua no desenvolvimento de caças, aviões militares, sistemas eletrônicos, mísseis e tecnologia aeroespacial.
 4. Northrop Grumman - É a quarta maior empresa do setor. A empresa vem apostando na área de drones para missões de espionagem e ataque.
 5. Elbit Systems - É uma empresa internacional de alta tecnologia engajada nas áreas de defesa e segurança nacional. Desenvolvem e fornecem sistemas e produtos aerotransportados, terrestres e navais para defesa, segurança interna e aplicações comerciais. Além disso, fornecem uma gama de serviços de treinamento e suporte.
 
-Os principais players brasileiros, além da AEL são:
+Os principais players brasileiros, além da AEL são [4]:
 1. Helibras - Única fabricante de helicópteros do Brasil, a Helibras pertence ao grupo europeu EADS. A empresa produz tanto modelos civis quanto militares.
 2. Embraer - Desenvolve e opera sistemas de comunicação, computação, comando, controle e inteligência.
 3. Avibras - Dedica-se ao projeto e fabricação de mísseis e sistemas de defesa ar-terra e terra-terra, além de aviões não tripulados. Desenvolve tecnologia nas áreas de aeronáutica, espaço, eletrônica, veicular e defesa.
@@ -354,7 +354,7 @@ O setor de fabricação de componentes de aviação e aeroespaciais e de defesa 
 
 ### Tendências
 
-As principais tendências do setor aeroespacial e de defesa são:
+As principais tendências do setor aeroespacial e de defesa são [5]:
 - Reduzir custos de voo e emissões por meio de motores elétricos e híbridos. O cuidado com o meio ambiente tornou-se a principal questão para as empresas com um propósito, isso significa produzir motores que consumam menos combustíveis.
 - Sistemas de voo autônomos. De drones a veículos, sistemas de aviação que exigem alto grau de automação.
 - Ciclos de manutenção baseado em dados simulados para evitar problemas de funcionamento minimizando os custos de reparo associados.
@@ -564,7 +564,19 @@ O A* utiliza duas listas, uma aberta e outra fechada, para explorar os nós de u
 
 No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre produz o caminho mais curto para um destino. Apesar dessa limitação, o algoritmo A* continua sendo uma ferramenta poderosa para uma ampla gama de aplicações, equilibrando a necessidade de encontrar caminhos eficientes com o potencial de erros ocasionais.
 ## Pior caso
+A complexidade do algoritmo A* depende da qualidade da função heurística. No pior caso em geral, em que a heurística é inútil ou inexistente, o algoritmo pode ter complexidade O(b^d), onde b é a média de arestas a partir de cada nó (conhecida como fator de ramificação) e v é o número de nós no caminho resultante. Nesse caso, o algoritmo precisa   explorar todos os caminhos possíveis até encontrar a solução [6].
 
+No caso do algoritmo desenvolvido pelo grupo o pior caso tem complexidade O(V^2logV), em que V o número de vértices.
+
+O algoritmo usa uma Fila Prioritária para armazenar os vértices, mantendo em ordem com base na soma do custo real do vértice inicial até o vértice atual e a estimativa heurística do custo do vértice atual até o vértice alvo. A Fila Prioritária tem um tamanho máximo de V, porque cada vértice é adicionado à fila no máximo uma vez.
+
+![Fila Prioritária do algoritmo](img/Astar-priority-queue.png)
+
+Cada iteração do loop examina o vértice com o menor custo estimado, retira-o da fila prioritária e processa suas arestas de saída. Isto leva tempo O(logV) porque a remoção do vértice com o menor custo estimado de uma fila prioritária leva tempo O(logV) [7]. O algoritmo processa cada aresta no máximo uma vez, portanto o processamento de todas leva tempo O(E) (o que faz sentido com a imagem abaixo já que o loop passa por todas as arestas do nó atual, o que vale para todos os nós).
+
+![Processamento das arestas](img/edges-mapping.png)
+
+No pior caso, cada vértice está conectado a cada outro vértice em ambas as direções, portanto o número de arestas é E = V(V-1). Neste caso, a complexidade do algoritmo é O((E+V)logV) = O((V(V-1) + V)logV) = O(V^2logV).
 ## Melhor caso
 
 ## Observação
@@ -585,3 +597,16 @@ No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre p
 
 
 # Referências
+[1] AEL Sistemas. Disponível em: <https://www.ael.com.br/>. Acesso em: 6 fev. 2023.
+
+[2] AEL Sistemas - Linkedin. Disponível em: <https://www.linkedin.com/company/ael-sistemas/about/>. Acesso em: 6 fev. 2023.
+
+[3] JULIBONI, M. As 10 maiores empresas de Defesa do mundo. Disponível em: <https://exame.com/negocios/as-10-maiores-empresas-de-defesa-do-mundo/>. Acesso em: 6 fev. 2023.
+
+[4] JULIBONI, M. 10 empresas brasileiras de defesa e armamento. Disponível em: <https://exame.com/negocios/10-fabricantes-brasileiros-de-armamento-e-defesa/>. Acesso em: 6 fev. 2023.
+
+[5] Infográfico: Tendências tecnológicas na indústria aeroespacial. Disponível em: <https://news.sap.com/brazil/2019/05/infografico-tendencias-tecnologicas-na-industria-aeroespacial/>. Acesso em: 6 fev. 2023.
+
+[6] COX, G. A* Pathfinding Algorithm. Disponível em: <https://www.baeldung.com/cs/a-star-algorithm#:~:text=The%20time%20complexity%20of%20A,nodes%20on%20the%20resulting%20path.>. Acesso em: 16 mar. 2023.
+
+[7] Class PriorityQueue. Disponível em: <https://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html>. Acesso em: 16 mar. 2023.
