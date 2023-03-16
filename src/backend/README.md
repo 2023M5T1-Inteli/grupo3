@@ -54,6 +54,12 @@
 ```http
   POST /graph
 ```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `exclusionPoints` | `array` | **Obrigatório** |
+| `intermediatePoints` | `array` | **Obrigatório** |
+
 ##### Expected response
 ```javascript
     {

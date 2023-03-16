@@ -48,7 +48,7 @@ class GraphService {
   }
 
   // This function creates a new route in a MongoDB database and returns the generated route ID
-  async createRoute() {
+  async createRoute(exclusionPoints, intermediatePoints) {
 
     try {
       // Connect to the MongoDB database
@@ -76,6 +76,8 @@ class GraphService {
           latInitial: -22.178,
           lonFinal: -43.4056,
           latFinal: -22.181300000000004,
+          exclusionPoints: exclusionPoints,
+          intermediatePoints: intermediatePoints,
           dt2file: null,
           pathID: "ABC123A",
         },

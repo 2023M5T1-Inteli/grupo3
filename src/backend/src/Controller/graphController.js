@@ -3,15 +3,20 @@ import graphService from "../Services/graphServices.js";
 
 class GraphController {
 	async createRoute(req, res) {
+		if (req.body.exclusionPoints == undefined || req.body.intermediatePoints == undefined){
+			res.send("Invalid inputs: exclusionPoints and intermediatePoints can't be null.");
+			return;
+		}
+
 		// Send a response object with a routeID attribute
 		res.send({
-			routeID: await graphService.createRoute()
+			routeID: await graphService.createRoute(req.body.exclusionPoints, req.body.intermediatePoints)
 		});
 	}
 
 	async checkRouteStatus(req, res){
 		if (req.body.routeID == undefined){
-			res.send("Invalid inputs: routeID can't be null.")
+			res.send("Invalid inputs: routeID can't be null.");
 			return;
 		}
 
@@ -21,7 +26,7 @@ class GraphController {
 
 	async getFinalPath(req, res){
 		if (req.body.pathID == undefined){
-			res.send("Invalid inputs: pathID can't be null.")
+			res.send("Invalid inputs: pathID can't be null.");
 			return;
 		}
 		
