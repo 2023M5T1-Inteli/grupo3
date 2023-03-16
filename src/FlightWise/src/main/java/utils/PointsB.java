@@ -67,7 +67,7 @@ public class PointsB {
 
   public static void main(String[] args) {
     // filePath is the file path of the DTED database.
-    String filePath = "dted/saopaulo";
+    String filePath = "dted/rio";
     DtedDatabaseHandler dbRio = openDtedDB(filePath);
 
 
@@ -83,10 +83,10 @@ public class PointsB {
     /*
      * Example for values in rio filePath
      */
-    double lonInitial = -43.4082;
-    double latInitial = -22.1780;
-    double lonFinal = -43.3971;
-    double latFinal = -22.1862;
+    double lonInitial = -43.3282;
+    double latInitial = -22.18;
+    double lonFinal = -43.2976;
+    double latFinal = -22.13;
 
 
     double lonStep = 0.0014; // LonStep choosen about the value of 120m in Rio de Janeiro.
