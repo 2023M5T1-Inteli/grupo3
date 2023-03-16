@@ -558,6 +558,11 @@ Utilizando a função `assertEquals` podemos verificar que a o método `computeC
 ## Teste de Usabilidade
 
 # Complexidade e Corretude do Algoritmo
+O algoritmo escolhido pelo grupo foi o A*(A-star). O objetivo desse algoritmo é encontrar o caminho mais curto entre um vértice de origem s e um vértice de destino t. Para fazer isso, ele usa uma função heurística h(v) que estima a distância mais curta entre entre um vértice v e o vértice de destino t. Esta função é chamada de função heurística admissível se ela nunca superestimar a distância real entre v e t.
+
+O A* utiliza duas listas, uma aberta e outra fechada, para explorar os nós de um grafo. Começando pelo nó de origem, em cada iteração o algoritmo seleciona o nó com o menor valor de f(v) = g(v) + h(v), onde g(v) é o custo total para chegar em v a partir do nó de origem e h(v) é uma estimativa da distância mais curta de v até o nó de destino. O nó selecionado é removido da lista aberta e adicionado à lista fechada. Para cada nó adjacente ao nó selecionado, o algoritmo calcula o custo total para chegar a esse nó a partir do nó de origem e decide se deve adicioná-lo à lista aberta ou ignorá-lo. O algoritmo continua iterando até que a lista aberta esteja vazia ou o nó de destino seja encontrado, construindo o caminho do nó de destino até o nó de origem seguindo os pais de cada nó. Se a lista aberta estiver vazia, não há caminho possível do nó de origem até o nó de destino.
+
+No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre produz o caminho mais curto para um destino. Apesar dessa limitação, o algoritmo A* continua sendo uma ferramenta poderosa para uma ampla gama de aplicações, equilibrando a necessidade de encontrar caminhos eficientes com o potencial de erros ocasionais.
 ## Pior caso
 
 ## Melhor caso
