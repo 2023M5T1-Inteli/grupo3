@@ -1,8 +1,6 @@
 package models.vertex;
 
 import models.edge.CoordinateEdge;
-import models.edge.IEdge;
-import org.neo4j.driver.util.Pair;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
