@@ -558,25 +558,36 @@ Utilizando a função `assertEquals` podemos verificar que a o método `computeC
 ## Teste de Usabilidade
 
 # Complexidade e Corretude do Algoritmo
-O algoritmo escolhido pelo grupo foi o A*(A-star). O objetivo desse algoritmo é encontrar o caminho mais curto entre um vértice de origem s e um vértice de destino t. Para fazer isso, ele usa uma função heurística h(v) que estima a distância mais curta entre entre um vértice v e o vértice de destino t. Esta função é chamada de função heurística admissível se ela nunca superestimar a distância real entre v e t.
+O algoritmo escolhido pelo grupo foi o A*(A-star). O objetivo desse algoritmo é encontrar o caminho mais curto entre um vértice de origem s e um vértice de destino t. Para fazer isso, ele usa uma função heurística h(v) que estima a distância mais curta entre um vértice v e o vértice de destino t. Esta função é chamada de função heurística admissível se ela nunca superestimar a distância real entre v e t.
 
 O A* utiliza duas listas, uma aberta e outra fechada, para explorar os nós de um grafo. Começando pelo nó de origem, em cada iteração o algoritmo seleciona o nó com o menor valor de f(v) = g(v) + h(v), onde g(v) é o custo total para chegar em v a partir do nó de origem e h(v) é uma estimativa da distância mais curta de v até o nó de destino. O nó selecionado é removido da lista aberta e adicionado à lista fechada. Para cada nó adjacente ao nó selecionado, o algoritmo calcula o custo total para chegar a esse nó a partir do nó de origem e decide se deve adicioná-lo à lista aberta ou ignorá-lo. O algoritmo continua iterando até que a lista aberta esteja vazia ou o nó de destino seja encontrado, construindo o caminho do nó de destino até o nó de origem seguindo os pais de cada nó. Se a lista aberta estiver vazia, não há caminho possível do nó de origem até o nó de destino.
 
 No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre produz o caminho mais curto para um destino. Apesar dessa limitação, o algoritmo A* continua sendo uma ferramenta poderosa para uma ampla gama de aplicações, equilibrando a necessidade de encontrar caminhos eficientes com o potencial de erros ocasionais.
 ## Pior caso
-A complexidade do algoritmo A* depende da qualidade da função heurística. No pior caso em geral, em que a heurística é inútil ou inexistente, o algoritmo pode ter complexidade O(b^d), onde b é a média de arestas a partir de cada nó (conhecida como fator de ramificação) e v é o número de nós no caminho resultante. Nesse caso, o algoritmo precisa   explorar todos os caminhos possíveis até encontrar a solução [6].
+No caso do algoritmo desenvolvido pelo grupo o pior caso tem complexidade O(v.log(v) + v^2.(v-1)), considerando o pior cenário em que todos os vértice se conectam entre si e usando uma Fila Prioritária (Priority Queue) como estrutura de dados para armazenar os vértices.
 
-No caso do algoritmo desenvolvido pelo grupo o pior caso tem complexidade O(V^2logV), em que V o número de vértices.
+Analisando cada passo do código temos, com 'v' sendo o número de arestas e 'e' o número de arestas:
 
-O algoritmo usa uma Fila Prioritária para armazenar os vértices, mantendo em ordem com base na soma do custo real do vértice inicial até o vértice atual e a estimativa heurística do custo do vértice atual até o vértice alvo. A Fila Prioritária tem um tamanho máximo de V, porque cada vértice é adicionado à fila no máximo uma vez.
+1. Inserindo o vértice inicial na Fila Prioritária: Não depende do tamanho do grafo, então é constante - O(1).
+2. Extraindo o vértice com maior prioridade da fila com poll():  Cada vértice é extraído no máximo uma vez, então a complexidade é O(v.log(v)) [6].
+3. Verificando se já encontramos o caminho mais curto para um vértice:  Para cada vértice do grafo, essa verificação é realizada no máximo uma vez para todos os vértices adjacentes. Esse número corresponde ao número de arestas principais. Como, no pior caso, cada aresta é adjacente a exatamente v - 1 vértices, o número de arestas é e = v(v-1). Para a verificação, usamos um conjunto, portanto é feito em tempo constante. No total, chegamos à complexidade O(e) = O(v(v-1)).
+4. Calculando o custo total desde o início: O cálculo é uma adição simples e tem complexidade O(1). O cálculo é feito no máximo uma vez por aresta porque seguimos cada aresta no máximo uma vez. A complexidade é, portanto, também para este bloco O(e) = O(v(v-1));
+5. Acessando HashMaps = O custo de acesso é constante, então a complexidade desta etapa também é O(v(v-1)).
+6. Calculando a heurística: Podemos calcular a função heurística em tempo constante. É aplicado no máximo uma vez por vértice. A complexidade é, portanto, O(v).
+7. Inserindo na fila com add(): Cada vértice é inserido no máximo uma vez. A complexidade é, portanto, O(v.log(v)).
+8. Atualizando os custos totais com remove() e add(): A função é chamada no máximo tantas vezes quanto calculamos o custo total desde o início, portanto, no máximo e vezes. Portanto, a complexidade desse bloco é O(e (O(v) + O(log v))) = O(v(v-1).v).
 
-![Fila Prioritária do algoritmo](img/Astar-priority-queue.png)
+Nós somamos todas as complexidades parciais:
 
-Cada iteração do loop examina o vértice com o menor custo estimado, retira-o da fila prioritária e processa suas arestas de saída. Isto leva tempo O(logV) porque a remoção do vértice com o menor custo estimado de uma fila prioritária leva tempo O(logV) [7]. O algoritmo processa cada aresta no máximo uma vez, portanto o processamento de todas leva tempo O(E) (o que faz sentido com a imagem abaixo já que o loop passa por todas as arestas do nó atual, o que vale para todos os nós).
+      O(1) + O(v.log(v)) + O(v(v-1)) + O(v(v-1)) + O(v(v-1)) + O(v) + O(v.log(v)) + O(v(v-1).v)
 
-![Processamento das arestas](img/edges-mapping.png)
+Podemos desprezar a constante de tempo  O(1); da mesma forma, O(v(v-1)) é desprezível em relação a O(v(v-1).v), e O(v) é desprezível em relação a O(v.log(v)) e O (v.log(v)). Podemos, portanto, encurtar o termo para O(v.log(v)) + (v.log(v)) + O(v(v-1).v) e, em seguida, resumi-lo para:
 
-No pior caso, cada vértice está conectado a cada outro vértice em ambas as direções, portanto o número de arestas é E = V(V-1). Neste caso, a complexidade do algoritmo é O((E+V)logV) = O((V(V-1) + V)logV) = O(V^2logV).
+    O(v.(log(v) + log(v)) + v(v-1).v)
+
+log v + log v é 2log v e as constantes podem ser omitidas. O termo, portanto, encurta para:
+
+    O(v.log(v) + v(v-1).v) = O(v.log(v) + v^2.(v-1))
 ## Melhor caso
 
 ## Observação
@@ -607,6 +618,4 @@ No pior caso, cada vértice está conectado a cada outro vértice em ambas as di
 
 [5] Infográfico: Tendências tecnológicas na indústria aeroespacial. Disponível em: <https://news.sap.com/brazil/2019/05/infografico-tendencias-tecnologicas-na-industria-aeroespacial/>. Acesso em: 6 fev. 2023.
 
-[6] COX, G. A* Pathfinding Algorithm. Disponível em: <https://www.baeldung.com/cs/a-star-algorithm#:~:text=The%20time%20complexity%20of%20A,nodes%20on%20the%20resulting%20path.>. Acesso em: 16 mar. 2023.
-
-[7] Class PriorityQueue. Disponível em: <https://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html>. Acesso em: 16 mar. 2023.
+[6] Class PriorityQueue. Disponível em: <https://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html>. Acesso em: 16 mar. 2023.
