@@ -48,7 +48,7 @@ class GraphService {
   }
 
   // This function creates a new route in a MongoDB database and returns the generated route ID
-  async createRoute() {
+  async createRoute(entryPoints, exitPoints, exclusionPoints, intermediatePoints) {
 
     try {
       // Connect to the MongoDB database
@@ -72,12 +72,14 @@ class GraphService {
       // Make a POST request to an external API to execute an algorithm for the new route
       request.post("http://localhost:8080/executeAlg", {
         json: {
-          lonInitial: -43.4082,
-          latInitial: -22.178,
-          lonFinal: -43.4056,
-          latFinal: -22.181300000000004,
+          lonInitial: entryPoints[0],
+          latInitial: entryPoints[1],
+          lonFinal: exitPoints[0],
+          latFinal: exitPoints[1],
+          exclusionPoints: exclusionPoints,
+          intermediatePoints: intermediatePoints,
           dt2file: null,
-          pathID: "ABC123A",
+          pathID: "ABC123A"
         },
       });
 
