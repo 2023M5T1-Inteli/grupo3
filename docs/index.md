@@ -560,7 +560,13 @@ Utilizando a função `assertEquals` podemos verificar que a o método `computeC
 # Complexidade e Corretude do Algoritmo
 ## Pior caso
 
-## Melhor caso
+## Melhor caso (Ω)
+
+A notação para o melhor caso no algoritmo A* é $ O(b^d)$, onde $b$ representa o fator de ramificação médio do grafo de busca e $d$ é a profundidade do nó de destino em relação ao nó de origem. O melhor caso ocorre quando o nó de destino é encontrado rapidamente na primeira expansão de nós, ou seja, quando o nó de destino é diretamente adjacente ao nó de origem, e o caminho mais curto é encontrado sem a necessidade de explorar outros nós. Nesse caso, o custo computacional do algoritmo $A*$ é mínimo, levando apenas $O(1)$ tempo para encontrar o caminho mais curto.
+
+Seja um grafo G(V,A) com 6 vértices e 12 arestas.
+
+Em suma, no melhor caso, o algoritmo $A*$ expande apenas os nós que estão na direção do destino, evitando a expansão desnecessária de nós. Com isso, o algoritmo será capaz de encontrar o caminho mais curto da origem ao destino com eficiência, tendo uma complexidade de tempo proporcional ao número mínimo de nós necessários para encontrar o caminho mais curto. 
 
 ## Observação
 
