@@ -118,7 +118,7 @@ public class AStarController {
      *     “lonFinal”: Double,
      *     “latFinal”: Double,
      *     “pathID”: String,
-     *     “dt2file”: String (are not used yet)
+     *     “filePath”: String (are not used yet)
      *    }
      * @return ResponseEntity is an HTTP response
      * */
@@ -129,20 +129,25 @@ public class AStarController {
 
         // Parsing the decoded string to a JSON object and extracting the values
         JSONObject obj = new JSONObject(dataDecoded);
+        String filePath = obj.getString("filePath");
+
+//        Double lonStep = obj.getDouble("lonStep");
+//        Double latStep = obj.getDouble("latStep");
         Double lonInitial = obj.getDouble("lonInitial");
         Double latInitial = obj.getDouble("latInitial");
+
 
         Double lonFinal = obj.getDouble("lonFinal");
         Double latFinal = obj.getDouble("latFinal");
 
         String pathID = obj.getString("pathID");
 
-        Driver driver = GraphDatabase.driver("<DATABASE-URI>",
-                AuthTokens.basic("<DATABASE-USERNAME>","<DATABASE-PASSWORD>"));
+        Driver driver = GraphDatabase.driver("neo4j+s://41f6b34f.databases.neo4j.io",
+                AuthTokens.basic("neo4j","9Mk9OO68J2Xw1z-GaVY2XcPdIa-y4gwwcIqdKXdGYWE"));
 
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
-        double[][] coordinates = points.Coordinates("dted/rio", lonInitial, latInitial, 5, 4, 0.0013, 0.0011);
+        double[][] coordinates = points.Coordinates(filePath, lonInitial, latInitial, lonFinal, latFinal, 0.0014, 0.0011);
 
         // Initializes a new Graph()
         Graph newGraph = new Graph();
