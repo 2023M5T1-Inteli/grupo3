@@ -79,7 +79,7 @@ class GraphService {
           exclusionPoints: exclusionPoints,
           intermediatePoints: intermediatePoints,
           dt2file: null,
-          pathID: "ABC123A",
+          pathID: "ABC123A"
         },
       });
 
