@@ -2,14 +2,12 @@
 import driver from "../neo4j/neo4j.js";
 import client from "../mongodb/mongodb.js";
 import request from "request";
-import path from "path";
 
 class GraphService {
   // Function to connect to mongoDB database
   async connect() {
     try {
       await client.connect();
-      console.log("Conectado ao servidor do MongoDB");
     } catch (error) {
       console.log("Erro ao conectar ao servidor do MongoDB", error);
     }
@@ -35,15 +33,27 @@ class GraphService {
 
       // The node objects are further mapped to an array of their properties
       const nodeProperties = nodeFields.map((fields) => fields.properties);
+      
+      let finalPath = []
 
-      return nodeProperties;
+      for (let i = 0; i < nodeProperties.length; i++){
+        finalPath.push({
+          latitude: nodeProperties[i].latitude,
+          lastNode: nodeProperties[i].lastNode.low,
+          index: nodeProperties[i].index.low,
+          pathID: nodeProperties[i].pathID,
+          longitude: nodeProperties[i].longitude
+        });
+      }    
+
+      // console.log(nodeProperties);
+
+      await session.close();
+
+      return finalPath;
     }
     catch (error){
       return error;
-    } 
-    finally {
-      // Close session
-      await session.close();
     }
   }
 
