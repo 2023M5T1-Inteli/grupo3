@@ -3,14 +3,14 @@ import graphService from "../Services/graphServices.js";
 
 class GraphController {
 	async createRoute(req, res) {
-		// if (req.body.entryPoints == undefined ||
-		// 	req.body.exitPoints == undefined ||
-		// 	req.body.exclusionPoints == undefined || 
-		// 	req.body.intermediatePoints == undefined){
-		// 	res.send("Invalid inputs: entryPoints, exitPoints, exclusionPoints and intermediatePoints can't be null.");
-		// 	return;
-		// }
-
+		if (req.body.entryPoints == undefined ||
+			req.body.exitPoints == undefined ||
+			req.body.exclusionPoints == undefined || 
+			req.body.intermediatePoints == undefined){
+			res.send("Invalid inputs: entryPoints, exitPoints, exclusionPoints and intermediatePoints can't be null.");
+			return;
+		}
+		
 		// Send a response object with a routeID attribute
 		res.send({
 			routeID: await graphService.createRoute(req.body.entryPoints, req.body.exitPoints, req.body.exclusionPoints, req.body.intermediatePoints)

@@ -71,23 +71,15 @@ class GraphService {
 
       // Make a POST request to an external API to execute an algorithm for the new route
       request.post("http://10.128.66.27:8080/executeAlg", {
-        // json: {
-        //   lonInitial: entryPoints[0],
-        //   latInitial: entryPoints[1],
-        //   lonFinal: exitPoints[0],
-        //   latFinal: exitPoints[1],
-        //   exclusionPoints: exclusionPoints,
-        //   intermediatePoints: intermediatePoints,
-        //   dt2file: null,
-        //   pathID: "ABC123A"
-        // },
         json: {
-          lonInitial: -43.30440000000006,
-          latInitial: -22.21300000000003,
-          lonFinal: -43.29880000000007,
-          latFinal: -22.229500000000044,
-          filePath: "dted/rio",
-          pathID: code,
+          lonInitial: entryPoints[0],
+          latInitial: entryPoints[1],
+          lonFinal: exitPoints[0],
+          latFinal: exitPoints[1],
+          exclusionPoints: exclusionPoints,
+          intermediatePoints: intermediatePoints,
+          dt2file: null,
+          pathID: "ABC123A"
         }
       });
 

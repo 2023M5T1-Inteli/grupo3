@@ -8,7 +8,7 @@
   "type": "module",
   "license": "ISC",
   "scripts": {
-    "test": "node --test",
+    "test": "node --test | tap",
     "start": "node ./src/app.js"
   },
   "dependencies": {
