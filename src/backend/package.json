@@ -1,5 +1,8 @@
 {
   "name": "backend",
+  "jest": {
+    "verbose": true
+  },
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,6 +11,7 @@
   "type": "module",
   "license": "ISC",
   "scripts": {
+    "test": "jest",
     "dev": "node app.js"
   },
   "dependencies": {

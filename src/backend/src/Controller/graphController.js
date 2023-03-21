@@ -1,5 +1,5 @@
 // Import necessary modules
-import graphService from "../Services/graphServices.js";
+const graphService = require("../Services/graphServices.js");
 
 class GraphController {
 	async createRoute(req, res) {
@@ -7,7 +7,7 @@ class GraphController {
 			req.body.exitPoints == undefined ||
 			req.body.exclusionPoints == undefined || 
 			req.body.intermediatePoints == undefined){
-			res.send("Invalid inputs: exclusionPoints and intermediatePoints can't be null.");
+			res.send("Invalid inputs: entryPoints, exitPoints, exclusionPoints and intermediatePoints can't be null.");
 			return;
 		}
 
@@ -38,4 +38,4 @@ class GraphController {
 	}
 }
 
-export default new GraphController();
+exports.graphController = new GraphController();
