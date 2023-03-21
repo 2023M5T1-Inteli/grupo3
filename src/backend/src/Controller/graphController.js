@@ -24,7 +24,7 @@ class GraphController {
 		}
 
 		// Send a response object with the status of the route
-		res.send(await graphService.checkRouteStatus(req.body.routeID));
+		res.send(await graphService.checkRouteStatus(req.params.routeID));
 	}
 
 	async getFinalPath(req, res){
@@ -34,7 +34,7 @@ class GraphController {
 		}
 		
 		// Send a response object with the final path vertexes
-		res.send(await graphService.getFinalPath(req.body.pathID));
+		res.send(await graphService.getFinalPath(req.params.pathID));
 	}
 }
 
