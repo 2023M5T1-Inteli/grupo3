@@ -1,5 +1,5 @@
 // Import necessary modules
-const graphService = require("../Services/graphServices.js");
+import graphService from "../Services/graphServices.js";
 
 class GraphController {
 	async createRoute(req, res) {
@@ -38,4 +38,4 @@ class GraphController {
 	}
 }
 
-exports.graphController = new GraphController();
+export default new GraphController();

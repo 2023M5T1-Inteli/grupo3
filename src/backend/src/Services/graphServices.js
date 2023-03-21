@@ -1,7 +1,8 @@
 // Import necessary modules
-const driver = require("../neo4j/neo4j.js");
-const client = require("../mongodb/mongodb.js");
-const request = require("request");
+import driver from "../neo4j/neo4j.js";
+import client from "../mongodb/mongodb.js";
+import request from "request";
+import path from "path";
 
 class GraphService {
   // Function to connect to mongoDB database
@@ -149,4 +150,4 @@ class GraphService {
   }
 }
 
-exports.graphService = new GraphService();
+export default new GraphService();

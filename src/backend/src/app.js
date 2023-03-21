@@ -1,7 +1,7 @@
 // Import necessary modules
-const express = require("express");
-const graphRoutes = require("./Routes/graphRoutes.js");
-const cors = require("cors"); 
+import express from "express";
+import graphRoutes from "./Routes/graphRoutes.js";
+import cors from "cors"; 
 // Create an instance of the Express application
 const app = express();
 

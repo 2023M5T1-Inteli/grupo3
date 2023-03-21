@@ -1,11 +1,13 @@
-const { MongoClient } = require("mongodb");
-const dotenv = require("dotenv");
+import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
 
 dotenv.config({ path: './.env' });
 
 const uri = process.env.MONGODB_URL
 
-exports.client = new MongoClient(uri, {
+const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+export default client;

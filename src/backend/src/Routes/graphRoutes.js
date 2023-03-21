@@ -1,6 +1,6 @@
 // Import necessary modules
-const express = require("express");
-const graphController = require("../Controller/graphController.js");
+import express from "express";
+import graphController from "../Controller/graphController.js";
 
 const { createRoute, getFinalPath, checkRouteStatus } = graphController;
 
@@ -14,4 +14,4 @@ router.get("/checkRouteStatus", checkRouteStatus);
 // POST route for "/"
 router.post("/", createRoute);
 
-exports.router = router;
+export default router;

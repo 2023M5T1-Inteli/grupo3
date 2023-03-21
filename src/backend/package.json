@@ -1,8 +1,5 @@
 {
   "name": "backend",
-  "jest": {
-    "verbose": true
-  },
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,8 +8,8 @@
   "type": "module",
   "license": "ISC",
   "scripts": {
-    "test": "jest",
-    "dev": "node app.js"
+    "test": "node --test",
+    "start": "node ./src/app.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
