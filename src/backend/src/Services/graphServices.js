@@ -2,6 +2,7 @@
 import driver from "../neo4j/neo4j.js";
 import client from "../mongodb/mongodb.js";
 import request from "request";
+import path from "path";
 
 class GraphService {
   // Function to connect to mongoDB database
@@ -16,66 +17,86 @@ class GraphService {
 
   // This is an asynchronous function that takes in a path ID as an argument
   async getFinalPath(pathID) {
+    
     // A new session is opened using the driver object 
     const session = driver.session();
 
     try {
-        // Execute a query to finds all nodes that have a "pathID" property that matches the pathID argument.
-        const result = await session.run(
-            "MATCH (n:NewCoordinate {pathID: $path}) RETURN n",
-            {
-                path: pathID,
-            }
-        );
+      // Execute a query to finds all nodes that have a "pathID" property that matches the pathID argument.
+      const result = await session.run(
+          "MATCH (n:NewCoordinate {pathID: $path}) RETURN n",
+          {
+              path: pathID,
+          }
+      );
 
-        // The result object is mapped to an array of node objects
-        const nodeFields = result.records.map((queries) => queries._fields[0]);
+      // The result object is mapped to an array of node objects
+      const nodeFields = result.records.map((queries) => queries._fields[0]);
 
-        // The node objects are further mapped to an array of their properties
-        const nodeProperties = nodeFields.map((fields) => fields.properties);
+      // The node objects are further mapped to an array of their properties
+      const nodeProperties = nodeFields.map((fields) => fields.properties);
 
-        return nodeProperties;
-    } finally {
-        // Close session
-        await session.close();
+      return nodeProperties;
+    }
+    catch (error){
+      return error;
+    } 
+    finally {
+      // Close session
+      await session.close();
     }
   }
 
   // This function creates a new route in a MongoDB database and returns the generated route ID
-  async createRoute() {
+  async createRoute(entryPoints, exitPoints, exclusionPoints, intermediatePoints) {
 
-    // Connect to the MongoDB database
-    await this.connect();
+    try {
+      // Connect to the MongoDB database
+      await this.connect();
 
-    // Get a reference to the "routes" collection in the "Flightwise" database
-    const minhaColecao = client.db("Flightwise").collection("routes");
+      // Get a reference to the "routes" collection in the "Flightwise" database
+      const minhaColecao = client.db("Flightwise").collection("routes");
 
-    // Generate a random route ID
-    const code = await this.generateCode();
+      // Generate a random route ID
+      const code = await this.generateCode();
 
-    // Create a new document for the route with the generated ID and a status of "Creating"
-    const documento = { routeID: code, status: "Creating" };
+      // Create a new document for the route with the generated ID and a status of "Creating"
+      const documento = { routeID: code, status: "Creating" };
 
-    // Insert the new document into the "routes" collection
-    const resultado = await minhaColecao.insertOne(await documento);
+      // Insert the new document into the "routes" collection
+      const resultado = await minhaColecao.insertOne(await documento);
 
-    // Close the connection to the MongoDB database
-    await client.close();
+      // Close the connection to the MongoDB database
+      await client.close();
 
-    // Make a POST request to an external API to execute an algorithm for the new route
-    request.post("http://localhost:8080/executeAlg", {
-      json: {
-        lonInitial: -43.4082,
-        latInitial: -22.178,
-        lonFinal: -43.4056,
-        latFinal: -22.181300000000004,
-        dt2file: null,
-        pathID: "ABC123A",
-      },
-    });
+      // Make a POST request to an external API to execute an algorithm for the new route
+      request.post("http://10.128.66.27:8080/executeAlg", {
+        // json: {
+        //   lonInitial: entryPoints[0],
+        //   latInitial: entryPoints[1],
+        //   lonFinal: exitPoints[0],
+        //   latFinal: exitPoints[1],
+        //   exclusionPoints: exclusionPoints,
+        //   intermediatePoints: intermediatePoints,
+        //   dt2file: null,
+        //   pathID: "ABC123A"
+        // },
+        json: {
+          lonInitial: -43.30440000000006,
+          latInitial: -22.21300000000003,
+          lonFinal: -43.29880000000007,
+          latFinal: -22.229500000000044,
+          filePath: "dted/rio",
+          pathID: code,
+        }
+      });
 
-    // Return the generated route ID
-    return code;
+      // Return the generated route ID
+      return code;
+    }
+    catch (error){
+      return error;
+    }
   }
 
 
@@ -114,20 +135,26 @@ class GraphService {
 
   // This is an asynchronous function that takes in a route ID as an argument
   async checkRouteStatus(id) {
-    // This calls the `connect()` function, which presumably sets up a database connection.
-    await this.connect();
 
-    // A reference to a MongoDB collection.
-    const collection = await client.db("Flightwise").collection("routes");
+    try {
+      // This calls the `connect()` function, which presumably sets up a database connection.
+      await this.connect();
 
-    // A query is executed on the MongoDB collection using the `findOne()` method.
-    const result = await collection.findOne({ routeID: id });
+      // A reference to a MongoDB collection.
+      const collection = await client.db("Flightwise").collection("routes");
 
-    // The MongoDB client connection is closed
-    await client.close();
+      // A query is executed on the MongoDB collection using the `findOne()` method.
+      const result = await collection.findOne({ routeID: id });
 
-    // The result object is returned
-    return result;
+      // The MongoDB client connection is closed
+      await client.close();
+
+      // The result object is returned
+      return result;
+    }
+    catch (error){
+      return error;
+    }
   }
 }
 
