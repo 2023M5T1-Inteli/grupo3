@@ -4,14 +4,30 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import Map from "../components/Map";
 import CustomButton from "../components/CustomButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { LatLngExpression } from "leaflet";
 import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
+import { useState, useEffect } from "react";
 
 function AddExclusionZone() {
   const navigate = useNavigate();
-  const clickHandler = () => navigate("/Loading");
+  const clickHandler = () => {
+    setSearchParams({
+      point1: point1 || "",
+      point2: point2 || "",
+      point3: point3 || "",
+      point4: point4 || "",
+    }); 
+    navigate("/Loading");
+  }
+  const { state } = useLocation();
+  let [searchParams, setSearchParams] = useSearchParams();
+  let [point1, setPoint1] = useState(searchParams.get("point1"));
+  let [point2, setPoint2] = useState(searchParams.get("point2"));
+  let [point3, setPoint3] = useState(searchParams.get("point3"));
+  let [point4, setPoint4] = useState(searchParams.get("point4"));
+
   let points: LatLngExpression[] = [
     { lat: -23.871744, lng: -47.075852 },
     { lat: -23.869291, lng: -47.022447 },
@@ -86,16 +102,24 @@ function AddExclusionZone() {
               </Typography>
             </Grid2>
             <Grid2>
-              <TextField label="Ponto 1" variant="outlined" fullWidth={true} />
+              <TextField value={point1} label="Ponto 1" variant="outlined" fullWidth={true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setPoint1(e.target.value);
+              }} />
             </Grid2>
             <Grid2>
-              <TextField label="Ponto 2" variant="outlined" fullWidth={true} />
+              <TextField value={point2} label="Ponto 2" variant="outlined" fullWidth={true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setPoint2(e.target.value);
+              }} />
             </Grid2>
             <Grid2>
-              <TextField label="Ponto 3" variant="outlined" fullWidth={true} />
+              <TextField value={point3} label="Ponto 3" variant="outlined" fullWidth={true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setPoint3(e.target.value);
+                }}/>
             </Grid2>
             <Grid2>
-              <TextField label="Ponto 4" variant="outlined" fullWidth={true} />
+              <TextField value={point4} label="Ponto 4" variant="outlined" fullWidth={true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setPoint4(e.target.value);
+                }}/>
             </Grid2>
           </Grid2>
 

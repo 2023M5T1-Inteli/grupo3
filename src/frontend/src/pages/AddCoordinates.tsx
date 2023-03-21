@@ -26,7 +26,7 @@ function AddCoordinates() {
       destLat: destLat || "",
       destLon: destLon || "",
     });
-    navigate("/AddExclusionZone");
+    navigate("/AddExclusionZone", {state:{originLat, originLon, destLat, destLon}});
   };
 
   let points: LatLngExpression[] = [
