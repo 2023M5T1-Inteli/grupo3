@@ -20,8 +20,6 @@ test('Check route status function', async (t) => {
 
   const routeStatus = await graphServices.checkRouteStatus("NLW591C");
 
-  console.log(routeStatus);
-
   const testValidate = JSON.stringify(routeStatus) === JSON.stringify(expectedResponse);
 
   assert.strictEqual(testValidate, true);
