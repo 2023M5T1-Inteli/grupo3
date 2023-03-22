@@ -564,7 +564,7 @@ O A* utiliza duas listas, uma aberta e outra fechada, para explorar os nós de u
 
 No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre produz o caminho mais curto para um destino. Apesar dessa limitação, o algoritmo A* continua sendo uma ferramenta poderosa para uma ampla gama de aplicações, equilibrando a necessidade de encontrar caminhos eficientes com o potencial de erros ocasionais.
 ## Pior caso
-No caso do algoritmo desenvolvido pelo grupo o pior caso tem complexidade O(v.log(v) + v^2.(v-1)), considerando o pior cenário em que todos os vértice se conectam entre si e usando uma Fila Prioritária (Priority Queue) como estrutura de dados para armazenar os vértices.
+No caso do algoritmo desenvolvido pelo grupo o pior caso tem complexidade O(v.log(v) + v<sup>2</sup>.(v-1)) de tempo, considerando o pior cenário em que todos os vértice se conectam entre si e todos serão visitados antes de se chegar ao destino, usando uma Fila Prioritária (Priority Queue) como estrutura de dados para armazenar os vértices.
 
 Analisando cada passo do código temos, com 'v' sendo o número de arestas e 'e' o número de arestas:
 
@@ -585,9 +585,11 @@ Podemos desprezar a constante de tempo  O(1); da mesma forma, O(v(v-1)) é despr
 
     O(v.(log(v) + log(v)) + v(v-1).v)
 
-log v + log v é 2log v e as constantes podem ser omitidas. O termo, portanto, encurta para:
+log v + log v é 2.log v e as constantes podem ser omitidas. O termo, portanto, encurta para:
 
-    O(v.log(v) + v(v-1).v) = O(v.log(v) + v^2.(v-1))
+  O(v.log(v) + v(v-1).v) = O(v.log(v) + v<sup>2</sup>.(v-1))
+
+Em relação a memória, o pior caso tem complexidade O(v), pois poderemos armazenar na fila todos os vértices de uma única vez. Isso, ocupará espaço na memória.
 ## Melhor caso
 
 ## Observação
