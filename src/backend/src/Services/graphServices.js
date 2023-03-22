@@ -17,17 +17,16 @@ class GraphService {
 
   // This is an asynchronous function that takes in a path ID as an argument
   async getFinalPath(pathID) {
-    
-    // A new session is opened using the driver object 
+    // A new session is opened using the driver object
     const session = driver.session();
 
     try {
       // Execute a query to finds all nodes that have a "pathID" property that matches the pathID argument.
       const result = await session.run(
-          "MATCH (n:NewCoordinate {pathID: $path}) RETURN n",
-          {
-              path: pathID,
-          }
+        "MATCH (n:NewCoordinate {pathID: $path}) RETURN n",
+        {
+          path: pathID,
+        }
       );
 
       // The result object is mapped to an array of node objects
@@ -37,19 +36,21 @@ class GraphService {
       const nodeProperties = nodeFields.map((fields) => fields.properties);
 
       return nodeProperties;
-    }
-    catch (error){
+    } catch (error) {
       return error;
-    } 
-    finally {
+    } finally {
       // Close session
       await session.close();
     }
   }
 
   // This function creates a new route in a MongoDB database and returns the generated route ID
-  async createRoute(entryPoints, exitPoints, exclusionPoints, intermediatePoints) {
-
+  async createRoute(
+    entryPoints,
+    exitPoints,
+    exclusionPoints,
+    intermediatePoints
+  ) {
     try {
       // Connect to the MongoDB database
       await this.connect();
@@ -70,7 +71,7 @@ class GraphService {
       await client.close();
 
       // Make a POST request to an external API to execute an algorithm for the new route
-      request.post("http://10.128.66.27:8080/executeAlg", {
+      request.post("http://localhost:8080/executeAlg", {
         // json: {
         //   lonInitial: entryPoints[0],
         //   latInitial: entryPoints[1],
@@ -88,21 +89,18 @@ class GraphService {
           latFinal: -22.229500000000044,
           filePath: "dted/rio",
           pathID: code,
-        }
+        },
       });
 
       // Return the generated route ID
       return code;
-    }
-    catch (error){
+    } catch (error) {
       return error;
     }
   }
 
-
   // This function generates a random code consisting of 7 characters
   async generateCode() {
-
     // Define two strings of characters to choose from
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const numbers = "0123456789";
@@ -112,17 +110,16 @@ class GraphService {
 
     // Loop 7 times to create a 7-character code
     for (let i = 0; i < 7; i++) {
-
       // If we're on one of the first 3 characters, choose a random letter
       if (i < 3) {
         code += letters.charAt(Math.floor(Math.random() * letters.length));
-      } 
-      
+      }
+
       // If we're on one of the next 3 characters, choose a random number
       else if (i < 6) {
         code += numbers.charAt(Math.floor(Math.random() * numbers.length));
-      } 
-      
+      }
+
       // If we're on the last character, choose a random letter again
       else {
         code += letters.charAt(Math.floor(Math.random() * letters.length));
@@ -135,7 +132,6 @@ class GraphService {
 
   // This is an asynchronous function that takes in a route ID as an argument
   async checkRouteStatus(id) {
-
     try {
       // This calls the `connect()` function, which presumably sets up a database connection.
       await this.connect();
@@ -151,8 +147,7 @@ class GraphService {
 
       // The result object is returned
       return result;
-    }
-    catch (error){
+    } catch (error) {
       return error;
     }
   }

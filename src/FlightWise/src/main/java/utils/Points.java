@@ -24,7 +24,7 @@ public class Points {
     Optional<Integer> height = dbDTED.QueryLatLonElevation(longitude, latitude);
     double[] coordinates;
 
-    coordinates = new double[] { longitude, latitude, (double) height.get() };
+    coordinates = new double[]{longitude, latitude, (double) height.get()};
 
     return coordinates;
   }
@@ -44,10 +44,14 @@ public class Points {
     int row = (int) Math.ceil(Math.abs(latInitial - latFinal) / latStep);
     int col = (int) Math.ceil(Math.abs(lonInitial - lonFinal) / lonStep);
 
+
     double[][] coordData = new double[row * col][3];
 
     int count = 0;
     double lat = latInitial;
+
+    double lonStep1 = 0.0014;
+    double latStep1 = 0.0011;
 
     for (int i = 0; i < row; i++) {
       double lon = lonInitial;
@@ -56,18 +60,23 @@ public class Points {
         coordData[count] = getHeight(dbDTED, lon, lat);
         // traverse the longitude (column) per row
         lon += lonStep;
+
         count++;
       }
       // later we traverse the latitude (line)
       lat -= latStep;
+
     }
 
     return coordData;
   }
 
-  public double[][] Coordinates(String filePath, double lonInitial, double latInitial, double lonFinal, double latFinal, double lonStep, double latStep) {
+  public double[][] Coordinates(String filePath, double lonInitial, double latInitial, double lonFinal, double latFinal, double lonStep1, double latStep1) {
     // Here we open the DTED database located at the path "dted/rio"
+
+
     DtedDatabaseHandler dbRio = openDtedDB(filePath);
+
 
     // Here we define the initial coordinates, the number of rows and columns, and the step between the points
 //  int rows = 5, cols = 4;
@@ -75,67 +84,71 @@ public class Points {
 //  double latInitial = -22.1780;
 //  double lonStep = 0.0013;
 //  double latStep = 0.0011;
+//    lonStep1 = 0.0014;
+//    latStep1 = 0.0011;
 
-    double[][] coordData = getCoord(dbRio, lonInitial, latInitial, lonFinal, latFinal, lonStep, latStep);
+    double[][] coordData = getCoord(dbRio, lonInitial, latInitial, lonFinal, latFinal, lonStep1, latStep1);
+
+
 
     return coordData;
   }
 
 
+//public static void main(String[] args) {
+//  // filePath is the file path of the DTED database.
+//  String filePath = "dted/rio";
+//  DtedDatabaseHandler dbRio = openDtedDB(filePath);
+//
+//
+//  /*
+//   * Example for values in saopaulo filePath
+//   */
+//  // double lonInitial = -46.4081;
+//  // double latInitial = -23.5770;
+//  // double lonFinal = -46.4171;
+//  // double latFinal = -23.1862;
+//
+//
+//  /*
+//   * Example for values in rio filePath
+//   */
+//  double lonInitial = -43.3282;
+//  double latInitial = -22.18;
+//  double lonFinal = -43.2976;
+//  double latFinal = -22.13;
+//
+//
+//  double lonStep = 0.0014; // LonStep choosen about the value of 120m in Rio de Janeiro.
+//  double latStep = 0.0011;
+//
+//
+//  double[][] coordData = getCoord(dbRio, lonInitial, latInitial, lonFinal, latFinal, lonStep, latStep);
+//  ;
+//
+//
+//  /*
+//   * Transform the error "NullPointerException" in a message for user
+//   */
+//
+//  // try {
+//  // coordData = getCoord(dbRio, lonInitial, latInitial, lonFinal, latFinal,
+//  // lonStep, latStep);
+//  // } catch (NullPointerException e) {
+//  // System.err.println("Coordenada fora do mapa");
+//  // return;
+//  // }
+//
+//
+// // // Print the coordinates
+// //  for (int i = 0; i < coordData.length; i++) {
+// //    for (int j = 0; j < 3; j++) {
+// //      //[[lon, lat, height], [lon, lat, height], ...
+// //      System.out.println(coordData[i][j]);
+// //    }
+//
 
-//  public static void main(String[] args) {
-//    // filePath is the file path of the DTED database.
-//    String filePath = "dted/rio";
-//    DtedDatabaseHandler dbRio = openDtedDB(filePath);
-//
-//
-//    /*
-//     * Example for values in saopaulo filePath
-//     */
-//    // double lonInitial = -46.4081;
-//    // double latInitial = -23.5770;
-//    // double lonFinal = -46.4171;
-//    // double latFinal = -23.1862;
-//
-//
-//    /*
-//     * Example for values in rio filePath
-//     */
-//    double lonInitial = -43.3282;
-//    double latInitial = -22.18;
-//    double lonFinal = -43.2976;
-//    double latFinal = -22.13;
-//
-//
-//    double lonStep = 0.0014; // LonStep choosen about the value of 120m in Rio de Janeiro.
-//    double latStep = 0.0011;
-//
-//
-//    double[][] coordData = getCoord(dbRio, lonInitial, latInitial, lonFinal, latFinal, lonStep, latStep);
-//    ;
-//
-//
-//    /*
-//     * Transform the error "NullPointerException" in a message for user
-//     */
-//
-//    // try {
-//    // coordData = getCoord(dbRio, lonInitial, latInitial, lonFinal, latFinal,
-//    // lonStep, latStep);
-//    // } catch (NullPointerException e) {
-//    // System.err.println("Coordenada fora do mapa");
-//    // return;
-//    // }
-//
-//
-//    // Print the coordinates
-////    for (int i = 0; i < coordData.length; i++) {
-////      for (int j = 0; j < 3; j++) {
-////        //[[lon, lat, height], [lon, lat, height], ...
-////        System.out.println(coordData[i][j]);
-////      }
-//
-//
-//    }
   }
+
+
 

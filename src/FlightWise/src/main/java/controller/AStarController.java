@@ -114,14 +114,14 @@ public class AStarController {
     /**
      * You can test this route accessing: http://localhost:3000/executeAlg
      * @param data information provided at the moment that the API are called:
-     *    {
-     *     “lonInitial”: Double,
-     *     “latInitial”: Double,
-     *     “lonFinal”: Double,
-     *     “latFinal”: Double,
-     *     “pathID”: String,
-     *     “filePath”: String (are not used yet)
-     *    }
+    {
+    "lonInitial": -43.4082,
+    "latInitial":-22.1780,
+    "lonFinal":-43.4056,
+    "latFinal":-22.181300000000004,
+    "pathID": "ABC123A",
+    "filePath": "./dted/Rio"
+    }
      * @return ResponseEntity is an HTTP response
      * */
     @PostMapping("executeAlg")
@@ -131,10 +131,9 @@ public class AStarController {
 
         // Parsing the decoded string to a JSON object and extracting the values
         JSONObject obj = new JSONObject(dataDecoded);
+
         String filePath = obj.getString("filePath");
 
-//        Double lonStep = obj.getDouble("lonStep");
-//        Double latStep = obj.getDouble("latStep");
         Double lonInitial = obj.getDouble("lonInitial");
         Double latInitial = obj.getDouble("latInitial");
 
@@ -145,15 +144,17 @@ public class AStarController {
         String pathID = obj.getString("pathID");
 
         String neo4jURI = dotenv.get("NEO4J_URI");
-        String neo4jUsername = dotenv.get("NEO4J_Username");
-        String neo4jPassword = dotenv.get("NEO4J_PASSOWORD");
+        String neo4jUsername = dotenv.get("NEO4J_USERNAME");
+        String neo4jPassword = dotenv.get("NEO4J_PASSWORD");
 
         Driver driver = GraphDatabase.driver(neo4jURI,
                 AuthTokens.basic(neo4jUsername,neo4jPassword));
-        
+
+//        Driver driver = GraphDatabase.driver("neo4j+s://41f6b34f.databases.neo4j.io",
+//                AuthTokens.basic("neo4j","9Mk9OO68J2Xw1z-GaVY2XcPdIa-y4gwwcIqdKXdGYWE"));
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
-        double[][] coordinates = points.Coordinates(filePath, lonInitial, latInitial, lonFinal, latFinal, 0.0014, 0.0011);
+        double[][] coordinates = points.Coordinates(filePath, lonInitial, latInitial,lonFinal, latFinal, 0.0011, 0.0014);
 
         // Initializes a new Graph()
         Graph newGraph = new Graph();
@@ -171,13 +172,13 @@ public class AStarController {
 
         // Taking the index of the target position
         GetIndexMethodClass getIndex = new GetIndexMethodClass(newGraph, lonFinal, latInitial);
-        int targetIndex = getIndex.getVertexIndex();
+        //int targetIndex = getIndex.getVertexIndex();
 
         // Calculates the optimal path between two nodes(vertex)
-        newGraph.ASearch(0, targetIndex);
+        newGraph.ASearch(0, coordinates.length - 1);
 
         // Returns the generated optimal path as an ArrayList;
-        ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(targetIndex));
+        ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(coordinates.length - 1));
 
         // Send the local Graph structure to neo4J
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
