@@ -562,7 +562,17 @@ Utilizando a função `assertEquals` podemos verificar que a o método `computeC
 
 ## Melhor caso
 
-## Observação
+## Teste prático
+
+Para analisar empiricamente o tempo de execução do algoritmo com um número diverso e crescente de nós e duas estruturas de dados (Priority Queue e TreeSet), utilizamos um comando de contagem de nanosegundos ao iniciar e finalizar a execução. Foram testadas uma quantidade de nós que varia de 5.000 a 40.000, acrescentando 5.000 nós a cada teste.
+
+O tempo foi calculado partir da média de 11 execuções do algoritmo, e a primeira delas foi excluida por representar um valor muito acima das outras amostras, o que poderia distorcer o valor do tempo. Esse aumento na execução inicial ocorre devido ao tempo de compilação e importação de todas as classes necessárias. 
+
+![Gráfico de comparação](img/graph_exec.PNG)
+
+Ao verificar o gráfico, podemos perceber que o tempo médio de execução tende a crescer com o aumento no número de coordenadas. No entanto, existem casos especiais que fazem com que o algoritmo seja executado em um caso ótimo para aquela ordem de magnitude de coordenadas. 
+
+A partir da análise, podemos concluir que o tempo médio de execução da Priority Queue foi melhor que a do Treeset. A remoção do menor elemento daquele é O(1), um tempo constante, enquanto neste, obter o menor elemento tem um custo de O(log n). Isso pode ser um fator que justifica o comportamento do gráfico acima.
 
 ## Corretude do Algoritmo
 ### Invariante do laço
