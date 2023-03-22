@@ -22,7 +22,8 @@ class GraphService {
     try {
       // Execute a query to finds all nodes that have a "pathID" property that matches the pathID argument.
       const result = await session.run(
-          "MATCH (n:NewCoordinate {pathID: $path}) RETURN n",
+          // "MATCH (n:NewCoordinate {pathID: $path}) RETURN n",
+          "MATCH (n:NewCoodinate) RETURN n",
           {
               path: pathID,
           }
