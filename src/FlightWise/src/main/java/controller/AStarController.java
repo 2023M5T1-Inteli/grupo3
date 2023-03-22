@@ -1,11 +1,10 @@
 package controller;
 
+import controller.model.RouteItem;
 import io.github.cdimascio.dotenv.Dotenv;
 import models.Graph.Graph;
-import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
 import mongodb.MongoDatabaseHandler;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.neo4j.driver.*;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 import utils.Points;
 import utils.getIndex.GetIndexMethodClass;
 
@@ -25,20 +23,28 @@ import java.util.ArrayList;
 import org.neo4j.driver.Session;
 import utils.neo4j.Neo4JDatabaseHandler;
 
+import controller.repository.ItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
 
 /**
  * Currently this class is being responsible for acting as our server and
  * executing the route for the A* algorithm.
  */
 @SpringBootApplication
-@RestController
-public class AStarController {
-    // Now the main method is only providing the server in the localhost 3000
-    Dotenv dotenv = Dotenv.load();
+@EnableMongoRepositories
+public class AStarController implements CommandLineRunner{
+
+
+    @Autowired
+    ItemRepository routeItemRepo;
+
     public static void main(String[] args) {
         SpringApplication.run(AStarController.class, args);
     }
-
+    Dotenv dotenv = Dotenv.load();
     /**
      * You can test this route accessing: http://localhost:3000/executeAlg
      * @param data information provided at the moment that the API are called:
@@ -122,10 +128,19 @@ public class AStarController {
         // Ends the Neo4J session
         driver.close();
 
-        MongoDatabaseHandler mongodb = new MongoDatabaseHandler(pathID);
-        mongodb.run();
+        getRouteItemByRouteID(pathID, "DONE");
 
         // Returns this message after complete
         return ResponseEntity.ok("Rota criada com sucesso!");
+    }
+    public void getRouteItemByRouteID(String routeID, String status) {
+        System.out.println("Getting item by routeID: " + routeID);
+        RouteItem item = routeItemRepo.findRouteItemByRouteID(routeID);
+        item.setStatus(status);
+        routeItemRepo.save(item);
+    }
+    @Override
+    public void run(String... args) throws Exception {
+
     }
 }

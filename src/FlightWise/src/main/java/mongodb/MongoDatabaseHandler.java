@@ -1,8 +1,7 @@
 package mongodb;
 
-import mongodb.model.RouteItem;
-import mongodb.repository.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import controller.model.RouteItem;
+import controller.repository.ItemRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
