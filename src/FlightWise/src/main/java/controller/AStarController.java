@@ -4,6 +4,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import models.Graph.Graph;
 import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
+import mongodb.MongoDatabaseHandler;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.neo4j.driver.*;
@@ -120,6 +121,9 @@ public class AStarController {
 
         // Ends the Neo4J session
         driver.close();
+
+        MongoDatabaseHandler mongodb = new MongoDatabaseHandler(pathID);
+        mongodb.run();
 
         // Returns this message after complete
         return ResponseEntity.ok("Rota criada com sucesso!");

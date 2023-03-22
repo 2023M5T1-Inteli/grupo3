@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories
 public class MdbSpringBootApplication implements CommandLineRunner{
 
+
     @Autowired
     ItemRepository routeItemRepo;
 
