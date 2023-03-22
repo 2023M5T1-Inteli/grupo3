@@ -20,10 +20,8 @@ import java.awt.geom.Point2D;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.neo4j.driver.Session;
-import org.neo4j.driver.Transaction;
 import utils.neo4j.Neo4JDatabaseHandler;
 
 
@@ -89,7 +87,7 @@ public class AStarController {
 
         // Adds all positions to the new Graph
         for (int i = 0; i < coordinates.length; i++){
-            Point2D currentPoint = new Point2D.Double(coordinates[i][0],  coordinates[i][1]);
+            Point2D currentPoint = new Point2D.Double(coordinates[i][1],  coordinates[i][0]);
             CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
             newGraph.addVertex(newCoordinateVertex);
         }
