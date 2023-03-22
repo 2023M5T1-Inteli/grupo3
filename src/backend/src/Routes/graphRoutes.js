@@ -8,7 +8,7 @@ const { createRoute, getFinalPath, checkRouteStatus } = graphController;
 const router = express.Router();
 
 // GET route for "/"
-router.get("/", getFinalPath);
+router.get("/:pathID", getFinalPath);
 // GET route for "/checkRouteStatus"
 router.get("/checkRouteStatus", checkRouteStatus);
 // POST route for "/"

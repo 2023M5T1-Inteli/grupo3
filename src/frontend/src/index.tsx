@@ -6,13 +6,29 @@ import reportWebVitals from './reportWebVitals';
 //import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import App from './App';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { BrowserRouter } from 'react-router-dom';
+import MainRoute from './Routes';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+    <div className="App">
+    <ThemeProvider theme={darkTheme}>
+      <MainRoute/>
+      </ThemeProvider>
+    </div>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

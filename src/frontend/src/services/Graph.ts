@@ -1,7 +1,7 @@
 import axios from "axios";
+import { BASE_URL } from "../Constants";
 import { IGraphLocation } from "../types";
 
-const BASE_URL = "http://localhost:4000";
 
 export const getPath = async (pathID: string) => {
   const response = await axios.get(`${BASE_URL}/graph/${pathID}`);

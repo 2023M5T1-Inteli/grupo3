@@ -1,20 +1,19 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import './components/Filter.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import "./components/Filter.css";
 import { Container, Box } from "@mui/system";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import Grid from '@mui/material/Grid';
-import { LatLngExpression } from 'leaflet';
-import { IGraphLocation } from './types';
-import { getPath } from './services/Graph';
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import Grid from "@mui/material/Grid";
+import { LatLngExpression } from "leaflet";
+import { IGraphLocation } from "./types";
+import { getPath } from "./services/Graph";
 import Header from "./components/Header";
 import PathInputBox from "./components/PathInputBox";
-import Filter from './components/Filter';
-import Map from './components/Map';
-
+import Filter from "./components/Filter";
+import Map from "./components/Map";
 
 function pathToPoints(path: IGraphLocation[]): LatLngExpression[] {
-  return path.map(p => ({ lat: p.latitude, lng: p.longitude }));
+  return path.map((p) => ({ lat: p.latitude, lng: p.longitude }));
 }
 
 function App() {
@@ -34,10 +33,10 @@ function App() {
     setPoints(pathToPoints(path));
   }, [path]);
 
-  const toggleFilter = () => setShowFilter(prev => !prev);
+  const toggleFilter = () => setShowFilter((prev) => !prev);
 
   return (
-    <div className="App">
+    <>
       <Container maxWidth={false}>
         <Header />
         <PathInputBox />
@@ -54,7 +53,7 @@ function App() {
         </Box>
         <svg className="graph" width="1250" height="500"></svg>
       </Grid>
-    </div>
+    </>
   );
 }
 
