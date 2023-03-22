@@ -6,6 +6,8 @@ import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
 
 import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class AStar {
@@ -30,9 +32,6 @@ public class AStar {
     }
 
     public ArrayList<CoordinateVertex> ASearch(int indexInitial, int indexTarget, ArrayList<CoordinateVertex> vertices) {
-
-        // Initial count of time
-        double initialTime = System.nanoTime();
 
         Haversine scorer = new Haversine();
 
@@ -78,6 +77,7 @@ public class AStar {
                 double cost = ce.distance;
                 double childTotalCost = currentVertex.totalCost + cost;
                 double absoluteCost = childTotalCost + child.minimalCost;
+                System.out.println(child.minimalCost);
 
                 // If the explored already passed by the child, and the absoluteCost is more than child absoluteCost, keep throw the loop
                 if (explored.contains(child) && (absoluteCost >= child.absoluteCost)) {
@@ -97,51 +97,75 @@ public class AStar {
                 }
             }
         }
-        // Final count of time
-        double finalTime = System.nanoTime();
-
-        // Calculing the total spend of time in algorithm
-        double elapsedTime = (finalTime - initialTime)/1000000;
-
-        System.out.println("Tempo decorrido: " + elapsedTime);
-
 
         ArrayList <CoordinateVertex> bestPath = findPath(targetVertex);
 
         return bestPath;
 
     }
+    
+    // This method is only to test the running time of the algorithm.
+    public static void main(String[] args) throws FileNotFoundException {
+        // number of vertices in the graph (can be changed to test different performances)
+        int testLength = 1000;
+        double totalTime = 0.0;
+        // The algorithm is executed 11 times and an average time is calculated
+        for (int t = 0; t < 11; t++) {
+            double[] latitudes = new double[testLength]; // array to store latitudes
+            double[] longitudes = new double[testLength]; // array to store longitudes
+            int x = 0; // counter for arrays
+            
+            // reading the csv file with coordinates and adding the values to respective arrays.
+            // pathname must be changed according to local path
+            Scanner sc = new Scanner(new File("C:\\Users\\Vitor\\Documents\\Modulo5\\grupo3\\src\\FlightWise\\src\\main\\java\\models\\Algorithms\\coordinates.csv"));
+            sc.nextLine(); // skip header line
+            while (sc.hasNextLine() && x < testLength) {
+                String line = sc.nextLine();
+                String[] fields = line.split(",");
+                double latitude = Double.parseDouble(fields[0]);
+                double longitude = Double.parseDouble(fields[1]);
+                latitudes[x] = latitude;
+                longitudes[x] = longitude;
+                x++;
+            }
+            sc.close();
 
-    public static void main(String[] args) {
-        Graph newGraph = new Graph();
+            // creating a new graph
+            Graph newGraph = new Graph();
 
-        double[][] coordinates = {{50, 30, 100},
-                {49.995, 30, 100},
-                {49.99, 30, 100},
-                {49.985, 30, 100},
-                {49.98, 30, 100}};
+            double[][] coordinates = new double[testLength][3];
+            
+            // adding information(longitude, latitude, height) of each point into the coordinates array.
+            for (int c = 0; c < testLength; c++) {
+                coordinates[c] = new double[] {longitudes[c], latitudes[c], 100.0};
+            }
 
+            // Adds all positions to the new Graph
+            for (int i = 0; i < coordinates.length; i++) {
+                Point2D currentPoint = new Point2D.Double(coordinates[i][0], coordinates[i][1]);
+                CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
+                newGraph.addVertex(newCoordinateVertex);
 
-        // Adds all positions to the new Graph
-        for (int i = 0; i < coordinates.length; i++) {
-            Point2D currentPoint = new Point2D.Double(coordinates[i][0], coordinates[i][1]);
-            CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
-            newGraph.addVertex(newCoordinateVertex);
+            }
 
+            newGraph.addVertexEdgesByDistance(0.200);
+            ArrayList<CoordinateVertex> vertices = newGraph.getVertexes();
+            
+            
+            double initialTime = System.nanoTime();
+            // call the algorithm
+            AStar algorithm = new AStar();
+            ArrayList <CoordinateVertex> path = algorithm.ASearch(0, vertices.size()-1, vertices);
+            // Final count of time
+            double finalTime = System.nanoTime();
+
+            // Calculing the total spend of time in algorithm
+            double elapsedTime = (finalTime - initialTime)/1000000.0;
+            if (t > 0) {
+                totalTime += elapsedTime;
+            }
+            System.out.println(totalTime);
         }
-
-        newGraph.addVertexEdgesByDistance(0.700);
-
-        AStar algorithm = new AStar();
-
-        ArrayList<CoordinateVertex> vertices = newGraph.getVertexes();
-
-        ArrayList <CoordinateVertex> path = algorithm.ASearch(0, vertices.size()-1, vertices);
-
-        System.out.println(path.size());
-
-        for (int i = 0; i < path.size(); i++) {
-            System.out.print(path.get(i).getIndex() + " -> ");
-        }
+        System.out.println("Tempo decorrido: " + (totalTime/10.0) + " ms");
     }
 }
