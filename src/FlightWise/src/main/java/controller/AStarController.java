@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
+import utils.neo4j.Neo4JDatabaseHandler;
 
 
 /**
@@ -38,78 +39,6 @@ public class AStarController {
     public static void main(String[] args) {
         SpringApplication.run(AStarController.class, args);
     }
-
-    // Inserts into the Neo4J database, all coordinate connections
-    public static void createCordinateEdgesAsync(ArrayList<CoordinateVertex> coordinates, Session session){
-        String cypherQuery = "MATCH (n:Coordinate {index: $ind1})\n" +
-                "MATCH (c:Coordinate {index: $ind2})\n" +
-                "CREATE (n)-[r:Connection {distance: $dist, heighRange: $heig}]->(c)";
-
-        for (int i = 0; i < coordinates.size(); i++) {
-            CoordinateVertex coordinateVertex = coordinates.get(i);
-            try (Transaction tx = session.beginTransaction()) {
-                for (int j = 0; j < coordinateVertex.getEdges().size(); j++){
-                    CoordinateEdge coordinateEdge = coordinateVertex.getEdges().get(j);
-                    tx.run(cypherQuery, Map.of("ind1", coordinateVertex.getIndex(), "ind2", coordinateEdge.targetVertex.getIndex(), "dist", coordinateEdge.distance, "heig", coordinateEdge.heightRange));
-                }
-                tx.commit();
-            }
-        }
-    }
-
-    // Inserts into the Neo4J database, the final optimal path as a new connection type
-    public static void createFinalPathEdges(ArrayList<CoordinateVertex> coordinates, Session session){
-        String cypherQuery = "MATCH (n:Coordinate {index: $ind1})\n" +
-                "MATCH (c:Coordinate {index: $ind2})\n" +
-                "CREATE (n)-[r:Route]->(c)";
-        try (Transaction tx = session.beginTransaction()) {
-            for (int i = 0; i < coordinates.size() - 1; i++) {
-                CoordinateVertex coordinateVertex = coordinates.get(i);
-                CoordinateVertex nextVertex = coordinates.get(i+1);
-                tx.run(cypherQuery, Map.of("ind1", coordinateVertex.getIndex(), "ind2", nextVertex.getIndex()));
-            }
-            tx.commit();
-        }
-    }
-
-    // Updates the Neo4J database, changing the final path vertexes type
-    public static void createFinalPathVertexes(ArrayList<CoordinateVertex> coordinates, Session session){
-        String cypherQuery = "MATCH (n:Coordinate {index: $ind})\n" +
-                "REMOVE n:Coordinate\n" +
-                "SET n:NewCoodinate";
-        try (Transaction tx = session.beginTransaction()) {
-            for (int i = 0; i < coordinates.size() - 1; i++) {
-                CoordinateVertex coordinateVertex = coordinates.get(i);
-                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex()));
-            }
-            tx.commit();
-        }
-    }
-
-    // Inserts into the Neo4J database all the coordinate vertexes
-
-    public static void createCoordinateNodesAsync(ArrayList<CoordinateVertex> coordinates, Session session, String pathID) {
-        String cypherQuery = "CREATE (c:Coordinate {index: $ind, latitude: $lat, longitude: $long, averageHeight: $avgHeight, pathID: $path})";
-
-        try (Transaction tx = session.beginTransaction()) {
-            for (int i = 0; i < coordinates.size(); i++) {
-                CoordinateVertex coordinateVertex = coordinates.get(i);
-                Point2D position = coordinateVertex.getPosition();
-
-                int lastNodeIndex = -1;
-
-                if (coordinateVertex.previousVertex != null){
-                    lastNodeIndex = coordinateVertex.previousVertex.getIndex();
-                }
-
-
-                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex(), "lat", position.getX(), "long", position.getY(), "avgHeight", coordinateVertex.averageHeight, "path", pathID));
-            }
-
-            tx.commit();
-        }
-    }
-
 
     /**
      * You can test this route accessing: http://localhost:3000/executeAlg
@@ -150,8 +79,6 @@ public class AStarController {
         Driver driver = GraphDatabase.driver(neo4jURI,
                 AuthTokens.basic(neo4jUsername,neo4jPassword));
 
-//        Driver driver = GraphDatabase.driver("neo4j+s://41f6b34f.databases.neo4j.io",
-//                AuthTokens.basic("neo4j","9Mk9OO68J2Xw1z-GaVY2XcPdIa-y4gwwcIqdKXdGYWE"));
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
         double[][] coordinates = points.Coordinates(filePath, lonInitial, latInitial,lonFinal, latFinal, 0.0011, 0.0014);
@@ -172,7 +99,6 @@ public class AStarController {
 
         // Taking the index of the target position
         GetIndexMethodClass getIndex = new GetIndexMethodClass(newGraph, lonFinal, latInitial);
-        //int targetIndex = getIndex.getVertexIndex();
 
         // Calculates the optimal path between two nodes(vertex)
         newGraph.ASearch(0, coordinates.length - 1);
@@ -180,15 +106,18 @@ public class AStarController {
         // Returns the generated optimal path as an ArrayList;
         ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(coordinates.length - 1));
 
+
+        Neo4JDatabaseHandler neo4JDatabaseHandler = new Neo4JDatabaseHandler();
+
         // Send the local Graph structure to neo4J
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
-            createCoordinateNodesAsync(newGraph.getVertexes(), session, pathID);
+            neo4JDatabaseHandler.createCoordinateNodesAsync(newGraph.getVertexes(), session, pathID);
 
-            createCordinateEdgesAsync(newGraph.getVertexes(), session);
+            neo4JDatabaseHandler.createCordinateEdgesAsync(newGraph.getVertexes(), session);
 
-            createFinalPathEdges(newList, session);
+            neo4JDatabaseHandler.createFinalPathEdges(newList, session);
 
-            createFinalPathVertexes(newList, session);
+            neo4JDatabaseHandler.createFinalPathVertexes(newList, session);
         }
 
         // Ends the Neo4J session
