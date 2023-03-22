@@ -2,41 +2,57 @@ import * as React from "react";
 import {
   MapContainer,
   TileLayer,
-  Circle,
   LayerGroup,
   LayersControl,
   Polyline,
+  Marker,
+  useMap,
+  Rectangle,
 } from "react-leaflet"; // Remove unused imports
 import { Box } from "@mui/system";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
-import { LatLngExpression } from "leaflet";
+import { LatLngBoundsExpression, LatLngExpression } from "leaflet";
+import L from "leaflet";
+
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
+
+let DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 interface IMapProps {
   points: LatLngExpression[];
+  bounds: LatLngBoundsExpression[];
 }
 
-export default function Map(props: IMapProps) {
-  const center: [number, number] = [49.99, 29.99]; // Define the center of the map using an array
-
-  let elements = [];
-  let edges = [];
+function ChildMapPreview(props: IMapProps) {
+  const map = useMap();
   const points = props.points;
+
+  React.useEffect(() => {
+    map.setView(points[0], 13);
+  }, [points]);
+
+  return null;
+}
+
+export default function MapPreview(props: IMapProps) {
+  let edges = [];
+  let rects = [];
+
+  const points = props.points;
+  const bounds = props.bounds;
+  console.log(bounds);
+
   for (let i = 0; i < points.length; i++) {
-    elements.push(
-      <LayerGroup>
-        {" "}
-        <Circle
-          center={points[i]}
-          radius={100}
-          pathOptions={{ fillColor: "blue" }}
-        />
-      </LayerGroup>
-    );
     if (i + 1 < points.length) {
       edges.push(
         <LayerGroup>
-          {" "}
           <Polyline
             positions={[points[i], points[i + 1]]}
             pathOptions={{ color: "red" }}
@@ -44,6 +60,14 @@ export default function Map(props: IMapProps) {
         </LayerGroup>
       );
     }
+  }
+
+  for (let i = 0; i < bounds.length; i++) {
+    rects.push(
+      <LayerGroup>
+        <Rectangle bounds={bounds[i]} color={"red"} />
+      </LayerGroup>
+    );
   }
 
   return (
@@ -66,14 +90,20 @@ export default function Map(props: IMapProps) {
           height: "100%",
         }}
       >
+        <ChildMapPreview points={points} bounds={props.bounds} />
         {/* Define the TileLayer using the World Imagery Service */}
         <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+
         <LayersControl>
           <LayersControl.Overlay checked name={"test"}>
-            {elements.map((element) => element)}
             {edges.map((element) => element)}
           </LayersControl.Overlay>
+          <LayersControl.Overlay checked name={"test2"}>
+            {rects.map((element) => element)}
+          </LayersControl.Overlay>
         </LayersControl>
+        <Marker position={points[0]} />
+        <Marker position={points[points.length - 1]} />
       </MapContainer>
     </Box>
   );

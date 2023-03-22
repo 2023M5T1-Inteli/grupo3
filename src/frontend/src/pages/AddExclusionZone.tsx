@@ -5,10 +5,18 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import Map from "../components/Map";
 import CustomButton from "../components/CustomButton";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
-import { LatLngExpression } from "leaflet";
+import { LatLngBoundsExpression, LatLngExpression, LatLngTuple } from "leaflet";
 import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
 import { useState, useEffect } from "react";
+import MapPreview from "../components/MapPreview";
+
+function pointXtoLatLngTuple(pointX: string): LatLngTuple {
+  let pointXArray = pointX.split(",");
+  let lat = Number(pointXArray[0]) || 0.0;
+  let lon = Number(pointXArray[1]) || 0.0;
+  return [lat, lon];
+}
 
 function AddExclusionZone() {
   const navigate = useNavigate();
@@ -16,25 +24,24 @@ function AddExclusionZone() {
     setSearchParams({
       point1: point1 || "",
       point2: point2 || "",
-      point3: point3 || "",
-      point4: point4 || "",
-    }); 
+    });
     navigate("/Loading");
-  }
+  };
   const { state } = useLocation();
   let [searchParams, setSearchParams] = useSearchParams();
-  let [point1, setPoint1] = useState(searchParams.get("point1"));
-  let [point2, setPoint2] = useState(searchParams.get("point2"));
-  let [point3, setPoint3] = useState(searchParams.get("point3"));
-  let [point4, setPoint4] = useState(searchParams.get("point4"));
+  let [point1, setPoint1] = useState(searchParams.get("point1") || "");
+  let [point2, setPoint2] = useState(searchParams.get("point2") || "");
+  let [bound, setBound] = useState<LatLngBoundsExpression>([[0.0,0.0],[0.0, 0.0]]);
+  useEffect(() => {
+    setBound([pointXtoLatLngTuple(point1), pointXtoLatLngTuple(point2)]);
+  }, [point1, point2]);
 
-  let points: LatLngExpression[] = [
-    { lat: -23.871744, lng: -47.075852 },
-    { lat: -23.869291, lng: -47.022447 },
-    { lat: -23.86796, lng: -46.989146 },
-    { lat: -23.870317, lng: -46.944851 },
-    { lat: -23.880317, lng: -46.924851 },
-    // {lat: 49.995, lng:  29.995},
+  const { originLat, originLon, destLat, destLon } = state;
+
+  let points: LatLngExpression[] = [];
+  points = [
+    { lat: originLat, lng: originLon },
+    { lat: destLat, lng: destLon },
   ];
   return (
     <motion.div>
@@ -102,24 +109,26 @@ function AddExclusionZone() {
               </Typography>
             </Grid2>
             <Grid2>
-              <TextField value={point1} label="Ponto 1" variant="outlined" fullWidth={true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setPoint1(e.target.value);
-              }} />
+              <TextField
+                value={point1}
+                label="Ponto Superior Esquerdo"
+                variant="outlined"
+                fullWidth={true}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setPoint1(e.target.value);
+                }}
+              />
             </Grid2>
             <Grid2>
-              <TextField value={point2} label="Ponto 2" variant="outlined" fullWidth={true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setPoint2(e.target.value);
-              }} />
-            </Grid2>
-            <Grid2>
-              <TextField value={point3} label="Ponto 3" variant="outlined" fullWidth={true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setPoint3(e.target.value);
-                }}/>
-            </Grid2>
-            <Grid2>
-              <TextField value={point4} label="Ponto 4" variant="outlined" fullWidth={true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setPoint4(e.target.value);
-                }}/>
+              <TextField
+                value={point2}
+                label="Ponto Inferior Direito"
+                variant="outlined"
+                fullWidth={true}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setPoint2(e.target.value);
+                }}
+              />
             </Grid2>
           </Grid2>
 
@@ -135,7 +144,7 @@ function AddExclusionZone() {
         <Grid2 xs={12} lg={9} bgcolor={"red"}>
           {/* <Box sx={{ width: 1250, height: 500 }}> */}
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
-            <Map points={points} />
+            <MapPreview points={points} bounds={[bound]} />
           </Box>
           {/* </Box> */}
         </Grid2>
