@@ -18,17 +18,17 @@ class GraphController {
 	}
 
 	async checkRouteStatus(req, res){
-		if (req.body.routeID == undefined){
+		if (req.params.pathID == undefined){
 			res.send("Invalid inputs: routeID can't be null.");
 			return;
 		}
 
 		// Send a response object with the status of the route
-		res.send(await graphService.checkRouteStatus(req.params.routeID));
+		res.send(await graphService.checkRouteStatus(req.params.pathID));
 	}
 
 	async getFinalPath(req, res){
-		if (req.body.pathID == undefined){
+		if (req.params.pathID == undefined){
 			res.send("Invalid inputs: pathID can't be null.");
 			return;
 		}
