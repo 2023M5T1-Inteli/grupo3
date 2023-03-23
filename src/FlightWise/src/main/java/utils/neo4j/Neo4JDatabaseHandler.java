@@ -32,8 +32,8 @@ public class Neo4JDatabaseHandler {
 
     // Inserts into the Neo4J database, the final optimal path as a new connection type
     public void createFinalPathEdges(ArrayList<CoordinateVertex> coordinates, Session session){
-        String cypherQuery = "MATCH (n:Coordinate {index: $ind1})\n" +
-                "MATCH (c:Coordinate {index: $ind2})\n" +
+        String cypherQuery = "MATCH (n:NewCoordinate {index: $ind1})\n" +
+                "MATCH (c:NewCoordinate {index: $ind2})\n" +
                 "CREATE (n)-[r:Route]->(c)";
         try (Transaction tx = session.beginTransaction()) {
             for (int i = 0; i < coordinates.size() - 1; i++) {
@@ -69,16 +69,42 @@ public class Neo4JDatabaseHandler {
     }
 
     // Updates the Neo4J database, changing the final path vertexes type
-    public void createFinalPathVertexes(ArrayList<CoordinateVertex> coordinates, Session session){
-        String cypherQuery = "MATCH (n:Coordinate {index: $ind})\n" +
-                "REMOVE n:Coordinate\n" +
-                "SET n:NewCoodinate";
+    public void createFinalPathVertexes(ArrayList<CoordinateVertex> coordinates, Session session, String pathID){
+        String cypherQuery = "CREATE (c:NewCoordinate {index: $ind, lastNode: $last, latitude: $lat, longitude: $long, averageHeight: $avgHeight, pathID: $path})";
+
         try (Transaction tx = session.beginTransaction()) {
-            for (int i = 0; i < coordinates.size() - 1; i++) {
+            for (int i = 0; i < coordinates.size(); i++) {
                 CoordinateVertex coordinateVertex = coordinates.get(i);
-                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex()));
+                Point2D position = coordinateVertex.getPosition();
+
+                int lastNodeIndex = -1;
+
+                if (coordinateVertex.previousVertex != null){
+                    lastNodeIndex = coordinateVertex.previousVertex.getIndex();
+                }
+
+
+                int previousVertexIndex = -1;
+                if (coordinateVertex.previousVertex != null) {
+                    previousVertexIndex = coordinateVertex.previousVertex.getIndex();
+                }
+                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex(), "last", previousVertexIndex, "lat", position.getX(), "long", position.getY(), "avgHeight", coordinateVertex.averageHeight, "path", pathID));
+
+
             }
+
             tx.commit();
         }
+//
+//        String cypherQuery = "MATCH (n:Coordinate {index: $ind})\n" +
+//                "REMOVE n:Coordinate\n" +
+//                "SET n:NewCoordinate {}";
+//        try (Transaction tx = session.beginTransaction()) {
+//            for (int i = 0; i < coordinates.size() - 1; i++) {
+//                CoordinateVertex coordinateVertex = coordinates.get(i);
+//                tx.run(cypherQuery, Map.of("ind", coordinateVertex.getIndex()));
+//            }
+//            tx.commit();
+//        }
     }
 }

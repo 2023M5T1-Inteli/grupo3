@@ -51,10 +51,10 @@ public class AStarController implements CommandLineRunner{
      * You can test this route accessing: http://localhost:3000/executeAlg
      * @param data information provided at the moment that the API are called:
     {
-    "lonInitial": -43.4082,
-    "latInitial":-22.1780,
-    "lonFinal":-43.4056,
-    "latFinal":-22.181300000000004,
+    "lonInitial": -43.7082,
+    "latInitial":-22.0780,
+    "lonFinal":-43.2056,
+    "latFinal":-22.381300000000004,
     "pathID": "ABC123A",
     "filePath": "./dted/Rio"
     }
@@ -113,18 +113,21 @@ public class AStarController implements CommandLineRunner{
         // Returns the generated optimal path as an ArrayList;
         ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(coordinates.length - 1));
 
+        System.out.println(newList.get(0).getIndex());
+        System.out.println(newList.get(1).previousVertex.getIndex());
+
 
         Neo4JDatabaseHandler neo4JDatabaseHandler = new Neo4JDatabaseHandler();
 
         // Send the local Graph structure to neo4J
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
-            neo4JDatabaseHandler.createCoordinateNodesAsync(newGraph.getVertexes(), session, pathID);
+//            neo4JDatabaseHandler.createCoordinateNodesAsync(newGraph.getVertexes(), session, pathID);
+//
+//            neo4JDatabaseHandler.createCordinateEdgesAsync(newGraph.getVertexes(), session);
 
-            neo4JDatabaseHandler.createCordinateEdgesAsync(newGraph.getVertexes(), session);
+            neo4JDatabaseHandler.createFinalPathVertexes(newList, session, pathID);
 
             neo4JDatabaseHandler.createFinalPathEdges(newList, session);
-
-            neo4JDatabaseHandler.createFinalPathVertexes(newList, session);
         }
 
         // Ends the Neo4J session
