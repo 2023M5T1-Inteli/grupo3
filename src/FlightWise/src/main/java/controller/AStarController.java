@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import utils.Points;
 import utils.getIndex.GetIndexMethodClass;
 
@@ -35,6 +36,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  */
 @SpringBootApplication
 @EnableMongoRepositories
+@RestController
 public class AStarController implements CommandLineRunner{
 
 
