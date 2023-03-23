@@ -574,7 +574,7 @@ O tempo foi calculado partir da média de 11 execuções do algoritmo, e a prime
 
 Ao verificar o gráfico, podemos perceber que o tempo médio de execução tende a crescer com o aumento no número de coordenadas. No entanto, existem casos especiais que fazem com que o algoritmo seja executado em um caso ótimo para aquela ordem de magnitude de coordenadas. 
 
-A partir da análise, podemos concluir que o tempo médio de execução da Priority Queue foi melhor que a do Treeset. A remoção do menor elemento daquele é O(1), um tempo constante, enquanto neste, obter o menor elemento tem um custo de O(log n). Isso pode ser um fator que justifica o comportamento do gráfico acima.
+A partir da análise, podemos concluir que o tempo médio de execução da Priority Queue foi melhor que a do TreeSet. A remoção do menor elemento daquele é O(1), um tempo constante, enquanto neste, obter o menor elemento tem um custo de O(log n). Isso pode ser um fator que justifica o comportamento do gráfico acima.
 
 # Distância entre Vértices
 
