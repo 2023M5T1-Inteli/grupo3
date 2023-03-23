@@ -2,14 +2,12 @@
 import driver from "../neo4j/neo4j.js";
 import client from "../mongodb/mongodb.js";
 import request from "request";
-import path from "path";
 
 class GraphService {
   // Function to connect to mongoDB database
   async connect() {
     try {
       await client.connect();
-      console.log("Conectado ao servidor do MongoDB");
     } catch (error) {
       console.log("Erro ao conectar ao servidor do MongoDB", error);
     }
@@ -34,13 +32,27 @@ class GraphService {
 
       // The node objects are further mapped to an array of their properties
       const nodeProperties = nodeFields.map((fields) => fields.properties);
+      
+      let finalPath = []
 
-      return nodeProperties;
-    } catch (error) {
-      return error;
-    } finally {
-      // Close session
+      for (let i = 0; i < nodeProperties.length; i++){
+        finalPath.push({
+          latitude: nodeProperties[i].latitude,
+          lastNode: nodeProperties[i].lastNode.low,
+          index: nodeProperties[i].index.low,
+          pathID: nodeProperties[i].pathID,
+          longitude: nodeProperties[i].longitude
+        });
+      }    
+
+      // console.log(nodeProperties);
+
       await session.close();
+
+      return finalPath;
+    }
+    catch (error){
+      return error;
     }
   }
 
@@ -72,24 +84,16 @@ class GraphService {
 
       // Make a POST request to an external API to execute an algorithm for the new route
       request.post("http://localhost:8080/executeAlg", {
-        // json: {
-        //   lonInitial: entryPoints[0],
-        //   latInitial: entryPoints[1],
-        //   lonFinal: exitPoints[0],
-        //   latFinal: exitPoints[1],
-        //   exclusionPoints: exclusionPoints,
-        //   intermediatePoints: intermediatePoints,
-        //   dt2file: null,
-        //   pathID: "ABC123A"
-        // },
         json: {
-          lonInitial: -43.30440000000006,
-          latInitial: -22.21300000000003,
-          lonFinal: -43.29880000000007,
-          latFinal: -22.229500000000044,
-          filePath: "dted/rio",
-          pathID: code,
-        },
+          lonInitial: entryPoints[0],
+          latInitial: entryPoints[1],
+          lonFinal: exitPoints[0],
+          latFinal: exitPoints[1],
+          exclusionPoints: exclusionPoints,
+          intermediatePoints: intermediatePoints,
+          dt2file: null,
+          pathID: "ABC123A"
+        }
       });
 
       // Return the generated route ID
@@ -146,8 +150,12 @@ class GraphService {
       await client.close();
 
       // The result object is returned
-      return result;
-    } catch (error) {
+      return {
+        routeID: result.routeID,
+        status: result.status
+      };
+    }
+    catch (error){
       return error;
     }
   }

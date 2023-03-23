@@ -311,20 +311,20 @@ Os interessados da AEL Sistemas (parceiro direto do projeto) são:
 Possíveis interessados são os clientes da AEL (como o governo) e as equipes destes clientes, que utilizarão efetivamente a solução do projeto.
 
 # Análise do Problema
-
+As Cinco Forças de Porter e o modelo de negócios foram feitos com base em informações do site oficial da empresa [1], do linkedin da empresa [2] e na apresentação institucional.
 ## Análise da área de atuação
 
 ### Principais Players
 
 Os principais players globais do setor de
-fabricação de componentes de aviação e aeroespaciais e de defesa são: <br>
+fabricação de componentes de aviação e aeroespaciais e de defesa são [3]: <br>
 1. Lockheed Martin - É a maior empresa de armamentos do mundo, atuando também no setor aeroespacial e de aviação. Na área de Defesa, uma de suas especialidades são os caças e aviões militares.
 2. BAE Systems - É a segunda maior empresa do mundo no setor de Defesa, além de atuar também em aviação, tecnologia aeroespacial e segurança. Seus principais projetos envolvem a produção de caças.
 3. Boeing - Apesar de ser mais conhecida pela aviação comercial, também atua no desenvolvimento de caças, aviões militares, sistemas eletrônicos, mísseis e tecnologia aeroespacial.
 4. Northrop Grumman - É a quarta maior empresa do setor. A empresa vem apostando na área de drones para missões de espionagem e ataque.
 5. Elbit Systems - É uma empresa internacional de alta tecnologia engajada nas áreas de defesa e segurança nacional. Desenvolvem e fornecem sistemas e produtos aerotransportados, terrestres e navais para defesa, segurança interna e aplicações comerciais. Além disso, fornecem uma gama de serviços de treinamento e suporte.
 
-Os principais players brasileiros, além da AEL são:
+Os principais players brasileiros, além da AEL são [4]:
 1. Helibras - Única fabricante de helicópteros do Brasil, a Helibras pertence ao grupo europeu EADS. A empresa produz tanto modelos civis quanto militares.
 2. Embraer - Desenvolve e opera sistemas de comunicação, computação, comando, controle e inteligência.
 3. Avibras - Dedica-se ao projeto e fabricação de mísseis e sistemas de defesa ar-terra e terra-terra, além de aviões não tripulados. Desenvolve tecnologia nas áreas de aeronáutica, espaço, eletrônica, veicular e defesa.
@@ -354,7 +354,7 @@ O setor de fabricação de componentes de aviação e aeroespaciais e de defesa 
 
 ### Tendências
 
-As principais tendências do setor aeroespacial e de defesa são:
+As principais tendências do setor aeroespacial e de defesa são [5]:
 - Reduzir custos de voo e emissões por meio de motores elétricos e híbridos. O cuidado com o meio ambiente tornou-se a principal questão para as empresas com um propósito, isso significa produzir motores que consumam menos combustíveis.
 - Sistemas de voo autônomos. De drones a veículos, sistemas de aviação que exigem alto grau de automação.
 - Ciclos de manutenção baseado em dados simulados para evitar problemas de funcionamento minimizando os custos de reparo associados.
@@ -558,8 +558,38 @@ Utilizando a função `assertEquals` podemos verificar que a o método `computeC
 ## Teste de Usabilidade
 
 # Complexidade e Corretude do Algoritmo
-## Pior caso
+O algoritmo escolhido pelo grupo foi o A*(A-star). O objetivo desse algoritmo é encontrar o caminho mais curto entre um vértice de origem s e um vértice de destino t. Para fazer isso, ele usa uma função heurística h(v) que estima a distância mais curta entre um vértice v e o vértice de destino t. Esta função é chamada de função heurística admissível se ela nunca superestimar a distância real entre v e t.
 
+O A* utiliza duas listas, uma aberta e outra fechada, para explorar os nós de um grafo. Começando pelo nó de origem, em cada iteração o algoritmo seleciona o nó com o menor valor de f(v) = g(v) + h(v), onde g(v) é o custo total para chegar em v a partir do nó de origem e h(v) é uma estimativa da distância mais curta de v até o nó de destino. O nó selecionado é removido da lista aberta e adicionado à lista fechada. Para cada nó adjacente ao nó selecionado, o algoritmo calcula o custo total para chegar a esse nó a partir do nó de origem e decide se deve adicioná-lo à lista aberta ou ignorá-lo. O algoritmo continua iterando até que a lista aberta esteja vazia ou o nó de destino seja encontrado, construindo o caminho do nó de destino até o nó de origem seguindo os pais de cada nó. Se a lista aberta estiver vazia, não há caminho possível do nó de origem até o nó de destino.
+
+No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre produz o caminho mais curto para um destino. Apesar dessa limitação, o algoritmo A* continua sendo uma ferramenta poderosa para uma ampla gama de aplicações, equilibrando a necessidade de encontrar caminhos eficientes com o potencial de erros ocasionais.
+## Pior caso
+No caso do algoritmo desenvolvido pelo grupo o pior caso tem complexidade O(v.log(v) + v<sup>2</sup>.(v-1)) de tempo, considerando o pior cenário em que todos os vértice se conectam entre si e todos serão visitados antes de se chegar ao destino, usando uma Fila Prioritária (Priority Queue) como estrutura de dados para armazenar os vértices.
+
+Analisando cada passo do código temos, com 'v' sendo o número de arestas e 'e' o número de arestas:
+
+1. Inserindo o vértice inicial na Fila Prioritária: Não depende do tamanho do grafo, então é constante - O(1).
+2. Extraindo o vértice com maior prioridade da fila com poll():  Cada vértice é extraído no máximo uma vez, então a complexidade é O(v.log(v)) [6].
+3. Verificando se já encontramos o caminho mais curto para um vértice:  Para cada vértice do grafo, essa verificação é realizada no máximo uma vez para todos os vértices adjacentes. Esse número corresponde ao número de arestas principais. Como, no pior caso, cada aresta é adjacente a exatamente v - 1 vértices, o número de arestas é e = v(v-1). Para a verificação, usamos um conjunto, portanto é feito em tempo constante. No total, chegamos à complexidade O(e) = O(v(v-1)).
+4. Calculando o custo total desde o início: O cálculo é uma adição simples e tem complexidade O(1). O cálculo é feito no máximo uma vez por aresta porque seguimos cada aresta no máximo uma vez. A complexidade é, portanto, também para este bloco O(e) = O(v(v-1));
+5. Acessando HashMaps = O custo de acesso é constante, então a complexidade desta etapa também é O(v(v-1)).
+6. Calculando a heurística: Podemos calcular a função heurística em tempo constante. É aplicado no máximo uma vez por vértice. A complexidade é, portanto, O(v).
+7. Inserindo na fila com add(): Cada vértice é inserido no máximo uma vez. A complexidade é, portanto, O(v.log(v)).
+8. Atualizando os custos totais com remove() e add(): A função é chamada no máximo tantas vezes quanto calculamos o custo total desde o início, portanto, no máximo e vezes. Portanto, a complexidade desse bloco é O(e (O(v) + O(log v))) = O(v(v-1).v).
+
+Nós somamos todas as complexidades parciais:
+
+      O(1) + O(v.log(v)) + O(v(v-1)) + O(v(v-1)) + O(v(v-1)) + O(v) + O(v.log(v)) + O(v(v-1).v)
+
+Podemos desprezar a constante de tempo  O(1); da mesma forma, O(v(v-1)) é desprezível em relação a O(v(v-1).v), e O(v) é desprezível em relação a O(v.log(v)) e O (v.log(v)). Podemos, portanto, encurtar o termo para O(v.log(v)) + (v.log(v)) + O(v(v-1).v) e, em seguida, resumi-lo para:
+
+    O(v.(log(v) + log(v)) + v(v-1).v)
+
+log v + log v é 2.log v e as constantes podem ser omitidas. O termo, portanto, encurta para:
+
+  O(v.log(v) + v(v-1).v) = O(v.log(v) + v<sup>2</sup>.(v-1))
+
+Em relação a memória, o pior caso tem complexidade O(v), pois poderemos armazenar na fila todos os vértices de uma única vez. Isso, ocupará espaço na memória.
 ## Melhor caso
 
 ## Observação
@@ -580,3 +610,14 @@ Utilizando a função `assertEquals` podemos verificar que a o método `computeC
 
 
 # Referências
+[1] AEL Sistemas. Disponível em: <https://www.ael.com.br/>. Acesso em: 6 fev. 2023.
+
+[2] AEL Sistemas - Linkedin. Disponível em: <https://www.linkedin.com/company/ael-sistemas/about/>. Acesso em: 6 fev. 2023.
+
+[3] JULIBONI, M. As 10 maiores empresas de Defesa do mundo. Disponível em: <https://exame.com/negocios/as-10-maiores-empresas-de-defesa-do-mundo/>. Acesso em: 6 fev. 2023.
+
+[4] JULIBONI, M. 10 empresas brasileiras de defesa e armamento. Disponível em: <https://exame.com/negocios/10-fabricantes-brasileiros-de-armamento-e-defesa/>. Acesso em: 6 fev. 2023.
+
+[5] Infográfico: Tendências tecnológicas na indústria aeroespacial. Disponível em: <https://news.sap.com/brazil/2019/05/infografico-tendencias-tecnologicas-na-industria-aeroespacial/>. Acesso em: 6 fev. 2023.
+
+[6] Class PriorityQueue. Disponível em: <https://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html>. Acesso em: 16 mar. 2023.
