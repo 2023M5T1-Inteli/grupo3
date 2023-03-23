@@ -86,6 +86,7 @@ Planejador de trajetórias para voos em baixa altitude
   - [Observação](#observação)
   - [Corretude do Algoritmo](#corretude-do-algoritmo)
     - [Invariante do laço](#invariante-do-laço)
+    - [Demonstração de Correção](#demonstração-de-correção)
 - [Análise de Dados](#análise-de-dados)
 - [Manuais](#manuais)
   - [Manual de Implantação](#manual-de-implantação)
@@ -596,6 +597,52 @@ Em relação a memória, o pior caso tem complexidade O(v), pois poderemos armaz
 
 ## Corretude do Algoritmo
 ### Invariante do laço
+Inavariante do laço é uma propriedade matemática que deve ser mantida durante a execução de um laço ou loop.
+
+No caso do nosso algoritmo um possível invariante do laço Q seria 
+
+Q = f ≥ g, em que:
+
+f: soma do custo total percorrido até o vértice atual (representado pela variável "totalCost") e da estimativa de custo mínimo restante para chegar ao vértice de destino (representado pela variável "minimalCost"), representada pela variável absoluteCost. <br>
+g: custo atual de chegar ao vértice atual na fila de prioridade (totalCost).
+
+Essa desigualdade pode ser um invariante, pois como o custo absoluto é a soma de dois valores e um deles é o g, então f sempre será maior ou igual a g. Logicamente, o custo absoluto que considera tanto o custo total para chegar ao vértice quanto o custo minímo para chegar ao destino terá um valor maior que ambos e se manterá assim ao longo da execução do laço.
+
+### Demonstração de Correção
+Simplificação do código do algoritmo apenas com as variáveis necessárias para a demonstração: <br>
+h: custo mínimo restante para chegar ao vértice de destino (inalterado durante o laço)<br>
+A* (h ∈ Q, h ≥ 0)<br>
+1.g = 0<br>
+2. f = h<br>
+3. Enquanto !queue.isEmpty() && !found() faça<br>
+    4. g = g + c<br>
+    5. f = g + h<br>
+6. Fim do enquanto <br>
+7. Fim
+
+Parte do código completo que representa esses passos.
+![Partes do código importantes para a demonstração](img/loop%20invariant%20important%20parts.png)
+OBS: f não está inicializado antes do laço, mas seu valor pode ser considerado como g + h antes e durante a execução (no caso antes do laço apenas h pois g é 0).
+
+Vamos usar a técnica de Indução Matemática<br>
+Q = f ≥ g<br>
+1. Passo Básico: 
+quando f = h e g = 0, temos: <br>
+f ≥ g -> f ≥ 0 -> h ≥ 0, portanto é válido.
+
+2. Hipótese de Indução: Vamos supor válido para a iteração k, ou seja, suponhamos válido: f<sub>k</sub> ≥ g<sub>k</sub>
+
+3. O que queremos provar: Queremos provar que é válido para a iteração k+1, ou seja: f<sub>k+1</sub> ≥ g<sub>k+1</sub>
+
+g<sub>k+1</sub> = g<sub>k</sub> + c (Linha 4)<br>
+f<sub>k+1</sub> = g<sub>k+1</sub> + h = (g<sub>k</sub> + c) + h = g<sub>k</sub> + h + c = f<sub>k</sub> + c (Linha 5)<br>
+Utilizando a hipótese de indução:<br>
+Se fk ≥ gk, então fk + c ≥ gk + c<br>
+Logo, fk+1 ≥ gk+1. 
+
+Assim, a corretude do algoritmo está provada.
+
+
 
 # Análise de Dados
 
