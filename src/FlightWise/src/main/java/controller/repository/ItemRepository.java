@@ -1,8 +1,8 @@
-package mongodb.repository;
+package controller.repository;
 
 import java.util.List;
 
-import mongodb.model.RouteItem;
+import controller.model.RouteItem;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 

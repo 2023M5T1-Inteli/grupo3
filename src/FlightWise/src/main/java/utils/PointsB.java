@@ -29,11 +29,11 @@ public class PointsB {
     return coordinates;
   }
 
-  // method that will receive the coordinate for receive the points of the areas around the points
-  
+  // method that will receive the coordinate for receive the points of the areas
+  // around the points
+
   public static double[][] getCoord(DtedDatabaseHandler dbDTED, double lonInitial, double latInitial, double lonFinal,
       double latFinal, double lonStep, double latStep) {
-
 
     /*
      * Variable "row" and "col" are used to define the number of rows and columns of
@@ -70,7 +70,6 @@ public class PointsB {
     String filePath = "dted/rio";
     DtedDatabaseHandler dbRio = openDtedDB(filePath);
 
-
     /*
      * Example for values in saopaulo filePath
      */
@@ -78,7 +77,6 @@ public class PointsB {
     // double latInitial = -23.5770;
     // double lonFinal = -46.4171;
     // double latFinal = -23.1862;
-
 
     /*
      * Example for values in rio filePath
@@ -88,14 +86,11 @@ public class PointsB {
     double lonFinal = -43.2976;
     double latFinal = -22.13;
 
-
     double lonStep = 0.0014; // LonStep choosen about the value of 120m in Rio de Janeiro.
     double latStep = 0.0011;
 
-
     double[][] coordData = getCoord(dbRio, lonInitial, latInitial, lonFinal, latFinal, lonStep, latStep);
     ;
-
 
     /*
      * Transform the error "NullPointerException" in a message for user
@@ -109,11 +104,10 @@ public class PointsB {
     // return;
     // }
 
-
     // Print the coordinates
     for (int i = 0; i < coordData.length; i++) {
       for (int j = 0; j < 3; j++) {
-        //[[lon, lat, height], [lon, lat, height], ...
+        // [[lon, lat, height], [lon, lat, height], ...
         System.out.println(coordData[i][j]);
       }
     }
