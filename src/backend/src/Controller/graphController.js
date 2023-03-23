@@ -7,10 +7,10 @@ class GraphController {
 			req.body.exitPoints == undefined ||
 			req.body.exclusionPoints == undefined || 
 			req.body.intermediatePoints == undefined){
-			res.send("Invalid inputs: exclusionPoints and intermediatePoints can't be null.");
+			res.send("Invalid inputs: entryPoints, exitPoints, exclusionPoints and intermediatePoints can't be null.");
 			return;
 		}
-
+		
 		// Send a response object with a routeID attribute
 		res.send({
 			routeID: await graphService.createRoute(req.body.entryPoints, req.body.exitPoints, req.body.exclusionPoints, req.body.intermediatePoints)
@@ -18,17 +18,17 @@ class GraphController {
 	}
 
 	async checkRouteStatus(req, res){
-		if (req.body.routeID == undefined){
+		if (req.params.pathID == undefined){
 			res.send("Invalid inputs: routeID can't be null.");
 			return;
 		}
 
 		// Send a response object with the status of the route
-		res.send(await graphService.checkRouteStatus(req.params.routeID));
+		res.send(await graphService.checkRouteStatus(req.params.pathID));
 	}
 
 	async getFinalPath(req, res){
-		if (req.body.pathID == undefined){
+		if (req.params.pathID == undefined){
 			res.send("Invalid inputs: pathID can't be null.");
 			return;
 		}

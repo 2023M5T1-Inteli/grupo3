@@ -10,7 +10,7 @@ const router = express.Router();
 // GET route for "/"
 router.get("/:pathID", getFinalPath);
 // GET route for "/checkRouteStatus"
-router.get("/checkRouteStatus", checkRouteStatus);
+router.get("/checkRouteStatus/:pathID", checkRouteStatus);
 // POST route for "/"
 router.post("/", createRoute);
 
