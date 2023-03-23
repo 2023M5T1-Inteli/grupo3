@@ -31,7 +31,10 @@ function AddExclusionZone() {
   let [searchParams, setSearchParams] = useSearchParams();
   let [point1, setPoint1] = useState(searchParams.get("point1") || "");
   let [point2, setPoint2] = useState(searchParams.get("point2") || "");
-  let [bound, setBound] = useState<LatLngBoundsExpression>([[0.0,0.0],[0.0, 0.0]]);
+  let [bound, setBound] = useState<LatLngBoundsExpression>([
+    [0.0, 0.0],
+    [0.0, 0.0],
+  ]);
   useEffect(() => {
     setBound([pointXtoLatLngTuple(point1), pointXtoLatLngTuple(point2)]);
   }, [point1, point2]);
