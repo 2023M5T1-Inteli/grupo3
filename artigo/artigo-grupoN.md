@@ -97,19 +97,99 @@ No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre p
 
 # Análise da complexidade da solução proposta
 
-Neste artigo, cada grupo precisará fazer a análise de complexidade da solução proposta, utilizando as notações $O(.)$, $\Omega(.)$ e $\Theta(.)$.
+A complexidade de um algoritmo pode ser representada por algumas notações. DASGUPTA et. al. (2011) define tais notações da seguinte forma: " Sejam $f(n)$ e $g(n)$ duas funções de inteiros positivos em reais positivos. Dizemos que $f = O(g)$ (que significa que "$f$ não cresce mais rápido do que $g$") se existe uma constante $c > 0$ tal que $f(n) \leq c \cdot g(n)$.
 
-A seguir temos a citação de alguns trechos de DASGUPTA et. al. (2011) para mostrar como estas notações são em \LaTeX. 
+Ainda em outro trecho de DASGUPTA et. al. (2011), temos: "Assim como $O(.)$ é análogo a $\leq$, podemos definir análogos de $\geq$ e $=$ como se segue: $f = \Omega(g)$ significa $g = O(f)$".
 
-> Sejam $f(n)$ e $g(n)$ duas funções de inteiros positivos em reais positivos. Dizemos que $f = O(g)$ (que significa que "$f$ não cresce mais rápido do que $g$") se existe uma constante $c > 0$ tal que $f(n) \leq c \cdot g(n)$.
+## Pior caso
+No caso do algoritmo desenvolvido pelo grupo o pior caso tem complexidade O(v.log(v) + v<sup>2</sup>.(v-1)) de tempo, considerando o pior cenário em que todos os vértice se conectam entre si e todos serão visitados antes de se chegar ao destino, usando uma Fila Prioritária (Priority Queue) como estrutura de dados para armazenar os vértices.
 
-Ainda em outro trecho de DASGUPTA et. al. (2011), temos:
+Analisando cada passo do código temos, com 'v' sendo o número de arestas e 'e' o número de arestas:
 
-> Assim como $O(.)$ é análogo a $\leq$, podemos definir análogos de $\geq$ e $=$ como se segue:
+1. Inserindo o vértice inicial na Fila Prioritária: Não depende do tamanho do grafo, então é constante - O(1).
+2. Extraindo o vértice com maior prioridade da fila com poll():  Cada vértice é extraído no máximo uma vez, então a complexidade é O(v.log(v)) [6].
+3. Verificando se já encontramos o caminho mais curto para um vértice:  Para cada vértice do grafo, essa verificação é realizada no máximo uma vez para todos os vértices adjacentes. Esse número corresponde ao número de arestas principais. Como, no pior caso, cada aresta é adjacente a exatamente v - 1 vértices, o número de arestas é e = v(v-1). Para a verificação, usamos um conjunto, portanto é feito em tempo constante. No total, chegamos à complexidade O(e) = O(v(v-1)).
+4. Calculando o custo total desde o início: O cálculo é uma adição simples e tem complexidade O(1). O cálculo é feito no máximo uma vez por aresta porque seguimos cada aresta no máximo uma vez. A complexidade é, portanto, também para este bloco O(e) = O(v(v-1));
+5. Acessando HashMaps = O custo de acesso é constante, então a complexidade desta etapa também é O(v(v-1)).
+6. Calculando a heurística: Podemos calcular a função heurística em tempo constante. É aplicado no máximo uma vez por vértice. A complexidade é, portanto, O(v).
+7. Inserindo na fila com add(): Cada vértice é inserido no máximo uma vez. A complexidade é, portanto, O(v.log(v)).
+8. Atualizando os custos totais com remove() e add(): A função é chamada no máximo tantas vezes quanto calculamos o custo total desde o início, portanto, no máximo e vezes. Portanto, a complexidade desse bloco é O(e (O(v) + O(log v))) = O(v(v-1).v).
 
-> $f = \Omega(g)$ significa $g = O(f)$
+Nós somamos todas as complexidades parciais:
+
+      O(1) + O(v.log(v)) + O(v(v-1)) + O(v(v-1)) + O(v(v-1)) + O(v) + O(v.log(v)) + O(v(v-1).v)
+
+Podemos desprezar a constante de tempo  O(1); da mesma forma, O(v(v-1)) é desprezível em relação a O(v(v-1).v), e O(v) é desprezível em relação a O(v.log(v)) e O (v.log(v)). Podemos, portanto, encurtar o termo para O(v.log(v)) + (v.log(v)) + O(v(v-1).v) e, em seguida, resumi-lo para:
+
+    O(v.(log(v) + log(v)) + v(v-1).v)
+
+log v + log v é 2.log v e as constantes podem ser omitidas. O termo, portanto, encurta para:
+
+  O(v.log(v) + v(v-1).v) = O(v.log(v) + v<sup>2</sup>.(v-1))
+
+Em relação a memória, o pior caso tem complexidade O(v), pois poderemos armazenar na fila todos os vértices de uma única vez. Isso, ocupará espaço na memória.
+
+## Melhor Caso
+A notação para o melhor caso no algoritmo A* é O(b<sup>d</sup>), onde $b$ representa o fator de ramificação médio do grafo de busca e $d$ a profundidade do nó de destino em relação ao nó de origem. O melhor caso ocorre quando o nó de destino é encontrado rapidamente na primeira expansão de nós, ou seja, quando o nó de destino é diretamente adjacente ao nó de origem, e o caminho mais curto é encontrado sem a necessidade de explorar outros nós. Nesse caso, o custo computacional do algoritmo $A*$ é mínimo, levando apenas $O(1)$ unidades de tempo para encontrar o caminho mais curto.
+
+
+### Exemplo
+Seja um grafo G(V,A) com 6 vértices e 12 arestas:
+
+![Graph 1](../docs/img/graph_best_1.png)
+
+No caso do melhor cenário, o algoritmo funciona encontrando o caminho mais curto entre o vértice inicial e final, usando uma combinação de distância percorrida (custo real) e uma estimativa de distância até o objetivo final (heurística). No melhor cenário, a heurística é perfeitamente precisa, o que significa que a estimativa de distância é sempre exata. Isso permite que o algoritmo se mova rapidamente em direção ao objetivo final, reduzindo o número de verificações de caminho que precisam ser feitas.
+
+
+![Graph 2](../docs/img/graph_best_2.png)
+
+O algoritmo $A*$ propaga-se apenas nos nós que estão na direção do destino final, e isso evita a interação desnecessária com outros nós. Diante disso, o algoritmo será capaz de encontrar o caminho mais curto da origem ao destino com eficiência, tendo uma complexidade de tempo proporcional ao número mínimo de nós necessários para encontrar o caminho mais curto. 
+
+Assim, pode-se concluir que o algoritmo tem complexidade entre O(v.log(v) + v<sup>2</sup>.(v-1)) e $\Omega(1)$, ou seja, no caso médio (notação theta - $\Theta$) o algoritmo executará com uma complexidade maior do que O (limite superior) e menor do que $\Omega$ (limite inferior).
 
 # Análise da corretude da solução proposta
+Sendo Q um predicado, ou relação, entre os valores das variáveis do programa, e este for válido antes da execução de uma iteração do laço e após sua execução então a relação entre essas variáveis não é afetada pela ação do laço, embora os valores propriamente ditos possam ser modificados. Tal relação é chamada de um invariante do laço (GERSTING, 2016).
+
+No caso do nosso algoritmo um possível invariante do laço Q seria 
+
+Q = f ≥ g, em que:
+
+f: soma do custo total percorrido até o vértice atual e da estimativa de custo mínimo restante para chegar ao vértice de destino, representada pela variável absoluteCost. <br>
+g: custo atual de chegar ao vértice atual na fila de prioridade.
+
+Essa desigualdade pode ser um invariante, pois como o custo absoluto é a soma de dois valores e um deles é o g, então f sempre será maior ou igual a g. Logicamente, o custo absoluto que considera tanto o custo total para chegar ao vértice quanto o custo minímo para chegar ao destino terá um valor maior que ambos e se manterá assim ao longo da execução do laço.
+
+### Demonstração de Correção
+Simplificação do código do algoritmo apenas com as variáveis necessárias para a demonstração: <br>
+h: custo mínimo restante para chegar ao vértice de destino (inalterado durante o laço)<br>
+A* (h ∈ Q, h ≥ 0)<br>
+1.g = 0<br>
+2. f = h<br>
+3. Enquanto !queue.isEmpty() && !found() faça<br>
+    4. g = g + c<br>
+    5. f = g + h<br>
+6. Fim do enquanto <br>
+7. Fim
+
+OBS: f não está inicializado antes do laço, mas seu valor pode ser considerado como g + h antes e durante a execução (no caso antes do laço apenas h pois g é 0).
+
+Vamos usar a técnica de Indução Matemática<br>
+Q = f ≥ g<br>
+1. Passo Básico: 
+quando f = h e g = 0, temos: <br>
+f ≥ g -> f ≥ 0 -> h ≥ 0, portanto é válido.
+
+1. Hipótese de Indução: Vamos supor válido para a iteração k, ou seja, suponhamos válido: f<sub>k</sub> ≥ g<sub>k</sub>
+
+2. O que queremos provar: Queremos provar que é válido para a iteração k+1, ou seja: f<sub>k+1</sub> ≥ g<sub>k+1</sub>
+
+g<sub>k+1</sub> = g<sub>k</sub> + c (Linha 4)<br>
+f<sub>k+1</sub> = g<sub>k+1</sub> + h = (g<sub>k</sub> + c) + h = g<sub>k</sub> + h + c = f<sub>k</sub> + c (Linha 5)<br>
+Utilizando a hipótese de indução:<br>
+Se fk ≥ gk, então fk + c ≥ gk + c<br>
+Logo, fk+1 ≥ gk+1. 
+
+Assim, a corretude do algoritmo está provada.
 
 # Resultados obtidos
 
@@ -117,18 +197,20 @@ Ainda em outro trecho de DASGUPTA et. al. (2011), temos:
 
 # Referências Bibliográficas
 
-JIN, Zibo et al. An autonomous control framework of unmanned helicopter operations for low-altitude flight in mountainous terrains. Drones, v. 6, n. 6, p. 150, 2022.
+JIN, Zibo et al. **An autonomous control framework of unmanned helicopter operations for low-altitude flight in mountainous terrains**. Drones, v. 6, n. 6, p. 150, 2022.
 
-QI, Juntong et al. Search and rescue rotary‐wing uav and its application to the lushan ms 7.0 earthquake. Journal of Field Robotics, v. 33, n. 3, p. 290-321, 2016.
+QI, Juntong et al. **Search and rescue rotary‐wing uav and its application to the lushan ms 7.0 earthquake**. Journal of Field Robotics, v. 33, n. 3, p. 290-321, 2016.
 
-REZA, Md Nasim et al. Rice yield estimation based on K-means clustering with graph-cut segmentation using low-altitude UAV images. Biosystems engineering, v. 177, p. 109-121, 2019.
+REZA, Md Nasim et al. **Rice yield estimation based on K-means clustering with graph-cut segmentation using low-altitude UAV images**. Biosystems engineering, v. 177, p. 109-121, 2019.
 
-MATTESON, Roger C. Controlled Flight into Terrain: How the Airlines and the Federal Aviation Administration are Addressing the Problem. Journal of Aviation/Aerospace Education & Research, v. 10, n. 3, p. 4, 2001.
+MATTESON, Roger C. **Controlled Flight into Terrain: How the Airlines and the Federal Aviation Administration are Addressing the Problem**. Journal of Aviation/Aerospace Education & Research, v. 10, n. 3, p. 4, 2001.
 
-ARTHUR III, Jarvis J. et al. CFIT prevention using synthetic vision. In: Enhanced and Synthetic Vision 2003. SPIE, 2003. p. 146-157.
+ARTHUR III, Jarvis J. et al. **CFIT prevention using synthetic vision. In: Enhanced and Synthetic Vision** 2003. SPIE, 2003. p. 146-157.
 
-LU, Ping; PIERSON, Bion L. Optimal aircraft terrain-following analysis and trajectory generation. Journal of guidance, Control, and Dynamics, v. 18, n. 3, p. 555-560, 1995.
+LU, Ping; PIERSON, Bion L. **Optimal aircraft terrain-following analysis and trajectory generation**. Journal of guidance, Control, and Dynamics, v. 18, n. 3, p. 555-560, 1995.
 
-LAPP, Tiffany Rae. Guidance and control using model predictive control for low altitude real-time terrain following flight. 2004. Tese de Doutorado. Massachusetts Institute of Technology.
+LAPP, Tiffany Rae. **Guidance and control using model predictive control for low altitude real-time terrain following flight**. 2004. Tese de Doutorado. Massachusetts Institute of Technology.
 
-DASGUPTA, S.; Papadimitriou, C.; Vazirani, U. **Algoritmos.** Porto Alegre: AMGH, 2011. 1 recurso online. ISBN 9788563308535. Disponível em: https://integrada.minhabiblioteca.com.br/books/9788563308535. Acesso em: 17 jan. 2023.
+DASGUPTA, S.; Papadimitriou, C.; Vazirani, U. **Algoritmos.** Porto Alegre: AMGH, 2011. 1 recurso online. ISBN 9788563308535.
+
+GERSTING, Judith L. **Fundamentos Matemáticos para a Ciência da Computação**. Grupo GEN, 2016. E-book. ISBN 9788521633303.
