@@ -564,7 +564,9 @@ Utilizando a função `assertEquals` podemos verificar que a o método `computeC
 
 ## Teste prático
 
-Para analisar empiricamente o tempo de execução do algoritmo com um número diverso e crescente de nós e duas estruturas de dados (Priority Queue e TreeSet), utilizamos um comando de contagem de nanosegundos ao iniciar e finalizar a execução. Foram testadas uma quantidade de nós que varia de 5.000 a 40.000, acrescentando 5.000 nós a cada teste.
+# Número de vértices
+
+Para analisar empiricamente o tempo de execução do algoritmo com um número diverso e crescente de vertices e duas estruturas de dados (Priority Queue e TreeSet), utilizamos um comando de contagem de nanosegundos ao iniciar e finalizar a execução. Foram testadas uma quantidade de vertices que varia de 5.000 a 40.000, acrescentando 5.000 vertices a cada teste.
 
 O tempo foi calculado partir da média de 11 execuções do algoritmo, e a primeira delas foi excluida por representar um valor muito acima das outras amostras, o que poderia distorcer o valor do tempo. Esse aumento na execução inicial ocorre devido ao tempo de compilação e importação de todas as classes necessárias. 
 
@@ -573,6 +575,16 @@ O tempo foi calculado partir da média de 11 execuções do algoritmo, e a prime
 Ao verificar o gráfico, podemos perceber que o tempo médio de execução tende a crescer com o aumento no número de coordenadas. No entanto, existem casos especiais que fazem com que o algoritmo seja executado em um caso ótimo para aquela ordem de magnitude de coordenadas. 
 
 A partir da análise, podemos concluir que o tempo médio de execução da Priority Queue foi melhor que a do Treeset. A remoção do menor elemento daquele é O(1), um tempo constante, enquanto neste, obter o menor elemento tem um custo de O(log n). Isso pode ser um fator que justifica o comportamento do gráfico acima.
+
+# Distância entre Vértices
+
+A conexão entre os vértices são definidos pelo comando addVertexEdgesByDistance(), que estabelece a distância máxima a considerar um vértice vizinho de outro ou não. Neste projeto, foi utilizado um valor de 0.2 Kilometros para os vértices, ou seja, todos os nós que estão a uma distância de até 0.2 Kilometros passam a ter uma conexão.
+
+Para verificar o comportamento do algoritmo com alterações na distância máxima entre os nós, foi feito um cálculo de tempo de execução com um número fixo de 10.000 vértices, acrescentando uma distância de 0.1 Kilometros para cada execução.  
+
+![Gráfico de distância](img/graph_distance.png)
+
+Analisando o gráfico, é possível concluir que à medida que a distância em quilômetros entre os vértices vizinhos aumenta, há um crescimento constante no tempo necessário para percorrer essa distância. Ao comparar a performance do Priority Queue com o Treeset, é evidente que o Priority Queue é mais rápido em termos de execução, pois é capaz de remover o menor elemento em tempo constante O(1).
 
 ## Corretude do Algoritmo
 ### Invariante do laço
