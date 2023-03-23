@@ -584,7 +584,7 @@ Para verificar o comportamento do algoritmo com alterações na distância máxi
 
 ![Gráfico de distância](img/graph_distance.png)
 
-Analisando o gráfico, é possível concluir que à medida que a distância em quilômetros entre os vértices vizinhos aumenta, há um crescimento constante no tempo necessário para percorrer essa distância. Ao comparar a performance do Priority Queue com o Treeset, é evidente que o Priority Queue é mais rápido em termos de execução, pois é capaz de remover o menor elemento em tempo constante O(1).
+Analisando o gráfico, é possível concluir que à medida que a distância em quilômetros entre os vértices vizinhos aumenta, há um crescimento linear no tempo necessário para percorrer essa distância. Ao comparar a performance do Priority Queue com o TreeSet, é evidente que o Priority Queue é mais rápido em termos de execução, pois é capaz de remover o menor elemento em tempo constante O(1).
 
 ## Corretude do Algoritmo
 ### Invariante do laço
