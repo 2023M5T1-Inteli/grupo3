@@ -593,6 +593,19 @@ log v + log v é 2.log v e as constantes podem ser omitidas. O termo, portanto, 
 Em relação a memória, o pior caso tem complexidade O(v), pois poderemos armazenar na fila todos os vértices de uma única vez. Isso, ocupará espaço na memória.
 ## Melhor caso
 
+A notação para o melhor caso no algoritmo A* é $ O(b^d)$, onde $b$ representa o fator de ramificação médio do grafo de busca e $d$ a profundidade do nó de destino em relação ao nó de origem. O melhor caso ocorre quando o nó de destino é encontrado rapidamente na primeira expansão de nós, ou seja, quando o nó de destino é diretamente adjacente ao nó de origem, e o caminho mais curto é encontrado sem a necessidade de explorar outros nós. Nesse caso, o custo computacional do algoritmo $A*$ é mínimo, levando apenas $O(1)$ unidades de tempo para encontrar o caminho mais curto.
+
+### Exemplo
+Seja um grafo G(V,A) com 6 vértices e 12 arestas:
+
+![Graph 1](img/graph_best_1.png)
+
+No caso do melhor cenário, o algoritmo funciona encontrando o caminho mais curto entre o vértice inicial e final, usando uma combinação de distância percorrida (custo real) e uma estimativa de distância até o objetivo final (heurística). No melhor cenário, a heurística é perfeitamente precisa, o que significa que a estimativa de distância é sempre exata. Isso permite que o algoritmo se mova rapidamente em direção ao objetivo final, reduzindo o número de verificações de caminho que precisam ser feitas.
+
+![Graph 2](img/graph_best_2.png)
+
+O algoritmo $A*$ propaga-se apenas nos nós que estão na direção do destino final, e isso evita a interação desnecessária com outros nós. Diante disso, o algoritmo será capaz de encontrar o caminho mais curto da origem ao destino com eficiência, tendo uma complexidade de tempo proporcional ao número mínimo de nós necessários para encontrar o caminho mais curto.
+
 ## Observação
 
 ## Corretude do Algoritmo
