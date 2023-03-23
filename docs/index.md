@@ -583,7 +583,7 @@ Simplificação do código do algoritmo apenas com as variáveis necessárias pa
 h: custo mínimo restante para chegar ao vértice de destino (inalterado durante o laço)<br>
 A* (h ∈ Q, h ≥ 0)<br>
 1.g = 0<br>
-2. f = g + h<br>
+2. f = h<br>
 3. Enquanto !queue.isEmpty() && !found() faça<br>
     4. g = g + c<br>
     5. f = g + h<br>
