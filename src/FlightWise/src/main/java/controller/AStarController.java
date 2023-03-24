@@ -121,10 +121,6 @@ public class AStarController implements CommandLineRunner{
 
         // Send the local Graph structure to neo4J
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
-//            neo4JDatabaseHandler.createCoordinateNodesAsync(newGraph.getVertexes(), session, pathID);
-//
-//            neo4JDatabaseHandler.createCordinateEdgesAsync(newGraph.getVertexes(), session);
-
             neo4JDatabaseHandler.createFinalPathVertexes(newList, session, pathID);
 
             neo4JDatabaseHandler.createFinalPathEdges(newList, session);
