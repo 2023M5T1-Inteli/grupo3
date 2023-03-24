@@ -83,7 +83,7 @@ class GraphService {
       await client.close();
 
       // Make a POST request to an external API to execute an algorithm for the new route
-      request.post("http://192.168.137.219:8080/executeAlg", {
+      request.post("http://localhost:8080/executeAlg", {
         json: {
           lonInitial: entryPoints[1],
           latInitial: entryPoints[0],
