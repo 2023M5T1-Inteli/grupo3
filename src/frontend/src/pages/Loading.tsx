@@ -4,10 +4,28 @@ import loadingAnimation from "../assets/animations/loading.json";
 
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { checkRouteStatus } from "../services/Graph";
 
 function Loading() {
   const navigate = useNavigate();
+  let [searchParams, setSearchParams] = useSearchParams();
+  let [routeID, setRouteID] = useState(searchParams.get("routeID"));
+
+  // function that checks the route status every x seconds, and if "Done", redirects to the route page
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      console.log("Checking route status...");
+      const status = await checkRouteStatus(routeID || "");
+      if (status === "DONE") {
+        console.log("Route done!");
+        navigate("/Result?pathID=" + routeID);
+      }
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Grid2
       container

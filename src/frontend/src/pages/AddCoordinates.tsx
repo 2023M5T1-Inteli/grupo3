@@ -174,7 +174,7 @@ function AddCoordinates() {
             />
           </Grid2>
         </Grid2>
-        <Grid2 xs={12} lg={9} bgcolor={"red"}>
+        <Grid2 xs={12} lg={9}>
           {/* <Box sx={{ width: 1250, height: 500 }}> */}
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             <MapPreview

@@ -24,24 +24,18 @@ export default function Map(props: IMapProps) {
   const points = props.points;
   for (let i = 0; i < points.length; i++) {
     elements.push(
-      <LayerGroup>
-        {" "}
-        <Circle
-          center={points[i]}
-          radius={100}
-          pathOptions={{ fillColor: "blue" }}
-        />
-      </LayerGroup>
+      <Circle
+        center={points[i]}
+        radius={100}
+        pathOptions={{ fillColor: "blue" }}
+      />
     );
     if (i + 1 < points.length) {
       edges.push(
-        <LayerGroup>
-          {" "}
-          <Polyline
-            positions={[points[i], points[i + 1]]}
-            pathOptions={{ color: "red" }}
-          />
-        </LayerGroup>
+        <Polyline
+          positions={[points[i], points[i + 1]]}
+          pathOptions={{ color: "red" }}
+        />
       );
     }
   }
@@ -70,8 +64,8 @@ export default function Map(props: IMapProps) {
         <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
         <LayersControl>
           <LayersControl.Overlay checked name={"test"}>
-            {elements.map((element) => element)}
-            {edges.map((element) => element)}
+            <LayerGroup>{elements.map((element) => element)}</LayerGroup>
+            <LayerGroup>{edges.map((element) => element)}</LayerGroup>
           </LayersControl.Overlay>
         </LayersControl>
       </MapContainer>

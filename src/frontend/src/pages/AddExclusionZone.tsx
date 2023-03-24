@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import MapPreview from "../components/MapPreview";
+import { createPath } from "../services/Graph";
 
 function pointXtoLatLngTuple(pointX: string): LatLngTuple {
   let pointXArray = pointX.split(",");
@@ -20,14 +21,22 @@ function pointXtoLatLngTuple(pointX: string): LatLngTuple {
 
 function AddExclusionZone() {
   const navigate = useNavigate();
-  const clickHandler = () => {
+
+  const { state } = useLocation();
+  const { originLat, originLon, destLat, destLon } = state;
+
+  const clickHandler = async () => {
+    const routeID = await createPath(
+      [Number(originLat) || 0.0, Number(originLon) || 0.0],
+      [Number(destLat) || 0.0, Number(destLon) || 0.0]
+    );
     setSearchParams({
       point1: point1 || "",
       point2: point2 || "",
     });
-    navigate("/Loading");
+    navigate("/Loading?routeID=" + routeID);
   };
-  const { state } = useLocation();
+
   let [searchParams, setSearchParams] = useSearchParams();
   let [point1, setPoint1] = useState(searchParams.get("point1") || "");
   let [point2, setPoint2] = useState(searchParams.get("point2") || "");
@@ -38,8 +47,6 @@ function AddExclusionZone() {
   useEffect(() => {
     setBound([pointXtoLatLngTuple(point1), pointXtoLatLngTuple(point2)]);
   }, [point1, point2]);
-
-  const { originLat, originLon, destLat, destLon } = state;
 
   let points: LatLngExpression[] = [];
   points = [
@@ -144,7 +151,7 @@ function AddExclusionZone() {
             />
           </Grid2>
         </Grid2>
-        <Grid2 xs={12} lg={9} bgcolor={"red"}>
+        <Grid2 xs={12} lg={9}>
           {/* <Box sx={{ width: 1250, height: 500 }}> */}
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             <MapPreview points={points} bounds={[bound]} />
