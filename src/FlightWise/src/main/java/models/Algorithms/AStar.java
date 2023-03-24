@@ -77,7 +77,6 @@ public class AStar {
                 double cost = ce.distance;
                 double childTotalCost = currentVertex.totalCost + cost;
                 double absoluteCost = childTotalCost + child.minimalCost;
-                System.out.println(child.minimalCost);
 
                 // If the explored already passed by the child, and the absoluteCost is more than child absoluteCost, keep throw the loop
                 if (explored.contains(child) && (absoluteCost >= child.absoluteCost)) {
@@ -107,51 +106,55 @@ public class AStar {
     // This method is only to test the running time of the algorithm.
     public static void main(String[] args) throws FileNotFoundException {
         // number of vertices in the graph (can be changed to test different performances)
-        int testLength = 1000;
+        int testLength = 10000;
         double totalTime = 0.0;
         // The algorithm is executed 11 times and an average time is calculated
+
+        double[] latitudes = new double[testLength]; // array to store latitudes
+        double[] longitudes = new double[testLength]; // array to store longitudes
+        int x = 0; // counter for arrays
+
+        // reading the csv file with coordinates and adding the values to respective arrays.
+        // pathname must be changed according to local path
+        Scanner sc = new Scanner(new File("C:\\Users\\Vitor\\Documents\\Modulo5\\grupo3\\src\\FlightWise\\src\\main\\java\\models\\Algorithms\\coordinates.csv"));
+        sc.nextLine(); // skip header line
+        while (sc.hasNextLine() && x < testLength) {
+            String line = sc.nextLine();
+            String[] fields = line.split(",");
+            double latitude = Double.parseDouble(fields[0]);
+            double longitude = Double.parseDouble(fields[1]);
+            latitudes[x] = latitude;
+            longitudes[x] = longitude;
+            x++;
+        }
+        sc.close();
+
+        // creating a new graph
+        Graph newGraph = new Graph();
+
+        double[][] coordinates = new double[testLength][3];
+
+        double max = 500.0;
+        double min = 100.0;
+        double range = max - min + 1;
+        // adding information(longitude, latitude, height) of each point into the coordinates array.
+        for (int c = 0; c < testLength; c++) {
+            double height = (Math.random() * range) + min;
+            coordinates[c] = new double[] {longitudes[c], latitudes[c], height};
+        }
+
+        // Adds all positions to the new Graph
+        for (int i = 0; i < coordinates.length; i++) {
+            Point2D currentPoint = new Point2D.Double(coordinates[i][0], coordinates[i][1]);
+            CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
+            newGraph.addVertex(newCoordinateVertex);
+
+        }
+
+        newGraph.addVertexEdgesByDistance(0.200);
+        ArrayList<CoordinateVertex> vertices = newGraph.getVertexes();
+
         for (int t = 0; t < 11; t++) {
-            double[] latitudes = new double[testLength]; // array to store latitudes
-            double[] longitudes = new double[testLength]; // array to store longitudes
-            int x = 0; // counter for arrays
-            
-            // reading the csv file with coordinates and adding the values to respective arrays.
-            // pathname must be changed according to local path
-            Scanner sc = new Scanner(new File("C:\\Users\\Vitor\\Documents\\Modulo5\\grupo3\\src\\FlightWise\\src\\main\\java\\models\\Algorithms\\coordinates.csv"));
-            sc.nextLine(); // skip header line
-            while (sc.hasNextLine() && x < testLength) {
-                String line = sc.nextLine();
-                String[] fields = line.split(",");
-                double latitude = Double.parseDouble(fields[0]);
-                double longitude = Double.parseDouble(fields[1]);
-                latitudes[x] = latitude;
-                longitudes[x] = longitude;
-                x++;
-            }
-            sc.close();
-
-            // creating a new graph
-            Graph newGraph = new Graph();
-
-            double[][] coordinates = new double[testLength][3];
-            
-            // adding information(longitude, latitude, height) of each point into the coordinates array.
-            for (int c = 0; c < testLength; c++) {
-                coordinates[c] = new double[] {longitudes[c], latitudes[c], 100.0};
-            }
-
-            // Adds all positions to the new Graph
-            for (int i = 0; i < coordinates.length; i++) {
-                Point2D currentPoint = new Point2D.Double(coordinates[i][0], coordinates[i][1]);
-                CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
-                newGraph.addVertex(newCoordinateVertex);
-
-            }
-
-            newGraph.addVertexEdgesByDistance(0.200);
-            ArrayList<CoordinateVertex> vertices = newGraph.getVertexes();
-            
-            
             double initialTime = System.nanoTime();
             // call the algorithm
             AStar algorithm = new AStar();
@@ -164,7 +167,6 @@ public class AStar {
             if (t > 0) {
                 totalTime += elapsedTime;
             }
-            System.out.println(totalTime);
         }
         System.out.println("Tempo decorrido: " + (totalTime/10.0) + " ms");
     }
