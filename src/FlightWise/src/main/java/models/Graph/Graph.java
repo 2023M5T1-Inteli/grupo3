@@ -31,9 +31,10 @@ public class Graph {
     * */
     public void addVertexEdgesByDistance(double distance){
         Haversine scorer = new Haversine();
-
+        System.out.println("Total points:" + vertices.size());
         // Calculating the distance between a currentVertex (i) and the other vertices (j)
         for (int i = 0; i < vertices.size(); i++){
+            System.out.println("Connecting vertice: " + i);
             for (int j = 0; j < vertices.size(); j++){
                 if (i == j) continue;
                 double distanceToNextVertex = scorer.computeCost(vertices.get(i), vertices.get(j));
@@ -81,11 +82,11 @@ public class Graph {
         Set<CoordinateVertex> explored = new HashSet<CoordinateVertex>();
 
         // Setting a priority queue comparing the totalCost + minimalCost of two vertices
-        PriorityQueue<CoordinateVertex> queue = new PriorityQueue<CoordinateVertex>(getVertexes().size(),
+        TreeSet<CoordinateVertex> queue = new TreeSet<>(
                 new Comparator<CoordinateVertex>() {
                     @Override
                     public int compare(CoordinateVertex o1, CoordinateVertex o2) {
-                        return Double.compare((o1.totalCost + o1.minimalCost), (o2.totalCost + o2.minimalCost));
+                        return Double.compare((o1.totalCost + o1.minimalCost + o1.averageHeight), (o2.totalCost + o2.minimalCost + o2.averageHeight));
                     }
                 });
 
@@ -98,7 +99,7 @@ public class Graph {
 
 
         while (!queue.isEmpty() && !found){ // Until the queue is empty and you arrive at the targetVertex.
-            CoordinateVertex currentVertex = queue.poll(); // Keeping the vertex with the most priority in currentVertex and deleting it after.
+            CoordinateVertex currentVertex = queue.pollFirst(); // Keeping the vertex with the most priority in currentVertex and deleting it after.
 
             explored.add(currentVertex); // Adding this vertex in the set of already explored
 
@@ -114,7 +115,7 @@ public class Graph {
                 CoordinateVertex child = ce.targetVertex;
                 double cost = ce.distance;
                 double childTotalCost = currentVertex.totalCost + cost;
-                double absoluteCost = childTotalCost + child.minimalCost;
+                double absoluteCost = childTotalCost + child.minimalCost + child.averageHeight;
 
                 // If the explored already passed by the child, and the absoluteCost is more than child absoluteCost, keep throw the loop
                 if (explored.contains(child) && (absoluteCost >= child.absoluteCost)){
