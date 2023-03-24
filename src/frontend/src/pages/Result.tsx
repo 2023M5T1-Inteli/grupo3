@@ -8,40 +8,39 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { LatLngExpression } from "leaflet";
 import { motion } from "framer-motion";
 import { PhotoCamera, ArrowBack } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MapPreview from "../components/MapPreview";
+import { getPath } from "../services/Graph";
+import { IGraphLocation } from "../types";
+import Lottie from "lottie-react";
+
+import loadingAnimation from "../assets/animations/loadingMap.json";
+
+function pathToPoints(path: IGraphLocation[]): LatLngExpression[] {
+  return path.map((p) => ({ lat: p.latitude, lng: p.longitude }));
+}
 
 function Result() {
   const navigate = useNavigate();
 
   let [searchParams, setSearchParams] = useSearchParams();
-  let [originLat, setOriginLat] = useState(searchParams.get("originLat"));
-  let [originLon, setOriginLon] = useState(searchParams.get("originLon"));
-  let [destLat, setdestLat] = useState(searchParams.get("destLat"));
-  let [destLon, setdestLon] = useState(searchParams.get("destLon"));
+  let [pathID, setPathID] = useState(searchParams.get("pathID"));
 
-  const clickHandler = () => {
-    setSearchParams({
-      originLat: originLat || "0.0",
-      originLon: originLon || "0.0",
-      destLat: destLat || "0.0",
-      destLon: destLon || "0.0",
-    });
-    navigate("/AddExclusionZone", {
-      state: { originLat, originLon, destLat, destLon },
-    });
-  };
+  const [path, setPath] = useState<IGraphLocation[]>([]);
+  const [points, setPoints] = useState<LatLngExpression[]>([]);
 
-  let points: LatLngExpression[] = [
-    { lat: Number(originLat) || 0.0, lng: Number(originLon) || 0.0 },
-    { lat: Number(destLat) || 0.0, lng: Number(destLon) || 0.0 },
-    // { lat: -23.871744, lng: -47.075852 },
-    // { lat: -23.869291, lng: -47.022447 },
-    // { lat: -23.86796, lng: -46.989146 },
-    // { lat: -23.870317, lng: -46.944851 },
-    // { lat: -23.880317, lng: -46.924851 },
-    // {lat: 49.995, lng:  29.995},
-  ];
+  useEffect(() => {
+    async function getPathAsync() {
+      const path = await getPath(pathID || "");
+      setPath(path);
+    }
+    getPathAsync();
+  }, []);
+
+  useEffect(() => {
+    setPoints(pathToPoints(path));
+  }, [path]);
+
   return (
     <motion.div>
       <Grid2
@@ -79,7 +78,7 @@ function Result() {
           >
             <IconButton
               onClick={() => {
-                navigate(-1);
+                navigate("/");
               }}
             >
               <ArrowBack />
@@ -87,18 +86,29 @@ function Result() {
             </IconButton>
           </Grid2>
         </Grid2>
-        <Grid2 xs={12} lg={10} bgcolor={"red"}>
+        <Grid2 xs={12} lg={10}>
           {/* <Box sx={{ width: 1250, height: 500 }}> */}
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
-            <MapPreview
-              points={points}
-              bounds={[
-                [
-                  [0.0, 0.0],
-                  [0.0, 0.0],
-                ],
-              ]}
-            />
+            {points.length > 0 ? (
+              <Map points={points} />
+            ) : (
+              <Grid2
+                xs={12}
+                sx={{ height: "100%" }}
+                bgcolor={"white"}
+                display={"flex"}
+                justifyContent={"center"}
+                padding={16}
+                direction={"column"}
+                container
+              >
+                <Lottie
+                  animationData={loadingAnimation}
+                  width={200}
+                  style={{ height: 400 }}
+                />
+              </Grid2>
+            )}
           </Box>
           {/* </Box> */}
         </Grid2>
