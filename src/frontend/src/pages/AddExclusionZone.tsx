@@ -1,8 +1,6 @@
 import { Box, IconButton, TextField, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-// import "../styles/pages/Home.css";
 
-import Map from "../components/Map";
 import CustomButton from "../components/CustomButton";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { LatLngBoundsExpression, LatLngExpression, LatLngTuple } from "leaflet";
@@ -12,6 +10,7 @@ import { useState, useEffect } from "react";
 import MapPreview from "../components/MapPreview";
 import { createPath } from "../services/Graph";
 
+// function that converts a string to a LatLngTuple
 function pointXtoLatLngTuple(pointX: string): LatLngTuple {
   let pointXArray = pointX.split(",");
   let lat = Number(pointXArray[0]) || 0.0;
@@ -22,9 +21,11 @@ function pointXtoLatLngTuple(pointX: string): LatLngTuple {
 function AddExclusionZone() {
   const navigate = useNavigate();
 
+  // Get the state from the location
   const { state } = useLocation();
   const { originLat, originLon, destLat, destLon } = state;
 
+  // Create the path/routeID
   const clickHandler = async () => {
     const routeID = await createPath(
       [Number(originLat) || 0.0, Number(originLon) || 0.0],
@@ -37,6 +38,7 @@ function AddExclusionZone() {
     navigate("/Loading?routeID=" + routeID);
   };
 
+  // Search params
   let [searchParams, setSearchParams] = useSearchParams();
   let [point1, setPoint1] = useState(searchParams.get("point1") || "");
   let [point2, setPoint2] = useState(searchParams.get("point2") || "");
@@ -44,10 +46,13 @@ function AddExclusionZone() {
     [0.0, 0.0],
     [0.0, 0.0],
   ]);
+
+  // Load local variables according to search params
   useEffect(() => {
     setBound([pointXtoLatLngTuple(point1), pointXtoLatLngTuple(point2)]);
   }, [point1, point2]);
 
+  // Sets the entry and exti points
   let points: LatLngExpression[] = [];
   points = [
     { lat: originLat, lng: originLon },
@@ -152,11 +157,9 @@ function AddExclusionZone() {
           </Grid2>
         </Grid2>
         <Grid2 xs={12} lg={9}>
-          {/* <Box sx={{ width: 1250, height: 500 }}> */}
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             <MapPreview points={points} bounds={[bound]} />
           </Box>
-          {/* </Box> */}
         </Grid2>
       </Grid2>
     </motion.div>
