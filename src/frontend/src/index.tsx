@@ -5,7 +5,6 @@ import reportWebVitals from './reportWebVitals';
 
 //import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-import App from './App';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter } from 'react-router-dom';
 import MainRoute from './Routes';

@@ -16,19 +16,23 @@ import Lottie from "lottie-react";
 
 import loadingAnimation from "../assets/animations/loadingMap.json";
 
+// function that converts the path to objects that can be used by the map
 function pathToPoints(path: IGraphLocation[]): LatLngExpression[] {
   return path.map((p) => ({ lat: p.latitude, lng: p.longitude }));
 }
 
 function Result() {
+  // Navigation
   const navigate = useNavigate();
 
+  // Search params
   let [searchParams, setSearchParams] = useSearchParams();
   let [pathID, setPathID] = useState(searchParams.get("pathID"));
 
   const [path, setPath] = useState<IGraphLocation[]>([]);
   const [points, setPoints] = useState<LatLngExpression[]>([]);
 
+  // react hook that loads the path from the server
   useEffect(() => {
     async function getPathAsync() {
       const path = await getPath(pathID || "");
@@ -37,6 +41,7 @@ function Result() {
     getPathAsync();
   }, []);
 
+  // react hook that converts the path to points
   useEffect(() => {
     setPoints(pathToPoints(path));
   }, [path]);
@@ -87,7 +92,6 @@ function Result() {
           </Grid2>
         </Grid2>
         <Grid2 xs={12} lg={10}>
-          {/* <Box sx={{ width: 1250, height: 500 }}> */}
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             {points.length > 0 ? (
               <Map points={points} />
@@ -110,7 +114,6 @@ function Result() {
               </Grid2>
             )}
           </Box>
-          {/* </Box> */}
         </Grid2>
       </Grid2>
     </motion.div>

@@ -22,6 +22,8 @@ export default function Map(props: IMapProps) {
   let elements = [];
   let edges = [];
   const points = props.points;
+
+  // Create the circles and liness
   for (let i = 0; i < points.length; i++) {
     elements.push(
       <Circle
@@ -63,7 +65,7 @@ export default function Map(props: IMapProps) {
         {/* Define the TileLayer using the World Imagery Service */}
         <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
         <LayersControl>
-          <LayersControl.Overlay checked name={"test"}>
+          <LayersControl.Overlay checked name={"Visualizar"}>
             <LayerGroup>{elements.map((element) => element)}</LayerGroup>
             <LayerGroup>{edges.map((element) => element)}</LayerGroup>
           </LayersControl.Overlay>

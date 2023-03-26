@@ -1,7 +1,6 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 
 // Import the pages
-import App from "./App";
 import AddCoordinates from "./pages/AddCoordinates";
 import AddExclusionZone from "./pages/AddExclusionZone";
 import Home from "./pages/Home";
@@ -17,7 +16,6 @@ function MainRoute() {
    
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
-          <Route path="/app" element={<App />} />
           <Route path="/AddCoordinates" element={<AddCoordinates />} />
           <Route path="/AddExclusionZone" element={<AddExclusionZone />} />
           <Route path="/Loading" element={<Loading />} />
