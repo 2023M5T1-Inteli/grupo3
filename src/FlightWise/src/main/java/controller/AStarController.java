@@ -3,6 +3,7 @@ package controller;
 import controller.model.RouteItem;
 import io.github.cdimascio.dotenv.Dotenv;
 import models.Graph.Graph;
+import models.Scorer.Haversine;
 import models.vertex.CoordinateVertex;
 import mongodb.MongoDatabaseHandler;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ import java.awt.geom.Point2D;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.neo4j.driver.Session;
 import utils.neo4j.Neo4JDatabaseHandler;
@@ -39,6 +41,26 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @RestController
 public class AStarController implements CommandLineRunner{
 
+    public boolean isExclusionPoint(Point2D point, Point2D excludedPoint, Double radius) {
+        Haversine scorer = new Haversine();
+        double haversineDistance = scorer.computeDistanceByPoint2D(point, excludedPoint);
+        if (haversineDistance < radius) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public double[][] populateArray(String arrayStr) {
+        String str = arrayStr.replaceAll("\\[\\[", "["); // remove double opening brackets
+        str = str.replaceAll("\\]\\]", "]"); // remove double closing brackets
+        str = str.substring(1, str.length() - 1);
+        String[] strArr = str.split("\\], \\[");
+
+        double[][] popArray = new double[strArr.length][];
+
+        return popArray;
+    }
 
     @Autowired
     ItemRepository routeItemRepo;
@@ -69,13 +91,14 @@ public class AStarController implements CommandLineRunner{
         JSONObject obj = new JSONObject(dataDecoded);
 
         String filePath = obj.getString("filePath");
+        String exclusionPointsStr = obj.getString("exclusionPoints");
 
-        Double lonInitial = obj.getDouble("lonInitial");
-        Double latInitial = obj.getDouble("latInitial");
+        double lonInitial = obj.getDouble("lonInitial");
+        double latInitial = obj.getDouble("latInitial");
 
 
-        Double lonFinal = obj.getDouble("lonFinal");
-        Double latFinal = obj.getDouble("latFinal");
+        double lonFinal = obj.getDouble("lonFinal");
+        double latFinal = obj.getDouble("latFinal");
 
         String pathID = obj.getString("pathID");
 
@@ -85,6 +108,8 @@ public class AStarController implements CommandLineRunner{
 
         Driver driver = GraphDatabase.driver(neo4jURI,
                 AuthTokens.basic(neo4jUsername,neo4jPassword));
+
+        double[][] exclusionPoints = populateArray(exclusionPointsStr);
 
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
@@ -97,8 +122,14 @@ public class AStarController implements CommandLineRunner{
         // Adds all positions to the new Graph
         for (int i = 0; i < coordinates.length; i++){
             Point2D currentPoint = new Point2D.Double(coordinates[i][1],  coordinates[i][0]);
-            CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
-            newGraph.addVertex(newCoordinateVertex);
+
+            for (int j = 0; j < exclusionPoints.length; i++) {
+                Point2D exludedPoint = new Point2D.Double(exclusionPoints[j][0], exclusionPoints[j][1]);
+                if(!isExclusionPoint(currentPoint, exludedPoint, exclusionPoints[j][2])) {
+                    CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
+                    newGraph.addVertex(newCoordinateVertex);
+                }
+            }
         }
 
         // Create all vertex edges based on distance
