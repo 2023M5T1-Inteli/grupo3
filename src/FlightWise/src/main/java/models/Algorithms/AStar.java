@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-//import controller.model.RouteItem;
 import models.Graph.Graph;
 import models.vertex.CoordinateVertex;
 import org.json.JSONObject;
@@ -117,38 +116,13 @@ public class AStar {
 
     }
     
-    // This method is only to test the running time of the algorithm.
     public static void main(String[] args) throws FileNotFoundException {
-        
         
         double totalTime = 0.0;
         
-        
         /**
-         * Currently this class is being responsible for acting as our server and
-         * executing the route for the A* algorithm.
+         * Currently this class is being responsible for testing the execution time of the A* algorithm.
          */
-
-            
-          
-      
-        
-        // Decoding the characters to UTF-8
-        //String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8);
-
-        // Parsing the decoded string to a JSON object and extracting the values
-        //JSONObject obj = new JSONObject(dataDecoded);
-
-//        String filePath = obj.getString("filePath");
-//
-//        Double lonInitial = obj.getDouble("lonInitial");
-//        Double latInitial = obj.getDouble("latInitial");
-//
-//
-//        Double lonFinal = obj.getDouble("lonFinal");
-//        Double latFinal = obj.getDouble("latFinal");
-
-        
 
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
@@ -170,9 +144,7 @@ public class AStar {
 
         // Taking the index of the target position
         GetIndexMethodClass getIndex = new GetIndexMethodClass(newGraph, -43.5056, -22.1780);
-
-
-        
+   
         ArrayList<CoordinateVertex> vertices = newGraph.getVertexes();
 
         for (int t = 0; t < 11; t++) {
@@ -190,7 +162,5 @@ public class AStar {
             }
         }
         System.out.println("Tempo decorrido: " + (totalTime/10.0) + " ms");
-//        System.out.println(newList.get(0).getIndex());
-//                System.out.println(newList.get(1).previousVertex.getIndex());
     }
 }
