@@ -4,6 +4,7 @@ import controller.mongodbModel.RouteItem;
 import io.github.cdimascio.dotenv.Dotenv;
 import models.Graph.Graph;
 import models.vertex.CoordinateVertex;
+import models.Algorithms.AStar;
 import org.json.JSONObject;
 import org.neo4j.driver.*;
 import org.springframework.boot.SpringApplication;
@@ -129,10 +130,12 @@ public class AStarController implements CommandLineRunner{
         GetIndexMethodClass getIndex = new GetIndexMethodClass(newGraph, lonFinal, latInitial);
 
         // Calculates the optimal path between two nodes(vertex)
-        newGraph.ASearch(0, coordinates.length - 1);
+        ArrayList<CoordinateVertex> vertices = newGraph.getVertexes();
+        AStar algorithm = new AStar();
+        ArrayList <CoordinateVertex> newList = algorithm.ASearch(0, coordinates.length - 1, vertices);
 
         // Returns the generated optimal path as an ArrayList;
-        ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(coordinates.length - 1));
+        
 
         System.out.println(newList.get(0).getIndex());
         System.out.println(newList.get(1).previousVertex.getIndex());
