@@ -120,7 +120,7 @@ public class AStar {
     // This method is only to test the running time of the algorithm.
     public static void main(String[] args) throws FileNotFoundException {
         
-        int testLength = 10000;
+        
         double totalTime = 0.0;
         
         
