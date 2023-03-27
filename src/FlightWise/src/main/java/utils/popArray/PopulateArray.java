@@ -1,5 +1,7 @@
 package utils.popArray;
 
+import java.util.Arrays;
+
 public class PopulateArray {
 
     public PopulateArray() {
@@ -22,6 +24,17 @@ public class PopulateArray {
         String[] strArr = str.split("\\], \\[");
 
         double[][] popArray = new double[strArr.length][];
+
+
+        for (int i = 0; i < strArr.length; i++) {
+            String[] subArr = strArr[i].split(", ");
+            popArray[i] = new double[subArr.length];
+            for (int j = 0; j < subArr.length; j++) {
+                popArray[i][j] = Double.parseDouble(subArr[j]);
+            }
+        }
+
+
 
         return popArray;
     }
