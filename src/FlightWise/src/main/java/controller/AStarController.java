@@ -131,7 +131,6 @@ public class AStarController implements CommandLineRunner{
 
         // Calculates the optimal path between two nodes(vertex)
         ArrayList<CoordinateVertex> vertices = newGraph.getVertexes();
-        // newGraph.ASearch(0, coordinates.length - 1);
         AStar algorithm = new AStar();
         ArrayList <CoordinateVertex> newList = algorithm.ASearch(0, coordinates.length - 1, vertices);
 
