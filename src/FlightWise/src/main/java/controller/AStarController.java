@@ -1,11 +1,9 @@
 package controller;
 
-import controller.model.RouteItem;
+import controller.mongodbModel.RouteItem;
 import io.github.cdimascio.dotenv.Dotenv;
 import models.Graph.Graph;
-import models.Scorer.Haversine;
 import models.vertex.CoordinateVertex;
-import mongodb.MongoDatabaseHandler;
 import org.json.JSONObject;
 import org.neo4j.driver.*;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import utils.ExclusionStopPoints.PointAnalyzer;
 import utils.Points;
 import utils.getIndex.GetIndexMethodClass;
 
@@ -21,54 +20,45 @@ import java.awt.geom.Point2D;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.neo4j.driver.Session;
 import utils.neo4j.Neo4JDatabaseHandler;
 
-import controller.repository.ItemRepository;
+import controller.mongodbRepository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-
+import utils.popArray.PopulateArray;
 
 /**
- * Currently this class is being responsible for acting as our server and
- * executing the route for the A* algorithm.
+
+ This class acts as our server and executes the route for the A* algorithm. Currently, it is responsible for handling
+ these tasks, but we plan to refactor our application using Spring MVC in Sprint 5.
+
+ During Sprint 4, we attempted to implement SpringMongoDB but encountered errors that prevented us from using it. As a result,
+ we had to resort to using this implementation instead.
+
+ While we understand that it is ideal to have the MongoDB connection as a separate service, we are unable to do so due to the
+ aforementioned errors. We hope to address this in future sprints.
+
  */
 @SpringBootApplication
 @EnableMongoRepositories
 @RestController
 public class AStarController implements CommandLineRunner{
 
-    public boolean isExclusionPoint(Point2D point, Point2D excludedPoint, Double radius) {
-        Haversine scorer = new Haversine();
-        double haversineDistance = scorer.computeDistanceByPoint2D(point, excludedPoint);
-        if (haversineDistance < radius) {
-            return true;
-        }
+    PointAnalyzer pointAnalyzer = new PointAnalyzer();
+    PopulateArray popArray = new PopulateArray();
 
-        return false;
-    }
-
-    public double[][] populateArray(String arrayStr) {
-        String str = arrayStr.replaceAll("\\[\\[", "["); // remove double opening brackets
-        str = str.replaceAll("\\]\\]", "]"); // remove double closing brackets
-        str = str.substring(1, str.length() - 1);
-        String[] strArr = str.split("\\], \\[");
-
-        double[][] popArray = new double[strArr.length][];
-
-        return popArray;
-    }
+    Dotenv dotenv = Dotenv.load();
 
     @Autowired
-    ItemRepository routeItemRepo;
+    ItemRepository routeItemRepo; // Importing the mongodbRepository
 
     public static void main(String[] args) {
         SpringApplication.run(AStarController.class, args);
     }
-    Dotenv dotenv = Dotenv.load();
+
     /**
      * You can test this route accessing: http://localhost:3000/executeAlg
      * @param data information provided at the moment that the API are called:
@@ -109,7 +99,7 @@ public class AStarController implements CommandLineRunner{
         Driver driver = GraphDatabase.driver(neo4jURI,
                 AuthTokens.basic(neo4jUsername,neo4jPassword));
 
-        double[][] exclusionPoints = populateArray(exclusionPointsStr);
+        double[][] exclusionPoints = popArray.populateArray(exclusionPointsStr);
 
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
@@ -125,7 +115,7 @@ public class AStarController implements CommandLineRunner{
 
             for (int j = 0; j < exclusionPoints.length; i++) {
                 Point2D exludedPoint = new Point2D.Double(exclusionPoints[j][0], exclusionPoints[j][1]);
-                if(!isExclusionPoint(currentPoint, exludedPoint, exclusionPoints[j][2])) {
+                if(!pointAnalyzer.isExclusionPoint(currentPoint, exludedPoint, exclusionPoints[j][2])) {
                     CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
                     newGraph.addVertex(newCoordinateVertex);
                 }
@@ -171,6 +161,13 @@ public class AStarController implements CommandLineRunner{
         item.setStatus(status);
         routeItemRepo.save(item);
     }
+
+    /**
+     * This function does not execute any functionality on its own, but it is essential for our implementation as it utilizes the
+     * CommandLineRunner interface. The CommandLineRunner interface is required for establishing a connection to MongoDB and
+     * running any initialization code necessary for the application.
+     * Therefore, this method serves as an entry point to initialize our application and allow us to utilize MongoDB.
+     * */
     @Override
     public void run(String... args) throws Exception {
 
