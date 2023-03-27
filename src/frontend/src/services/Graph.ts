@@ -2,6 +2,7 @@ import axios from "axios";
 import { BASE_URL } from "../Constants";
 import { IGraphLocation } from "../types";
 
+// function that returns a path from the backend
 export const getPath = async (pathID: string) => {
   const response = await axios.get(`${BASE_URL}/graph/${pathID}`);
   const data = response.data;
@@ -9,6 +10,8 @@ export const getPath = async (pathID: string) => {
   return path;
 };
 
+
+// function that creates a path from the backend
 export const createPath = async (
   originPoints: [number, number],
   destinationPoints: [number, number]
@@ -23,6 +26,8 @@ export const createPath = async (
   return data.routeID;
 };
 
+
+// function that checks the status of a path from the backend
 export const checkRouteStatus = async (routeID: string) => {
   const response = await axios.get(
     `${BASE_URL}/graph/checkRouteStatus/${routeID}`
