@@ -136,7 +136,7 @@ public class AStarController implements CommandLineRunner{
         ArrayList <CoordinateVertex> newList = algorithm.ASearch(0, coordinates.length - 1, vertices);
 
         // Returns the generated optimal path as an ArrayList;
-        //ArrayList<CoordinateVertex> newList = newGraph.findPath(newGraph.getVertexes().get(coordinates.length - 1));
+        
 
         System.out.println(newList.get(0).getIndex());
         System.out.println(newList.get(1).previousVertex.getIndex());
