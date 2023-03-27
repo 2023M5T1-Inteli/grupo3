@@ -618,7 +618,7 @@ O tempo foi calculado partir da média de 11 execuções do algoritmo, e a prime
 
 Ao verificar o gráfico, podemos perceber que o tempo médio de execução tende a crescer com o aumento no número de coordenadas. No entanto, existem casos especiais que fazem com que o algoritmo seja executado em um caso ótimo para aquela ordem de magnitude de coordenadas. 
 
-A partir da análise, podemos concluir que o tempo médio de execução da Priority Queue foi melhor que a do TreeSet. A remoção do menor elemento daquele é O(1), um tempo constante, enquanto neste, obter o menor elemento tem um custo de O(log n). Isso pode ser um fator que justifica o comportamento do gráfico acima.
+A partir da análise, podemos concluir que o tempo médio de execução do Treeset foi melhor que a da Priority Queue. O TreeSet tem um consumo de memória maior que o PriorityQueue, pois mantém uma árvore de busca balanceada. No entanto, em muitos casos, o uso de memória adicional pode ser justificado pela melhor performance do TreeSet em operações como busca e ordenação. Isso pode ser um fator que justifica o comportamento do gráfico acima.
 
 # Distância entre Vértices
 
@@ -628,7 +628,7 @@ Para verificar o comportamento do algoritmo com alterações na distância máxi
 
 ![Gráfico de distância](img/graph_distance.png)
 
-Analisando o gráfico, é possível concluir que à medida que a distância em quilômetros entre os vértices vizinhos aumenta, há um crescimento linear no tempo necessário para percorrer essa distância. Ao comparar a performance do Priority Queue com o TreeSet, é evidente que o Priority Queue é mais rápido em termos de execução, pois é capaz de remover o menor elemento em tempo constante O(1).
+Analisando o gráfico, é possível concluir que à medida que a distância em quilômetros entre os vértices vizinhos aumenta, há um crescimento linear no tempo necessário para percorrer essa distância. Ao comparar a performance do Priority Queue com o TreeSet, conclui-se que o Treeset pode ser uma melhor escolha se houver a necessidade de manter uma coleção ordenada de elementos, que é o caso dos grafos que estão sendo gerados. 
 
 ## Corretude do Algoritmo
 ### Invariante do laço
