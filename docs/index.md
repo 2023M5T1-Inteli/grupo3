@@ -610,7 +610,7 @@ O algoritmo $A*$ propaga-se apenas nos nós que estão na direção do destino f
 
 # Distância real entre os pontos de origem e destino
 
-Para analisar empiricamente o tempo de execução do algoritmo com um número diverso e crescente de vertices e duas estruturas de dados (Priority Queue e TreeSet), utilizamos um comando de contagem de nanosegundos ao iniciar e finalizar a execução. Foram testadas uma quantidade de aproximadamente 6590 vértices.
+Para analisar empiricamente o tempo de execução do algoritmo com um número diverso e crescente de vertices e duas estruturas de dados (Priority Queue e TreeSet), utilizamos um comando de contagem de nanosegundos ao iniciar e finalizar a execução.
 
 O tempo foi calculado partir da média de 11 execuções do algoritmo, e a primeira delas foi excluida por representar um valor muito acima das outras amostras, o que poderia distorcer o valor do tempo. Esse aumento na execução inicial ocorre devido ao tempo de compilação e importação de todas as classes necessárias. 
 
