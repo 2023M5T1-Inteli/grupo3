@@ -13,7 +13,7 @@ import loadingAnimation from "../assets/animations/loading.json";
 function Loading() {
   // Get the routeID from the search params
   const navigate = useNavigate();
-  
+
   let [searchParams, setSearchParams] = useSearchParams();
   let [routeID, setRouteID] = useState(searchParams.get("routeID"));
 
@@ -52,7 +52,12 @@ function Loading() {
           width={200}
           style={{ height: 400 }}
         />
-        <Typography color={"white"} variant="h4" fontWeight={"bold"}>
+        <Typography
+          color={"white"}
+          variant="h4"
+          fontWeight={"bold"}
+          textAlign="center"
+        >
           PROCESSANDO...
         </Typography>
       </Grid2>
