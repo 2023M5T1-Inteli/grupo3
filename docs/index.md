@@ -610,15 +610,19 @@ O algoritmo $A*$ propaga-se apenas nos nós que estão na direção do destino f
 
 # Número de vértices
 
-Para analisar empiricamente o tempo de execução do algoritmo com um número diverso e crescente de vertices e duas estruturas de dados (Priority Queue e TreeSet), utilizamos um comando de contagem de nanosegundos ao iniciar e finalizar a execução. Foram testadas uma quantidade de vertices que varia de 5.000 a 40.000, acrescentando 5.000 vertices a cada teste.
+Para analisar empiricamente o tempo de execução do algoritmo com um número diverso e crescente de vertices e duas estruturas de dados (Priority Queue e TreeSet), utilizamos um comando de contagem de nanosegundos ao iniciar e finalizar a execução. Foram testadas uma quantidade de aproximadamente 6590 vértices.
 
 O tempo foi calculado partir da média de 11 execuções do algoritmo, e a primeira delas foi excluida por representar um valor muito acima das outras amostras, o que poderia distorcer o valor do tempo. Esse aumento na execução inicial ocorre devido ao tempo de compilação e importação de todas as classes necessárias. 
 
-![Gráfico de comparação](img/graph_exec.PNG)
+![Gráfico de comparação](img/treeset_minVert.PNG)
 
-Ao verificar o gráfico, podemos perceber que o tempo médio de execução tende a crescer com o aumento no número de coordenadas. No entanto, existem casos especiais que fazem com que o algoritmo seja executado em um caso ótimo para aquela ordem de magnitude de coordenadas. 
+Ao verificar o gráfico, podemos perceber que apesar do tempo do Treeset crescer muito mais com resoluções maiores, na resolução que está sendo utilizada no projeto (entre 0.1 e 0.2) ele apresenta uma melhor performance se comparado ao Priority Queue.
 
-A partir da análise, podemos concluir que o tempo médio de execução do Treeset foi melhor que a da Priority Queue. O TreeSet tem um consumo de memória maior que o PriorityQueue, pois mantém uma árvore de busca balanceada. No entanto, em muitos casos, o uso de memória adicional pode ser justificado pela melhor performance do TreeSet em operações como busca e ordenação. Isso pode ser um fator que justifica o comportamento do gráfico acima.
+Já o gráfico abaixo mostra a variação do tempo de execução com o aumento da distância real em linha reta entre o ponto de origem e de destino. 
+
+![Gráfico de comparação](img/lineDistance.PNG)
+
+As linhas de tendência do Priority Queue e Treeset (linhas mais claras) mostram que, apesar das variações no gráfico, o Priority Queue tende a ter um tempo médio maior, fazendo com que ele não seja a melhor opção.
 
 # Distância entre Vértices
 
