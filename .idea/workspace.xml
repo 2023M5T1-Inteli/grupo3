@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bacf09db-9238-41d3-a427-7bbb765f2d74" name="Changes" comment="">
+    <list default="true" id="bacf09db-9238-41d3-a427-7bbb765f2d74" name="Changes" comment="nova leitura">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/controller/AStarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/java/controller/AStarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/Points.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/Points.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/PointsB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/PointsB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/artigo/artigo-grupoN.md" beforeDir="false" afterPath="$PROJECT_DIR$/artigo/artigo-grupoN.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/FlightWise.iml" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/.idea/FlightWise.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/modules.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +30,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2MIHp7toVZKdRbTDiBsgAtd9q5g" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="abbreviatePackageNames" value="true" />
     <option name="autoscrollFromSource" value="true" />
@@ -55,6 +58,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.37931034",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
