@@ -4,12 +4,254 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bacf09db-9238-41d3-a427-7bbb765f2d74" name="Changes" comment="nova leitura">
+    <list default="true" id="bacf09db-9238-41d3-a427-7bbb765f2d74" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env-example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_4_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_4_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_14_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_14_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_14_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jdk8_2_14_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_14_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_parameter_names_2_14_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_cdimascio_java_dotenv_5_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_micrometer_micrometer_commons_1_10_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_micrometer_micrometer_observation_1_10_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_annotation_jakarta_annotation_api_2_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_12_23.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_agent_1_12_23.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_19_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_to_slf4j_2_19_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_10_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_el_10_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_websocket_10_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_gdal_gdal_3_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_annotations_13_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_kotlin_kotlin_stdlib_1_7_22.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_kotlin_kotlin_stdlib_common_1_7_22.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_json_json_20220924.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_params_5_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_4_8_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_junit_jupiter_5_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_bson_4_8_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_bson_record_codec_4_8_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongodb_driver_core_4_8_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongodb_driver_sync_4_8_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_neo4j_driver_neo4j_java_driver_4_3_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_3_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_opentest4j_opentest4j_1_2_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_realityforge_org_jetbrains_annotations_org_jetbrains_annotations_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_2_0_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_2_0_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_3_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_3_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_3_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_mongodb_3_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_json_3_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_3_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_tomcat_3_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_3_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_commons_3_0_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_mongodb_4_0_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_6_0_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_6_0_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_6_0_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_6_0_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_6_0_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jcl_6_0_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_6_0_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_6_0_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_6_0_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_33.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/src/Controller/graphController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/src/Routes/graphRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/src/Services/graphServices.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/src/app.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/src/mongodb/mongodb.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/src/neo4j/neo4j.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/backend/src/test/testGraphController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/public/F.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/public/images/landing.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/public/logo192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/public/logo512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/public/manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/public/robots.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/App.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/Constants.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/Routes.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/assets/animations/loading.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/assets/animations/loadingMap.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/assets/images/landing.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/components/CustomButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/components/Filter.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/components/Filter.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/components/Header.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/components/Map.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/components/Map.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/components/MapPreview.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/components/PathInputBox.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/pages/AddCoordinates.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/pages/AddExclusionZone.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/pages/Home.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/pages/Loading.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/pages/Result.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/react-app-env.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/reportWebVitals.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/services/Graph.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/setupTests.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/src/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/frontend/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/dted/DtedDatabaseHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/grupo3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/grupo3.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/artigo/artigo-grupoN.md" beforeDir="false" afterPath="$PROJECT_DIR$/artigo/artigo-grupoN.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/FlightWise.iml" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/.idea/FlightWise.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.env-example" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/FlightWise.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/checkstyle-idea.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/misc.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/out/production/FlightWise/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/controller/AStarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/AStarController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/controller/mongodbModel/RouteItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/mongodbModel/RouteItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/controller/mongodbRepository/ItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/mongodbRepository/ItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/Algorithms/AStar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Algorithms/AStar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/Graph/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Graph/Graph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/Scorer/Haversine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Scorer/Haversine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/Scorer/IScorer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Scorer/IScorer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/edge/CoordinateEdge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/edge/CoordinateEdge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/edge/IEdge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/edge/IEdge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/models.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/.idea/checkstyle-idea.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/.idea/dictionaries" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/.idea/saveactions_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/Algorithms/AStar$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/Algorithms/AStar.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/Graph/Graph$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/Graph/Graph.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/Scorer/Haversine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/Scorer/IScorer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/edge/CoordinateEdge.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/edge/IEdge.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/models.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/vertex/CoordinateVertex.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/out/production/models/models/vertex/IVertex.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/vertex/CoordinateVertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/vertex/CoordinateVertex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/models/vertex/IVertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/vertex/IVertex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/org/example/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/ExclusionStopPoints/PointAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/ExclusionStopPoints/PointAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/Points.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Points.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/PointsB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/PointsB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/dted/DtedDatabaseHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/getIndex/GetIndexMethodClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/getIndex/GetIndexMethodClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/neo4j/Neo4JDatabaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/neo4j/Neo4JDatabaseHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/popArray/PopulateArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/popArray/PopulateArray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/dted/Rio/W043_S23.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/dted/Rio/W043_S24.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/dted/Rio/W044_S23.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/dted/Rio/W044_S24.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/dted/SaoPaulo/W045_S23.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/dted/SaoPaulo/W045_S24.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/dted/SaoPaulo/W046_S23.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/dted/SaoPaulo/W046_S24.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/dted/SaoPaulo/W047_S23.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/dted/SaoPaulo/W047_S24.dt2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/test/java/models/Graph/GraphTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/test/java/models/Scorer/HaversineTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/test/java/models/edge/CoordinateEdgeTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/test/java/models/vertex/CoordinateVertexTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/test/java/utils/ExclusionStopPoints/PointAnalyzerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/test/java/utils/getIndex/GetIndexMethodClassTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/test/java/utils/popArray/PopulateArrayTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/web/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/.env.example" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/src/Controller/graphController.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/src/Routes/graphRoutes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/src/Services/graphServices.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/src/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/src/mongodb/mongodb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/src/neo4j/neo4j.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/src/test/testGraphController.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/F.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/images/landing.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/logo192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/logo512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/Constants.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/Routes.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/assets/animations/loading.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/assets/animations/loadingMap.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/assets/images/landing.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/CustomButton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/Filter.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/Filter.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/Header.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/Map.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/Map.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/MapPreview.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/PathInputBox.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/pages/AddCoordinates.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/pages/AddExclusionZone.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/pages/Home.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/pages/Loading.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/pages/Result.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/react-app-env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/reportWebVitals.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/services/Graph.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/setupTests.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/inteli/cc/m5/dted/DtedDatabaseHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/inteli/cc/m5/grupo/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/inteli/cc/m5/grupo/AppDted.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +260,13 @@
   </component>
   <component name="CompilerWorkspaceConfiguration">
     <option name="CLEAR_OUTPUT_DIRECTORY" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindBugs-IDEA-Workspace">
     <analyzeAfterCompile>true</analyzeAfterCompile>
@@ -28,6 +277,13 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
   </component>
   <component name="ProjectId" id="2MIHp7toVZKdRbTDiBsgAtd9q5g" />
   <component name="ProjectLevelVcsManager">
@@ -44,6 +300,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "Downloaded.Files.Path.Enabled": "false",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -52,13 +309,13 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Inteli/Documents/Trabalho/grupo3/src/FlightWise",
+    "last_opened_file_path": "/Users/gabrielcarneiro/Documents/GitHub/grupo3",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.37931034",
     "vue.rearranger.settings.migration": "true"
@@ -98,6 +355,7 @@
       <updated>1678825639892</updated>
       <workItem from="1678825641284" duration="3332000" />
       <workItem from="1679341870194" duration="710000" />
+      <workItem from="1680013781564" duration="1992000" />
     </task>
     <servers />
   </component>
@@ -114,5 +372,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>
