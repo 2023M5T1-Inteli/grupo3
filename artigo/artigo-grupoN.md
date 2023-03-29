@@ -192,6 +192,17 @@ Logo, fk+1 ≥ gk+1.
 Assim, a corretude do algoritmo está provada.
 
 # Resultados obtidos
+Os resultados obtidos a partir da análise do desempenho do algoritmo foram apresentados em dois gráficos, nos quais foram utilizados diferentes parâmetros para avaliar a eficiência do tempo de execução. Os testes foram conduzidos com a utilização do TreeSet e do PriorityQueue como estruturas de organização de dados. Os gráficos abaixo ilustram bem os resultados coletados.
+
+![Graph Resolution](../docs/img/graphResolution.png)
+
+![Graph Distance](../docs/img/graphDistance.png)
+
+O primeiro gráfico mostra a relação entre a resolução, ou seja, a distância que um vértice conecta com o outro. A distância foi variada entre 0,1 (100 metros) e 1 (1000 metros). Ao analisar o gráfico, percebe-se que o método de organização do PriorityQueue foi mais eficiente em uma visão macro, apresentando um tempo menor de execução ao aumentar a resolução. No entanto, para a resolução de 0,2 (200 metros) utilizada pelo grupo na geração de conexões até essa distância, o TreeSet foi mais eficiente.
+
+O segundo gráfico apresenta o tempo de execução em relação à distância entre os pontos, que variou de 0 a 50 km. Esse parâmetro foi escolhido como fator principal, uma vez que o número de nós pontos utilizados afeta diretamente no tempo de execução do algoritmo. Embora os resultados tenham sido muito próximos, ao analisar a curva e fazer uma média, o TreeSet apresentou um resultado um pouco melhor, exigindo menos tempo na maioria das distâncias.
+
+Em geral, esses resultados oferecem uma visão geral sobre a eficiência do algoritmo em diferentes cenários e ajudam a identificar as condições em que cada uma das estruturas de dados utilizadas é mais vantajosa. Essas informações são úteis para orientar a escolha da estrutura de dados adequada para cada situação, contribuindo para a otimização do tempo de execução e a melhoria do desempenho do algoritmo.
 
 # Conclusão
 
