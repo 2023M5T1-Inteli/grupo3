@@ -83,7 +83,10 @@ Planejador de trajetórias para voos em baixa altitude
 - [Complexidade e Corretude do Algoritmo](#complexidade-e-corretude-do-algoritmo)
   - [Pior caso](#pior-caso)
   - [Melhor caso](#melhor-caso)
-  - [Observação](#observação)
+    - [Exemplo](#exemplo)
+  - [Teste prático](#teste-prático)
+- [Número de vértices](#número-de-vértices)
+- [Distância entre Vértices](#distância-entre-vértices)
   - [Corretude do Algoritmo](#corretude-do-algoritmo)
     - [Invariante do laço](#invariante-do-laço)
     - [Demonstração de Correção](#demonstração-de-correção)
@@ -91,6 +94,10 @@ Planejador de trajetórias para voos em baixa altitude
 - [Manuais](#manuais)
   - [Manual de Implantação](#manual-de-implantação)
   - [Manual do Usuário](#manual-do-usuário)
+    - [Página Inicial](#página-inicial)
+    - [Adição de origem e destino](#adição-de-origem-e-destino)
+    - [Adição de pontos de exclusão](#adição-de-pontos-de-exclusão)
+    - [Trajetória](#trajetória)
   - [Manual do Administrador](#manual-do-administrador)
 - [Referências](#referências)
 
@@ -687,6 +694,35 @@ Assim, a corretude do algoritmo está provada.
 ## Manual de Implantação
 
 ## Manual do Usuário
+Este manual tem como objetivo servir como um passo a passo de como navegar pela aplicação e gerar a trajetória.
+
+### Página Inicial
+No primeiro acesso a plataforma você verá um pequeno texto de apresentação sobre o sistema e um botão "Começar". Para iniciar a aplicação clique nele.
+
+![Página Inicial](img/initial-page.png)
+
+### Adição de origem e destino
+Após isso, você verá uma tela de adição de coordenadas. Aqui você deve adicionar as longitudes e latitudes dos pontos de origem e destino respectivamente. 
+
+![Adição dos pontos](img/coordinates-page.png)
+
+Conforme a adição das coordenadas o mapa ao lado irá se atualizar em tempo real atualizando a localização e ao final os dois pontos estarão conectados por uma linha reta.
+
+Por fim, clique no botão "Próximo" para ir para a próxima página.
+
+![Coordenadas atualizadas e mapa atualizado](img/coordinates-page-with-points.png)
+
+### Adição de pontos de exclusão
+Nesta página você poderá adicionar pontos de exclusão. Para isso, adicione a latitude e a longitude, respectivamente, do ponto central da área de exclusão (representada por um círculo) e o raio. Após adicionar essas informações, o mapa ao lado será atualizado e a área de exclusão aparecerá com um círculo vermelho.
+
+Ao final, clique no botão "Próximo" para gerar a trajetória.
+
+### Trajetória
+Antes da tela com a trajetória aparecerá uma tela de carregamento enquanto a rota não é gerada. 
+
+Após pouco tempo, a trajetória irá aparecer em cima do mapa, com círculos representando vértices do percurso e arestas vermelhas representando o caminho que deve ser seguido. 
+
+Além disso, no menu lateral esquerdo há uma área de "insights". Aqui poderá ser visto informações como distância percorrida, altitude média, etc.
 
 ## Manual do Administrador
 
