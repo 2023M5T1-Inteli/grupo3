@@ -6,10 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="bacf09db-9238-41d3-a427-7bbb765f2d74" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FlightWise/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/controller/AStarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/java/controller/AStarController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/Points.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/Points.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/PointsB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/PointsB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +49,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Inteli/Documents/Trabalho/grupo3/src/FlightWise",
+    "last_opened_file_path": "C:/Users/Inteli/Documents/Trabalho/grupo3",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
