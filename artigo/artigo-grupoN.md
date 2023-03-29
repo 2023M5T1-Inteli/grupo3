@@ -195,6 +195,8 @@ Assim, a corretude do algoritmo está provada.
 
 # Conclusão
 
+Em suma, a plataforma de Planejador de trajetórias desenvolvida para voos em baixa altitude demonstrou ser uma solução efetiva e viável para a realização de missões aéreas com precisão e segurança. A capacidade de planejar trajetórias que seguem o terreno e evitam obstáculos é fundamental para a execução de tarefas como mapeamento de áreas remotas, inspeção de infraestrutura, vigilância de fronteiras, entre outras. A plataforma permite a visualização completa da área do terreno para atender às necessidades específicas do usuário. Os resultados dos testes realizados com a plataforma demonstraram a sua eficácia na execução de trajetórias precisas e seguras em ambientes de baixa altitude. As trajetórias planejadas apresentaram alta precisão, sempre seguindo o caminho mais curto e com elevação mais baixa, seguindo o algoritmo A*. Conclui-se que a plataforma de Planejador de trajetórias apresenta grande potencial para contribuir significativamente para missões de alto risco de aeronaves e para a realização de missões cada vez mais desafiadoras em diversas áreas. Além disso, a plataforma pode ser aprimorada e adaptada para atender a outras aplicações e ambientes, contribuindo para o desenvolvimento contínuo da área de robótica aérea.
+
 # Referências Bibliográficas
 
 JIN, Zibo et al. **An autonomous control framework of unmanned helicopter operations for low-altitude flight in mountainous terrains**. Drones, v. 6, n. 6, p. 150, 2022.

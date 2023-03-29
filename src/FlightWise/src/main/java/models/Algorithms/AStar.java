@@ -10,6 +10,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import models.Graph.Graph;
+import models.vertex.CoordinateVertex;
+import org.json.JSONObject;
+import utils.Points;
+import utils.getIndex.GetIndexMethodClass;
+
+import java.awt.geom.Point2D;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+
+        
+
 public class AStar {
 
     public ArrayList<CoordinateVertex> findPath(CoordinateVertex destinationVertex) {
@@ -46,8 +59,8 @@ public class AStar {
         PriorityQueue<CoordinateVertex> queue = new PriorityQueue<CoordinateVertex>(vertices.size(),
                 new Comparator<CoordinateVertex>() {
                     @Override
-                    public int compare(CoordinateVertex o1, CoordinateVertex o2) {
-                        return Double.compare((o1.totalCost + o1.minimalCost), (o2.totalCost + o2.minimalCost));
+                public int compare(CoordinateVertex o1, CoordinateVertex o2) {
+                        return Double.compare((o1.totalCost + o1.minimalCost + o1.averageHeight), (o2.totalCost + o2.minimalCost + o2.averageHeight));
                     }
                 });
 
@@ -59,24 +72,24 @@ public class AStar {
         boolean found = false;
 
 
-        while (!queue.isEmpty() && !found) { // Until the queue is empty and you arrive at the targetVertex.
+        while (!queue.isEmpty() && !found){ // Until the queue is empty and you arrive at the targetVertex.
             CoordinateVertex currentVertex = queue.poll(); // Keeping the vertex with the most priority in currentVertex and deleting it after.
 
             explored.add(currentVertex); // Adding this vertex in the set of already explored
 
             // If the currentVertex is the target
-            if (currentVertex.getIndex() == targetVertex.getIndex()) {
+            if (currentVertex.getIndex() == targetVertex.getIndex()){
                 found = true;
             }
 
 
             // Mapping all the vertices that makes connection with the current vertex
-            for (CoordinateEdge ce : currentVertex.getEdges()) {
+            for (CoordinateEdge ce: currentVertex.getEdges()) {
                 // Taking the target of each vertex that make connection with the current.
                 CoordinateVertex child = ce.targetVertex;
                 double cost = ce.distance;
                 double childTotalCost = currentVertex.totalCost + cost;
-                double absoluteCost = childTotalCost + child.minimalCost;
+                double absoluteCost = childTotalCost + child.minimalCost + child.averageHeight;
 
                 // If the explored already passed by the child, and the absoluteCost is more than child absoluteCost, keep throw the loop
                 if (explored.contains(child) && (absoluteCost >= child.absoluteCost)) {
@@ -103,62 +116,42 @@ public class AStar {
 
     }
     
-    // This method is only to test the running time of the algorithm.
     public static void main(String[] args) throws FileNotFoundException {
-        // number of vertices in the graph (can be changed to test different performances)
-        int testLength = 10000;
+        
         double totalTime = 0.0;
-        // The algorithm is executed 11 times and an average time is calculated
+        
+        /**
+         * Currently this class is being responsible for testing the execution time of the A* algorithm.
+         */
 
-        double[] latitudes = new double[testLength]; // array to store latitudes
-        double[] longitudes = new double[testLength]; // array to store longitudes
-        int x = 0; // counter for arrays
+        // Reading the dt2 file and taking the positions of the region
+        Points points = new Points();
+        double[][] coordinates = points.Coordinates("./dted/Rio", -43.4082, -22.1780,-43.5056, -22.2813, 0.0011, 0.0014);
 
-        // reading the csv file with coordinates and adding the values to respective arrays.
-        // pathname must be changed according to local path
-        Scanner sc = new Scanner(new File("C:\\Users\\Vitor\\Documents\\Modulo5\\grupo3\\src\\FlightWise\\src\\main\\java\\models\\Algorithms\\coordinates.csv"));
-        sc.nextLine(); // skip header line
-        while (sc.hasNextLine() && x < testLength) {
-            String line = sc.nextLine();
-            String[] fields = line.split(",");
-            double latitude = Double.parseDouble(fields[0]);
-            double longitude = Double.parseDouble(fields[1]);
-            latitudes[x] = latitude;
-            longitudes[x] = longitude;
-            x++;
-        }
-        sc.close();
-
-        // creating a new graph
+        // Initializes a new Graph()
         Graph newGraph = new Graph();
 
-        double[][] coordinates = new double[testLength][3];
-
-        double max = 500.0;
-        double min = 100.0;
-        double range = max - min + 1;
-        // adding information(longitude, latitude, height) of each point into the coordinates array.
-        for (int c = 0; c < testLength; c++) {
-            double height = (Math.random() * range) + min;
-            coordinates[c] = new double[] {longitudes[c], latitudes[c], height};
-        }
 
         // Adds all positions to the new Graph
-        for (int i = 0; i < coordinates.length; i++) {
-            Point2D currentPoint = new Point2D.Double(coordinates[i][0], coordinates[i][1]);
+        for (int i = 0; i < coordinates.length; i++){
+            Point2D currentPoint = new Point2D.Double(coordinates[i][1],  coordinates[i][0]);
             CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
             newGraph.addVertex(newCoordinateVertex);
-
         }
 
-        newGraph.addVertexEdgesByDistance(0.200);
+        // Create all vertex edges based on distance
+        newGraph.addVertexEdgesByDistance(0.100);
+
+        // Taking the index of the target position
+        GetIndexMethodClass getIndex = new GetIndexMethodClass(newGraph, -43.5056, -22.1780);
+   
         ArrayList<CoordinateVertex> vertices = newGraph.getVertexes();
 
         for (int t = 0; t < 11; t++) {
             double initialTime = System.nanoTime();
             // call the algorithm
             AStar algorithm = new AStar();
-            ArrayList <CoordinateVertex> path = algorithm.ASearch(0, vertices.size()-1, vertices);
+            ArrayList <CoordinateVertex> newList = algorithm.ASearch(0, vertices.size()-1, vertices);
             // Final count of time
             double finalTime = System.nanoTime();
 
