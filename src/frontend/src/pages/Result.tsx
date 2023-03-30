@@ -1,4 +1,4 @@
-import { Box, IconButton, TextField, Typography } from "@mui/material";
+import { Box, IconButton, TextField, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 // import "../styles/pages/Home.css";
 
@@ -92,12 +92,8 @@ function Result() {
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             <MapPreview
               points={points}
-              bounds={[
-                [
-                  [0.0, 0.0],
-                  [0.0, 0.0],
-                ],
-              ]}
+              circleCenter = {[[-23.871744, -47.075852]]}
+              circleRadius = {1000}
             />
           </Box>
           {/* </Box> */}

@@ -8,6 +8,7 @@ import {
   Marker,
   useMap,
   Rectangle,
+  Circle,
 } from "react-leaflet"; // Remove unused imports
 import { Box } from "@mui/system";
 import "leaflet/dist/leaflet.css";
@@ -27,7 +28,8 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 interface IMapProps {
   points: LatLngExpression[];
-  bounds: LatLngBoundsExpression[];
+  circleCenter: LatLngExpression[];
+  circleRadius: number;
 }
 
 function ChildMapPreview(props: IMapProps) {
@@ -46,8 +48,8 @@ export default function MapPreview(props: IMapProps) {
   let rects = [];
 
   const points = props.points;
-  const bounds = props.bounds;
-  console.log(bounds);
+  const circleCenter = props.circleCenter;
+  const circleRadius = props.circleRadius;
 
   for (let i = 0; i < points.length; i++) {
     if (i + 1 < points.length) {
@@ -62,10 +64,10 @@ export default function MapPreview(props: IMapProps) {
     }
   }
 
-  for (let i = 0; i < bounds.length; i++) {
+  for (let i = 0; i < circleCenter.length; i++) {
     rects.push(
       <LayerGroup>
-        <Rectangle bounds={bounds[i]} color={"red"} />
+        <Circle center={circleCenter[i]} radius={circleRadius} color={"red"} />
       </LayerGroup>
     );
   }
@@ -90,7 +92,7 @@ export default function MapPreview(props: IMapProps) {
           height: "100%",
         }}
       >
-        <ChildMapPreview points={points} bounds={props.bounds} />
+        <ChildMapPreview points={points} circleCenter={props.circleCenter} circleRadius={props.circleRadius} />
         {/* Define the TileLayer using the World Imagery Service */}
         <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
 
