@@ -92,7 +92,7 @@ function Result() {
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             <MapPreview
               points={points}
-              circleCenter = {[[-23.871744, -47.075852]]}
+              circleCenter = {[[0, 0]]}
               circleRadius = {1000}
             />
           </Box>
