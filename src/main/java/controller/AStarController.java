@@ -97,7 +97,7 @@ public class AStarController implements CommandLineRunner{
         Driver driver = GraphDatabase.driver(neo4jURI,
                 AuthTokens.basic(neo4jUsername,neo4jPassword));
 
-        double[][] exclusionPoints = popArray.populateArray(exclusionPointsStr);
+        double[][] exclusionPoints = new double[0][0];//popArray.populateArray(exclusionPointsStr);
 
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
