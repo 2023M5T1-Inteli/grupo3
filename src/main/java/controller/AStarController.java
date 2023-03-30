@@ -97,47 +97,54 @@ public class AStarController implements CommandLineRunner{
         Driver driver = GraphDatabase.driver(neo4jURI,
                 AuthTokens.basic(neo4jUsername,neo4jPassword));
 
+
         double[][] exclusionPoints = new double[0][0];//popArray.populateArray(exclusionPointsStr);
 
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
-        double[][] coordinates = points.Coordinates(filePath, lonInitial, latInitial,lonFinal, latFinal, 0.0011, 0.0014);
-
+        double[][][] coordinates = points.Coordinates(filePath, lonInitial, latInitial,lonFinal, latFinal, 0.0011, 0.0014);
         // Initializes a new Graph()
-        Graph newGraph = new Graph();
+        Graph newGraph = new Graph(coordinates.length, coordinates[0].length);
 
+        double startTime = System.nanoTime();
+        System.out.println("Creating Vertices...");
 
         // Adds all positions to the new Graph
         for (int i = 0; i < coordinates.length; i++){
-            Point2D currentPoint = new Point2D.Double(coordinates[i][1],  coordinates[i][0]);
-
-            for (int j = 0; j < exclusionPoints.length; i++) {
-                Point2D exludedPoint = new Point2D.Double(exclusionPoints[j][0], exclusionPoints[j][1]);
-                if(!pointAnalyzer.isExclusionPoint(currentPoint, exludedPoint, exclusionPoints[j][2])) {
-                    CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
-                    newGraph.addVertex(newCoordinateVertex);
-                }
+            for(int j=0; j< coordinates[i].length; j++) {
+                Point2D currentPoint = new Point2D.Double(coordinates[i][j][1], coordinates[i][j][0]);
+                CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][j][2]);
+                newGraph.addVertex(newCoordinateVertex, i, j);
             }
         }
+        double endTime = (System.nanoTime() - startTime) / 1000000;
+        System.out.println("Connected! Total Time:"  + endTime);
+
+        System.out.println("Creating edges for "  + (coordinates.length * coordinates[0].length) + " vertices");
+        startTime = System.nanoTime();
+
 
         // Create all vertex edges based on distance
-        newGraph.addVertexEdgesByDistance(0.200);
+        newGraph.createEdges();
+
+        endTime = (System.nanoTime() - startTime) / 1000000;
+        System.out.println("Created edges! Total Time:"  + endTime);
 
         // Taking the index of the target position
         GetIndexMethodClass getIndex = new GetIndexMethodClass(newGraph, lonFinal, latInitial);
 
         // Calculates the optimal path between two nodes(vertex)
         ArrayList<CoordinateVertex> vertices = newGraph.getVertexes();
+
         AStar algorithm = new AStar();
-        ArrayList <CoordinateVertex> newList = algorithm.ASearch(0, coordinates.length - 1, vertices);
 
+
+        startTime = System.nanoTime();
+        System.out.println("Finding Path!");
+        ArrayList <CoordinateVertex> newList = algorithm.ASearch(0, vertices.size()-1, vertices);
+        endTime = (System.nanoTime() - startTime) / 1000000;
+        System.out.println("Path found! Total Time:"  + endTime);
         // Returns the generated optimal path as an ArrayList;
-        
-
-        System.out.println(newList.get(0).getIndex());
-        System.out.println(newList.get(1).previousVertex.getIndex());
-
-
         Neo4JDatabaseHandler neo4JDatabaseHandler = new Neo4JDatabaseHandler();
 
         // Send the local Graph structure to neo4J
