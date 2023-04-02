@@ -108,6 +108,8 @@ function AddCoordinates() {
             </Grid2>
             <Grid2>
               <TextField
+                required
+                type="number"
                 label="Latitude"
                 value={originLat}
                 variant="outlined"
@@ -119,6 +121,8 @@ function AddCoordinates() {
             </Grid2>
             <Grid2>
               <TextField
+                required
+                type="number"
                 label="Longitude"
                 variant="outlined"
                 fullWidth={true}
@@ -142,6 +146,8 @@ function AddCoordinates() {
             </Grid2>
             <Grid2>
               <TextField
+                required
+                type="number"
                 label="Latitude"
                 variant="outlined"
                 fullWidth={true}
@@ -153,6 +159,8 @@ function AddCoordinates() {
             </Grid2>
             <Grid2>
               <TextField
+                required
+                type="number"
                 label="Longitude"
                 variant="outlined"
                 fullWidth={true}
@@ -165,6 +173,7 @@ function AddCoordinates() {
           </Grid2>
           <Grid2 xs={12}>
             <CustomButton
+              disabled={!originLat || !originLon || !destLat || !destLon}
               height="3.5em"
               backgroundColor="#E17F49"
               text="PRÓXIMO"
@@ -176,12 +185,8 @@ function AddCoordinates() {
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             <MapPreview
               points={points}
-              bounds={[
-                [
-                  [0.0, 0.0],
-                  [0.0, 0.0],
-                ],
-              ]}
+              circleCenter={[[0,  0]]}
+              circleRadius={0}
             />
           </Box>
         </Grid2>

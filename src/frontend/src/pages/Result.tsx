@@ -1,4 +1,4 @@
-import { Box, IconButton, TextField, Typography } from "@mui/material";
+import { Box, IconButton, TextField, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 // import "../styles/pages/Home.css";
 
@@ -8,44 +8,40 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { LatLngExpression } from "leaflet";
 import { motion } from "framer-motion";
 import { PhotoCamera, ArrowBack } from "@mui/icons-material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MapPreview from "../components/MapPreview";
-import { getPath } from "../services/Graph";
-import { IGraphLocation } from "../types";
-import Lottie from "lottie-react";
-
-import loadingAnimation from "../assets/animations/loadingMap.json";
-
-// function that converts the path to objects that can be used by the map
-function pathToPoints(path: IGraphLocation[]): LatLngExpression[] {
-  return path.map((p) => ({ lat: p.latitude, lng: p.longitude }));
-}
 
 function Result() {
-  // Navigation
   const navigate = useNavigate();
 
-  // Search params
   let [searchParams, setSearchParams] = useSearchParams();
-  let [pathID, setPathID] = useState(searchParams.get("pathID"));
+  let [originLat, setOriginLat] = useState(searchParams.get("originLat"));
+  let [originLon, setOriginLon] = useState(searchParams.get("originLon"));
+  let [destLat, setdestLat] = useState(searchParams.get("destLat"));
+  let [destLon, setdestLon] = useState(searchParams.get("destLon"));
 
-  const [path, setPath] = useState<IGraphLocation[]>([]);
-  const [points, setPoints] = useState<LatLngExpression[]>([]);
+  const clickHandler = () => {
+    setSearchParams({
+      originLat: originLat || "0.0",
+      originLon: originLon || "0.0",
+      destLat: destLat || "0.0",
+      destLon: destLon || "0.0",
+    });
+    navigate("/AddExclusionZone", {
+      state: { originLat, originLon, destLat, destLon },
+    });
+  };
 
-  // react hook that loads the path from the server
-  useEffect(() => {
-    async function getPathAsync() {
-      const path = await getPath(pathID || "");
-      setPath(path);
-    }
-    getPathAsync();
-  }, []);
-
-  // react hook that converts the path to points
-  useEffect(() => {
-    setPoints(pathToPoints(path));
-  }, [path]);
-
+  let points: LatLngExpression[] = [
+    { lat: Number(originLat) || 0.0, lng: Number(originLon) || 0.0 },
+    { lat: Number(destLat) || 0.0, lng: Number(destLon) || 0.0 },
+    // { lat: -23.871744, lng: -47.075852 },
+    // { lat: -23.869291, lng: -47.022447 },
+    // { lat: -23.86796, lng: -46.989146 },
+    // { lat: -23.870317, lng: -46.944851 },
+    // { lat: -23.880317, lng: -46.924851 },
+    // {lat: 49.995, lng:  29.995},
+  ];
   return (
     <motion.div>
       <Grid2
@@ -83,7 +79,7 @@ function Result() {
           >
             <IconButton
               onClick={() => {
-                navigate("/");
+                navigate(-1);
               }}
             >
               <ArrowBack />
@@ -91,29 +87,16 @@ function Result() {
             </IconButton>
           </Grid2>
         </Grid2>
-        <Grid2 xs={12} lg={10}>
+        <Grid2 xs={12} lg={10} bgcolor={"red"}>
+          {/* <Box sx={{ width: 1250, height: 500 }}> */}
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
-            {points.length > 0 ? (
-              <Map points={points} />
-            ) : (
-              <Grid2
-                xs={12}
-                sx={{ height: "100%" }}
-                bgcolor={"white"}
-                display={"flex"}
-                justifyContent={"center"}
-                padding={16}
-                direction={"column"}
-                container
-              >
-                <Lottie
-                  animationData={loadingAnimation}
-                  width={200}
-                  style={{ height: 400 }}
-                />
-              </Grid2>
-            )}
+            <MapPreview
+              points={points}
+              circleCenter = {[[0, 0]]}
+              circleRadius = {1000}
+            />
           </Box>
+          {/* </Box> */}
         </Grid2>
       </Grid2>
     </motion.div>
