@@ -16,6 +16,10 @@ public class CoordinateVertex implements IVertex {
     public double minimalCost; // The minimum value of the relationship  between other vertices.
     public double totalCost; // The sum of the previous cost, is used in the A* algorithm
     public double absoluteCost; // Cost distance between the current vertex and the target
+
+    public double gScore;
+    public double hScore;
+    public double fScore;
     public CoordinateVertex previousVertex;
 
     private Point2D _position; // 2D point that representes tha longitude and latitude.
@@ -29,8 +33,8 @@ public class CoordinateVertex implements IVertex {
     with the calculated distance between the two points. For this sprint,
     we are not considering variations in height.
      */
-    public void addEdge(CoordinateVertex targetVertex, double distance) {
-        CoordinateEdge newEdge = new CoordinateEdge(targetVertex, distance, 0.0);
+    public void addEdge(CoordinateVertex targetVertex, double distance, double heightRange) {
+        CoordinateEdge newEdge = new CoordinateEdge(targetVertex, distance, heightRange);
         this.adjacencies.add(newEdge);
     }
 

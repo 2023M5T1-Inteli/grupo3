@@ -56,7 +56,7 @@ public class Graph {
                 double distanceToNextVertex = scorer.computeCost(vertices.get(i), vertices.get(j));
 
                 if (distanceToNextVertex <= distance) {
-                    vertices.get(i).addEdge(vertices.get(j), distanceToNextVertex);
+                    vertices.get(i).addEdge(vertices.get(j), distanceToNextVertex,0);
                 }
             }
         }
@@ -65,8 +65,9 @@ public class Graph {
     private void connectVertice(CoordinateVertex fromVertex, CoordinateVertex toVertex) {
         Haversine scorer = new Haversine();
         double distance = scorer.computeCost(fromVertex,toVertex);
-        fromVertex.addEdge(toVertex, distance);
-        toVertex.addEdge(fromVertex, distance);
+        double heightRange = fromVertex.averageHeight - toVertex.averageHeight;
+        fromVertex.addEdge(toVertex, distance, heightRange);
+        toVertex.addEdge(fromVertex, distance, heightRange);
     }
 
     public void createEdges() {
@@ -75,34 +76,16 @@ public class Graph {
         for(int i =0; i < this.verticesMatrix.length; i++) {
             for(int j=0; j< this.verticesMatrix[i].length; j++) {
                 CoordinateVertex currVertex = verticesMatrix[i][j];
+                // connect to the right
                 if(j < this.verticesMatrix[i].length - 1) {
                     CoordinateVertex nextVertex = verticesMatrix[i][j+1];
                     connectVertice(currVertex, nextVertex);
                 }
-//                if(j > 0) {
-//                    CoordinateVertex nextVertex = verticesMatrix[i][j-1];
-//                    connectVertice(currVertex, nextVertex);
-//                }
-
-//                if(i > 0) {
-//                    CoordinateVertex nextVertex = verticesMatrix[i-1][j];
-//                    connectVertice(currVertex, nextVertex);
-//                }
 
                 if(i < this.verticesMatrix.length - 1) {
                     CoordinateVertex nextVertex = verticesMatrix[i+1][j];
                     connectVertice(currVertex, nextVertex);
                 }
-
-//                if(i > 0 && j > 0) {
-//                    CoordinateVertex nextVertex = verticesMatrix[i-1][j-1];
-//                    connectVertice(currVertex, nextVertex);
-//                }
-
-//                if(i > 0 && j < this.verticesMatrix[i].length - 1) {
-//                    CoordinateVertex nextVertex = verticesMatrix[i-1][j+1];
-//                    connectVertice(currVertex, nextVertex);
-//                }
 
                 if(i < this.verticesMatrix.length - 1 && j > 0) {
                     CoordinateVertex nextVertex = verticesMatrix[i+1][j-1];
