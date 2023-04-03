@@ -93,6 +93,16 @@ Fonte: www.gatevidyalay.com
 
 No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre produz o caminho mais curto para um destino. Apesar dessa limitação, o algoritmo A* continua sendo uma ferramenta poderosa para uma ampla gama de aplicações, equilibrando a necessidade de encontrar caminhos eficientes com o potencial de erros ocasionais.
 
+## Heurística
+
+É importante definir um peso para a altura ao calcular o custo absoluto g(u) de uma aresta durante a execução do algoritmo, já que o problema envolve terrenos montanhosos e a altura é um fator importante para determinar a distância real entre dois pontos. 
+
+O peso atribuído à altura ao calcular o custo absoluto de uma aresta no algoritmo A* varia de acordo com as especificidades do problema. No projeto atual, o melhor peso para a altura foi determinado por meio de tentativa e erro, avaliando a eficiência e a precisão do algoritmo em diferentes execuções.
+
+![time (m/s) vs %averageHeight](../docs/img/height.png)
+
+Depois de analisar diferentes situações com um conjunto fixo de 6586 pontos, descobriu-se que a altura teve um peso de 40% no melhor desempenho.
+
 # Descrição da estratégia adotada para resolver o problema
 
 # Análise da complexidade da solução proposta
