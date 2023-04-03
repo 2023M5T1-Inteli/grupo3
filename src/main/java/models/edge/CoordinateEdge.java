@@ -11,18 +11,16 @@ import models.vertex.CoordinateVertex;
 public class  CoordinateEdge implements IEdge {
     // Properties of the edge: distance, heightRange and the target vertex
     public double distance;
-    public double heightRange;
     public CoordinateVertex targetVertex;
 
     public final double cost;
-    public CoordinateEdge(CoordinateVertex targetVertex, double distance, double heightRange) {
+    public CoordinateEdge(CoordinateVertex targetVertex, double distance) {
         this.targetVertex = targetVertex;
         this.distance = distance;
-        this.heightRange = heightRange;
 
-        /* "The cost" is the primary property that relates to the distance and the difference in height.
+        /* "The cost" is the primary property that relates to the distance from the parent node to the targetVertex
         It is crucial for the algorithm to calculate the minimum cost to map the graph.
         */
-        this.cost = distance + heightRange;
+        this.cost = distance;
     }
 }
