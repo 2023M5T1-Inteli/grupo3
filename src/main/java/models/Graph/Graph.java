@@ -17,11 +17,14 @@ public class Graph {
     private ArrayList<CoordinateVertex> vertices = new ArrayList<>();
     private CoordinateVertex[][] verticesMatrix;
     private HashMap<Integer, CoordinateVertex> verticesMap = new HashMap<>();
+
+    public int totalVertices = 0;
     // The following function doesn't return anything, but adds a vertex to the array of vertices.
     public void addVertex(CoordinateVertex vertexNode, int rowPosition, int colPosition) {
 //        vertexNode.setIndex(vertices.size()); // Setting the vertex index of the vertexNode to the current size of the array.
 //        vertices.add(vertexNode); // Adding the vertexNode
         verticesMatrix[rowPosition][colPosition] = vertexNode;
+        this.totalVertices++;
     }
 
     public Graph(int row, int col) {

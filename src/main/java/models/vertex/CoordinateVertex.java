@@ -34,7 +34,7 @@ public class CoordinateVertex implements IVertex {
     we are not considering variations in height.
      */
     public void addEdge(CoordinateVertex targetVertex, double distance, double heightRange) {
-        CoordinateEdge newEdge = new CoordinateEdge(targetVertex, distance, heightRange);
+        CoordinateEdge newEdge = new CoordinateEdge(targetVertex, distance);
         this.adjacencies.add(newEdge);
     }
 

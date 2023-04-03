@@ -75,7 +75,7 @@ public class AStar {
             for (CoordinateEdge ce: currentVertex.getEdges()) {
                 // Taking the target of each vertex that make connection with the current.
                 CoordinateVertex child = ce.targetVertex;
-                double cost = ce.distance;
+                double cost = ce.cost;
                 double childTotalCost = currentVertex.totalCost + cost;
                 double absoluteCost = childTotalCost + child.minimalCost +  2* ( maxHeight - child.averageHeight)/1000;
 
