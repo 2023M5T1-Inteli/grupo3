@@ -1,10 +1,9 @@
 package controller;
 
+import path.PathPlanner;
 import controller.mongodbModel.RouteItem;
 import controller.mongodbRepository.ItemRepository;
 import io.github.cdimascio.dotenv.Dotenv;
-import models.Algorithms.AStar;
-import models.Graph.Graph;
 import models.vertex.CoordinateVertex;
 import org.json.JSONObject;
 import org.neo4j.driver.*;
@@ -19,11 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import utils.ExclusionStopPoints.PointAnalyzer;
 import utils.Points;
-import utils.getIndex.GetIndexMethodClass;
 import utils.neo4j.Neo4JDatabaseHandler;
 import utils.popArray.PopulateArray;
 
-import java.awt.geom.Point2D;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -93,71 +90,29 @@ public class AStarController implements CommandLineRunner {
 
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
-        double startTime = System.nanoTime();
-        System.out.println("Reading DT2...");
+//        double startTime = System.nanoTime();
+//        double endTime = (System.nanoTime() - startTime) / 1_000_000_000;
+
+        System.out.println("Reading File...");
+
         double[][][] coordinates = points.Coordinates(filePath, lonInitial, latInitial, lonFinal, latFinal, 0.0011, 0.0014);
 
-        double endTime = (System.nanoTime() - startTime) / 1_000_000_000;
-        System.out.println("Finished Reading in " + endTime);
+        PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, lonInitial, latInitial, lonFinal, latFinal);
+        ArrayList<CoordinateVertex> route = pathPlanner.traceRoute();
 
-        // Initializes a new Graph()
-        Graph newGraph = new Graph(coordinates.length, coordinates[0].length);
+        System.out.println(pathPlanner);
 
-        startTime = System.nanoTime();
-        System.out.println("Creating Vertices...");
-
-        double maxHeight = 0.0;
-        // Adds all positions to the new Graph
-        for (int i = 0; i < coordinates.length; i++) {
-            for (int j = 0; j < coordinates[i].length; j++) {
-                double height = coordinates[i][j][2];
-                if (height > maxHeight) maxHeight = height;
-                Point2D currentPoint = new Point2D.Double(coordinates[i][j][1], coordinates[i][j][0]);
-                CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, height);
-                newGraph.addVertex(newCoordinateVertex, i, j);
-            }
-        }
-        endTime = (System.nanoTime() - startTime) / 1_000_000_000;
-        System.out.println("Connected! Total Time:" + endTime);
-
-        System.out.println("Creating edges for " + (coordinates.length * coordinates[0].length) + " vertices");
-        startTime = System.nanoTime();
-
-
-        // Create all vertex edges based on distance
-        newGraph.createEdges();
-
-        endTime = (System.nanoTime() - startTime) / 1_000_000_000;
-        System.out.println("Created edges! Total Time:" + endTime);
-
-        // Taking the index of the target position
-        GetIndexMethodClass getIndex = new GetIndexMethodClass(newGraph, lonFinal, latInitial);
-
-        // Calculates the optimal path between two nodes(vertex)
-        ArrayList<CoordinateVertex> vertices = newGraph.getVertexes();
-
-        AStar algorithm = new AStar();
-
-
-        startTime = System.nanoTime();
-        System.out.println("Finding Path!");
-        System.out.println("MaxHeight = " + maxHeight);
-        ArrayList<CoordinateVertex> newList = algorithm.ASearch(0, vertices.size() - 1, vertices, maxHeight);
-        endTime = (System.nanoTime() - startTime) / 1_000_000_000;
-        System.out.println("Path found! Total Time:" + endTime);
         // Returns the generated optimal path as an ArrayList;
         Neo4JDatabaseHandler neo4JDatabaseHandler = new Neo4JDatabaseHandler();
 
         // Send the local Graph structure to neo4J
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
-            neo4JDatabaseHandler.createFinalPathVertexes(newList, session, pathID);
-
-            neo4JDatabaseHandler.createFinalPathEdges(newList, session);
+            neo4JDatabaseHandler.createFinalPathVertexes(route, session, pathID);
+            neo4JDatabaseHandler.createFinalPathEdges(route, session);
         }
 
         // Ends the Neo4J session
         driver.close();
-
         getRouteItemByRouteID(pathID, "DONE");
 
         // Returns this message after complete
