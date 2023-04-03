@@ -1,7 +1,6 @@
 package utils.neo4j;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import models.vertex.CoordinateVertex;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
@@ -60,14 +59,7 @@ public class Neo4JDatabaseHandler {
 
     public void createRouteNode(ArrayList<CoordinateVertex> coordinates, Session session, String pathID) {
         String cypherQuery = "CREATE (r:Route {pathID: $path, coordinates: $coord})";
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        String coordinatesJson = null;
-        try {
-            coordinatesJson = objectMapper.writeValueAsString(coordinates);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        String coordinatesJson = new Gson().toJson(coordinates);
 
         try (Transaction tx = session.beginTransaction()) {
             tx.run(cypherQuery, Map.of("path", pathID, "coord", coordinatesJson));
