@@ -1,8 +1,6 @@
 import { Box, IconButton, TextField, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-// import "../styles/pages/Home.css";
 
-import Map from "../components/Map";
 import CustomButton from "../components/CustomButton";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { LatLngBoundsExpression, LatLngExpression, LatLngTuple } from "leaflet";
@@ -10,7 +8,9 @@ import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import MapPreview from "../components/MapPreview";
+import { createPath } from "../services/Graph";
 
+// function that converts a string to a LatLngTuple
 function pointXtoLatLngTuple(pointX: string): LatLngTuple {
   let pointXArray = pointX.split(",");
   let lat = Number(pointXArray[0]) || 0.0;
@@ -20,14 +20,25 @@ function pointXtoLatLngTuple(pointX: string): LatLngTuple {
 
 function AddExclusionZone() {
   const navigate = useNavigate();
-  const clickHandler = () => {
+
+  // Get the state from the location
+  const { state } = useLocation();
+  const { originLat, originLon, destLat, destLon } = state;
+
+  // Create the path/routeID
+  const clickHandler = async () => {
+    const routeID = await createPath(
+      [Number(originLat) || 0.0, Number(originLon) || 0.0],
+      [Number(destLat) || 0.0, Number(destLon) || 0.0]
+    );
     setSearchParams({
       center: center || "",
       radius: radius || "",
     });
-    navigate("/Loading");
+    navigate("/Loading?routeID=" + routeID);
   };
-  const { state } = useLocation();
+
+  // Search params
   let [searchParams, setSearchParams] = useSearchParams();
   let [center, setCenter] = useState(searchParams.get("center") || "");
   let [radius, setRadius] = useState(searchParams.get("radius") || "");
@@ -167,12 +178,10 @@ function AddExclusionZone() {
             />
           </Grid2>
         </Grid2>
-        <Grid2 xs={12} lg={9} bgcolor={"red"}>
-          {/* <Box sx={{ width: 1250, height: 500 }}> */}
+        <Grid2 xs={12} lg={9}>
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             <MapPreview points={points} circleCenter={[circumference]} circleRadius={Number(radius)||0}/>
           </Box>
-          {/* </Box> */}
         </Grid2>
       </Grid2>
     </motion.div>

@@ -598,37 +598,38 @@ A notação para o melhor caso no algoritmo A* é $ O(b^d)$, onde $b$ representa
 ### Exemplo
 Seja um grafo G(V,A) com 6 vértices e 12 arestas:
 
-![Graph 1](img/graph_best_1.png)
+![Graph 1](img/graph_best_1.PNG)
 
 No caso do melhor cenário, o algoritmo funciona encontrando o caminho mais curto entre o vértice inicial e final, usando uma combinação de distância percorrida (custo real) e uma estimativa de distância até o objetivo final (heurística). No melhor cenário, a heurística é perfeitamente precisa, o que significa que a estimativa de distância é sempre exata. Isso permite que o algoritmo se mova rapidamente em direção ao objetivo final, reduzindo o número de verificações de caminho que precisam ser feitas.
 
-![Graph 2](img/graph_best_2.png)
+![Graph 2](img/graph_best_2.PNG)
 
 O algoritmo $A*$ propaga-se apenas nos nós que estão na direção do destino final, e isso evita a interação desnecessária com outros nós. Diante disso, o algoritmo será capaz de encontrar o caminho mais curto da origem ao destino com eficiência, tendo uma complexidade de tempo proporcional ao número mínimo de nós necessários para encontrar o caminho mais curto.
 
 ## Teste prático
 
-# Número de vértices
+# Distância real entre os pontos de origem e destino
 
-Para analisar empiricamente o tempo de execução do algoritmo com um número diverso e crescente de vertices e duas estruturas de dados (Priority Queue e TreeSet), utilizamos um comando de contagem de nanosegundos ao iniciar e finalizar a execução. Foram testadas uma quantidade de vertices que varia de 5.000 a 40.000, acrescentando 5.000 vertices a cada teste.
+Para analisar empiricamente o tempo de execução do algoritmo com um número diverso e crescente de vertices e duas estruturas de dados (Priority Queue e TreeSet), utilizamos um comando de contagem de nanosegundos ao iniciar e finalizar a execução.
 
 O tempo foi calculado partir da média de 11 execuções do algoritmo, e a primeira delas foi excluida por representar um valor muito acima das outras amostras, o que poderia distorcer o valor do tempo. Esse aumento na execução inicial ocorre devido ao tempo de compilação e importação de todas as classes necessárias. 
 
-![Gráfico de comparação](img/graph_exec.PNG)
+O gráfico abaixo mostra a variação do tempo de execução com o aumento da distância real em linha reta entre o ponto de origem e de destino. 
 
-Ao verificar o gráfico, podemos perceber que o tempo médio de execução tende a crescer com o aumento no número de coordenadas. No entanto, existem casos especiais que fazem com que o algoritmo seja executado em um caso ótimo para aquela ordem de magnitude de coordenadas. 
+![Gráfico de comparação](img/lineDistance.PNG)
 
-A partir da análise, podemos concluir que o tempo médio de execução da Priority Queue foi melhor que a do TreeSet. A remoção do menor elemento daquele é O(1), um tempo constante, enquanto neste, obter o menor elemento tem um custo de O(log n). Isso pode ser um fator que justifica o comportamento do gráfico acima.
+As linhas de tendência do Priority Queue e Treeset (linhas mais claras) mostram que, apesar das variações no gráfico, o Priority Queue tende a ter um tempo médio maior, fazendo com que ele não seja a melhor opção.
 
-# Distância entre Vértices
+# Distância mínima entre os Vértices
 
 A conexão entre os vértices são definidos pelo comando addVertexEdgesByDistance(), que estabelece a distância máxima a considerar um vértice vizinho de outro ou não. Neste projeto, foi utilizado um valor de 0.2 Kilometros para os vértices, ou seja, todos os nós que estão a uma distância de até 0.2 Kilometros passam a ter uma conexão.
 
-Para verificar o comportamento do algoritmo com alterações na distância máxima entre os nós, foi feito um cálculo de tempo de execução com um número fixo de 10.000 vértices, acrescentando uma distância de 0.1 Kilometros para cada execução.  
+Para verificar o comportamento do algoritmo com alterações na distância máxima entre os nós, foi feito um cálculo de tempo de execução com um número aproximado de 6.590 vértices, acrescentando uma distância de 0.1 Kilometros para cada execução.  
 
-![Gráfico de distância](img/graph_distance.png)
+![Gráfico de comparação](img/treeset_minVert.PNG)
 
-Analisando o gráfico, é possível concluir que à medida que a distância em quilômetros entre os vértices vizinhos aumenta, há um crescimento linear no tempo necessário para percorrer essa distância. Ao comparar a performance do Priority Queue com o TreeSet, é evidente que o Priority Queue é mais rápido em termos de execução, pois é capaz de remover o menor elemento em tempo constante O(1).
+Analisando o gráfico, é possível concluir que à medida que a distância em quilômetros entre os vértices vizinhos aumenta, há um crescimento que se aproxima de uma reta linear no tempo necessário para percorrer essa distância. Ao comparar a performance do Priority Queue com o TreeSet, conclui-se que o Treeset pode ser uma melhor escolha apesar do seu tempo crescer muito mais com resoluções maiores. No caso do projeto, a resolução que está sendo utilizada (entre 0.1 e 0.2) apresenta uma melhor performance se comparado ao Priority Queue.
+
 
 ## Corretude do Algoritmo
 ### Invariante do laço

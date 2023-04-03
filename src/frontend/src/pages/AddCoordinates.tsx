@@ -12,14 +12,17 @@ import React, { useState } from "react";
 import MapPreview from "../components/MapPreview";
 
 function AddCoordinates() {
+  // Navigation
   const navigate = useNavigate();
 
+  // Search params
   let [searchParams, setSearchParams] = useSearchParams();
   let [originLat, setOriginLat] = useState(searchParams.get("originLat"));
   let [originLon, setOriginLon] = useState(searchParams.get("originLon"));
   let [destLat, setdestLat] = useState(searchParams.get("destLat"));
   let [destLon, setdestLon] = useState(searchParams.get("destLon"));
 
+  // Load local variables according to search params
   const clickHandler = () => {
     setSearchParams({
       originLat: originLat || "0.0",
@@ -32,15 +35,10 @@ function AddCoordinates() {
     });
   };
 
+  // Sets the entry and exti points
   let points: LatLngExpression[] = [
     { lat: Number(originLat) || 0.0, lng: Number(originLon) || 0.0 },
     { lat: Number(destLat) || 0.0, lng: Number(destLon) || 0.0 },
-    // { lat: -23.871744, lng: -47.075852 },
-    // { lat: -23.869291, lng: -47.022447 },
-    // { lat: -23.86796, lng: -46.989146 },
-    // { lat: -23.870317, lng: -46.944851 },
-    // { lat: -23.880317, lng: -46.924851 },
-    // {lat: 49.995, lng:  29.995},
   ];
   return (
     <motion.div>
@@ -174,8 +172,7 @@ function AddCoordinates() {
             />
           </Grid2>
         </Grid2>
-        <Grid2 xs={12} lg={9} bgcolor={"red"}>
-          {/* <Box sx={{ width: 1250, height: 500 }}> */}
+        <Grid2 xs={12} lg={9}>
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             <MapPreview
               points={points}
@@ -183,7 +180,6 @@ function AddCoordinates() {
               circleRadius={0}
             />
           </Box>
-          {/* </Box> */}
         </Grid2>
       </Grid2>
     </motion.div>

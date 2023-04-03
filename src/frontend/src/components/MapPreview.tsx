@@ -32,6 +32,7 @@ interface IMapProps {
   circleRadius: number;
 }
 
+// function that uses the useMap hook to access the Leaflet map instance
 function ChildMapPreview(props: IMapProps) {
   const map = useMap();
   const points = props.points;
@@ -51,6 +52,7 @@ export default function MapPreview(props: IMapProps) {
   const circleCenter = props.circleCenter;
   const circleRadius = props.circleRadius;
 
+  // Create the circles and liness
   for (let i = 0; i < points.length; i++) {
     if (i + 1 < points.length) {
       edges.push(

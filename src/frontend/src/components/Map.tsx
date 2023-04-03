@@ -22,26 +22,22 @@ export default function Map(props: IMapProps) {
   let elements = [];
   let edges = [];
   const points = props.points;
+
+  // Create the circles and liness
   for (let i = 0; i < points.length; i++) {
     elements.push(
-      <LayerGroup>
-        {" "}
-        <Circle
-          center={points[i]}
-          radius={100}
-          pathOptions={{ fillColor: "blue" }}
-        />
-      </LayerGroup>
+      <Circle
+        center={points[i]}
+        radius={100}
+        pathOptions={{ fillColor: "blue" }}
+      />
     );
     if (i + 1 < points.length) {
       edges.push(
-        <LayerGroup>
-          {" "}
-          <Polyline
-            positions={[points[i], points[i + 1]]}
-            pathOptions={{ color: "red" }}
-          />
-        </LayerGroup>
+        <Polyline
+          positions={[points[i], points[i + 1]]}
+          pathOptions={{ color: "red" }}
+        />
       );
     }
   }
@@ -69,9 +65,9 @@ export default function Map(props: IMapProps) {
         {/* Define the TileLayer using the World Imagery Service */}
         <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
         <LayersControl>
-          <LayersControl.Overlay checked name={"test"}>
-            {elements.map((element) => element)}
-            {edges.map((element) => element)}
+          <LayersControl.Overlay checked name={"Visualizar"}>
+            <LayerGroup>{elements.map((element) => element)}</LayerGroup>
+            <LayerGroup>{edges.map((element) => element)}</LayerGroup>
           </LayersControl.Overlay>
         </LayersControl>
       </MapContainer>
