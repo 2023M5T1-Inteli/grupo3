@@ -92,9 +92,6 @@ Primeiramente, é necessário localizar o vértice de partida e, em seguida, ide
 Fonte: www.gatevidyalay.com
 
 No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre produz o caminho mais curto para um destino. Apesar dessa limitação, o algoritmo A* continua sendo uma ferramenta poderosa para uma ampla gama de aplicações, equilibrando a necessidade de encontrar caminhos eficientes com o potencial de erros ocasionais.
-
-# Descrição da estratégia adotada para resolver o problema
-
 # Análise da complexidade da solução proposta
 
 A complexidade de um algoritmo pode ser representada por algumas notações. DASGUPTA et. al. (2011) define tais notações da seguinte forma: " Sejam $f(n)$ e $g(n)$ duas funções de inteiros positivos em reais positivos. Dizemos que $f = O(g)$ (que significa que "$f$ não cresce mais rápido do que $g$") se existe uma constante $c > 0$ tal que $f(n) \leq c \cdot g(n)$.
@@ -192,6 +189,25 @@ Logo, fk+1 ≥ gk+1.
 Assim, a corretude do algoritmo está provada.
 
 # Resultados obtidos
+Os resultados obtidos a partir da análise do desempenho do algoritmo foram apresentados em dois gráficos, nos quais foram utilizados diferentes parâmetros para avaliar a eficiência do tempo de execução. Os testes foram conduzidos com a utilização do TreeSet e do PriorityQueue como estruturas de organização de dados. Os gráficos abaixo ilustram bem os resultados coletados.
+
+![Graph Resolution](../docs/img/resolutionGraph.png)
+
+![Graph Distance](../docs/img/distanceGraph.png)
+
+O primeiro gráfico mostra a relação entre a resolução, ou seja, a distância que um vértice conecta com o outro. A distância foi variada entre 0,1 (100 metros) e 1 (1000 metros). Ao analisar o gráfico, percebe-se que o método de organização do PriorityQueue foi mais eficiente em uma visão macro, apresentando um tempo menor de execução ao aumentar a resolução. No entanto, para a resolução de 0,2 (200 metros) utilizada pelo grupo na geração de conexões até essa distância, o TreeSet foi mais eficiente.
+
+O segundo gráfico apresenta o tempo de execução em relação à distância entre os pontos, que variou de 0 a 50 km. Esse parâmetro foi escolhido como fator principal, uma vez que o número de nós pontos utilizados afeta diretamente no tempo de execução do algoritmo. Embora os resultados tenham sido muito próximos, ao analisar a curva e fazer uma média, o TreeSet apresentou um resultado um pouco melhor, exigindo menos tempo na maioria das distâncias.
+
+Algumas observações adicionais devem ser feitas sobre o comportamento do algoritmo na prática. Embora o algoritmo possa ter sido testado com valores lidos a partir de dt2, nem sempre as variações são observadas durante a execução do algoritmo na prática. É importante notar que os resultados obtidos por meio de testes podem não ser uma representação exata do comportamento do código na realidade, mas ainda assim nos fornecem uma boa visualização geral do seu desempenho. No entanto, é importante levar em consideração essas divergências e possíveis variações ao utilizar o algoritmo em aplicações práticas.
+
+Os resultados obtidos com a implementação do algoritmo mostraram sua eficácia em gerar rotas coerentes, levando em consideração a menor distância e menores altitudes no momento de traçar o percurso. Os pontos destacados em azul representam os locais mais eficientes para a trajetória, enquanto a linha em vermelho demonstra a conexão entre esses pontos, resultando na melhor rota gerada. Essa visualização foi obtida na interface do algoritmo, como pode ser observado na figura abaixo. Esses resultados indicam que o algoritmo é uma ferramenta útil para otimização de rotas em diferentes contextos.
+
+![Final Route](../docs/img/routeFinal.png)
+
+Em geral, esses resultados oferecem uma visão geral sobre a eficiência do algoritmo em diferentes cenários e ajudam a identificar as condições em que cada uma das estruturas de dados utilizadas é mais vantajosa. Essas informações são úteis para orientar a escolha da estrutura de dados adequada para cada situação, contribuindo para a otimização do tempo de execução e a melhoria do desempenho do algoritmo.
+
+
 
 # Conclusão
 
