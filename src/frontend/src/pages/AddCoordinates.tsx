@@ -176,12 +176,8 @@ function AddCoordinates() {
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             <MapPreview
               points={points}
-              bounds={[
-                [
-                  [0.0, 0.0],
-                  [0.0, 0.0],
-                ],
-              ]}
+              circleCenter={[[0,  0]]}
+              circleRadius={0}
             />
           </Box>
         </Grid2>
