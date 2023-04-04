@@ -3,14 +3,13 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import CustomButton from "../components/CustomButton";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
-import { LatLngBoundsExpression, LatLngExpression, LatLngTuple } from "leaflet";
+import { LatLngExpression, LatLngTuple } from "leaflet";
 import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import MapPreview from "../components/MapPreview";
 import { createPath } from "../services/Graph";
 
-// function that converts a string to a LatLngTuple
 function pointXtoLatLngTuple(pointX: string): LatLngTuple {
   let pointXArray = pointX.split(",");
   let lat = Number(pointXArray[0]) || 0.0;
@@ -29,19 +28,23 @@ function AddExclusionZone() {
     const routeID = await createPath(
       [Number(originLat) || 0.0, Number(originLon) || 0.0],
       [Number(destLat) || 0.0, Number(destLon) || 0.0]
-    );
+    ).catch((err) => {
+      console.log(err)
+      navigate("/Error")
+    });
     setSearchParams({
       center: center || "",
       radius: radius || "",
     });
     navigate("/Loading?routeID=" + routeID);
   };
-
-  // Search params
+  const { state } = useLocation();
   let [searchParams, setSearchParams] = useSearchParams();
   let [center, setCenter] = useState(searchParams.get("center") || "");
   let [radius, setRadius] = useState(searchParams.get("radius") || "");
   let [circumference, setCircumference] = useState<LatLngExpression>([0,0]);
+  
+  const [centerError, setCenterError] = useState("");
 
   const { originLat, originLon, destLat, destLon } = state;
   useEffect(() => {
@@ -152,11 +155,23 @@ function AddExclusionZone() {
                 fullWidth={true}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setCenter(e.target.value);
+                  if (!/^[0-9,-]/.test(e.target.value)) {
+                    setCenterError("Apenas números e vírgulas são permitidos");
+                  }
+                  else if (!e.target.value.includes(",") || e.target.value.split(",")[1] === ""){
+                    setCenterError("Digite as coordenadas no formato lat,lng");
+                  }
+                  else {
+                    setCenterError("");
+                  }
                 }}
+                error={!!centerError}
+                helperText={centerError}
               />
             </Grid2>
             <Grid2>
               <TextField
+                type="number"
                 value={radius}
                 label="Raio (em Km)"
                 variant="outlined"
@@ -170,6 +185,7 @@ function AddExclusionZone() {
 
           <Grid2 xs={12}>
             <CustomButton
+              disabled={!!centerError}
               height="3.5em"
               backgroundColor="#E17F49"
               text="PRÓXIMO"
@@ -177,10 +193,12 @@ function AddExclusionZone() {
             />
           </Grid2>
         </Grid2>
-        <Grid2 xs={12} lg={9}>
+        <Grid2 xs={12} lg={9} bgcolor={"red"}>
+          {/* <Box sx={{ width: 1250, height: 500 }}> */}
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             <MapPreview points={points} circleCenter={[circumference]} circleRadius={Number(radius)||0}/>
           </Box>
+          {/* </Box> */}
         </Grid2>
       </Grid2>
     </motion.div>
