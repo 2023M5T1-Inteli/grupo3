@@ -1,6 +1,5 @@
 package utils.neo4j;
 
-import com.google.gson.Gson;
 import models.vertex.CoordinateVertex;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
@@ -59,8 +58,10 @@ public class Neo4JDatabaseHandler {
 
     public void createRouteNode(ArrayList<CoordinateVertex> coordinates, Session session, String pathID) {
         String cypherQuery = "CREATE (r:Route {pathID: $path, coordinates: $coord})";
-        String coordinatesJson = new Gson().toJson(coordinates);
-
+//        JSONObject j = new JSONObject(coordinates.get(0).toString());
+        String coordinatesJson = coordinates.get(0).toString();
+        System.out.println(coordinatesJson);
+        System.out.println(coordinatesJson);
         try (Transaction tx = session.beginTransaction()) {
             tx.run(cypherQuery, Map.of("path", pathID, "coord", coordinatesJson));
 

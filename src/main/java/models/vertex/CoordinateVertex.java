@@ -57,4 +57,20 @@ public class CoordinateVertex implements IVertex {
     public ArrayList<CoordinateEdge> getEdges() {
         return adjacencies;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "vertexIndex:" + vertexIndex +
+                ", averageHeight:" + averageHeight +
+                ", minimalCost:" + minimalCost +
+                ", totalCost:" + totalCost +
+                ", absoluteCost:" + absoluteCost +
+                ", gScore:" + gScore +
+                ", hScore:" + hScore +
+                ", fScore:" + fScore +
+                ", previousVertex:" + previousVertex +
+                ", _position:" + _position +
+                '}';
+    }
 }
