@@ -1,4 +1,4 @@
-import { Box, IconButton, TextField, Typography} from "@mui/material";
+import { Box, IconButton, TextField, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 // import "../styles/pages/Home.css";
 
@@ -93,11 +93,26 @@ function Result() {
         </Grid2>
         <Grid2 xs={12} lg={10}>
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
-            <MapPreview
-              points={points}
-              circleCenter = {[[0, 0]]}
-              circleRadius = {1000}
-            />
+            {points.length > 0 ? (
+              <Map points={points} />
+            ) : (
+              <Grid2
+                xs={12}
+                sx={{ height: "100%" }}
+                bgcolor={"white"}
+                display={"flex"}
+                justifyContent={"center"}
+                padding={16}
+                direction={"column"}
+                container
+              >
+                <Lottie
+                  animationData={loadingAnimation}
+                  width={200}
+                  style={{ height: 400 }}
+                />
+              </Grid2>
+            )}
           </Box>
         </Grid2>
       </Grid2>
