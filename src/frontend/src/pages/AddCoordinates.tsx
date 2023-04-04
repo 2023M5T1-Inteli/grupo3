@@ -1,13 +1,11 @@
 import { Box, IconButton, TextField, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-// import "../styles/pages/Home.css";
 
-import Map from "../components/Map";
 import CustomButton from "../components/CustomButton";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LatLngExpression } from "leaflet";
 import { motion } from "framer-motion";
-import { PhotoCamera, ArrowBack } from "@mui/icons-material";
+import { ArrowBack } from "@mui/icons-material";
 import React, { useState } from "react";
 import MapPreview from "../components/MapPreview";
 
@@ -108,6 +106,8 @@ function AddCoordinates() {
             </Grid2>
             <Grid2>
               <TextField
+                required
+                type="number"
                 label="Latitude"
                 value={originLat}
                 variant="outlined"
@@ -119,6 +119,8 @@ function AddCoordinates() {
             </Grid2>
             <Grid2>
               <TextField
+                required
+                type="number"
                 label="Longitude"
                 variant="outlined"
                 fullWidth={true}
@@ -142,6 +144,8 @@ function AddCoordinates() {
             </Grid2>
             <Grid2>
               <TextField
+                required
+                type="number"
                 label="Latitude"
                 variant="outlined"
                 fullWidth={true}
@@ -153,6 +157,8 @@ function AddCoordinates() {
             </Grid2>
             <Grid2>
               <TextField
+                required
+                type="number"
                 label="Longitude"
                 variant="outlined"
                 fullWidth={true}
@@ -165,6 +171,7 @@ function AddCoordinates() {
           </Grid2>
           <Grid2 xs={12}>
             <CustomButton
+              disabled={!originLat || !originLon || !destLat || !destLon}
               height="3.5em"
               backgroundColor="#E17F49"
               text="PRÓXIMO"
@@ -176,12 +183,8 @@ function AddCoordinates() {
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
             <MapPreview
               points={points}
-              bounds={[
-                [
-                  [0.0, 0.0],
-                  [0.0, 0.0],
-                ],
-              ]}
+              circleCenter={[[0,  0]]}
+              circleRadius={0}
             />
           </Box>
         </Grid2>

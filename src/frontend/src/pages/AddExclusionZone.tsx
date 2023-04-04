@@ -3,14 +3,13 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import CustomButton from "../components/CustomButton";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
-import { LatLngBoundsExpression, LatLngExpression, LatLngTuple } from "leaflet";
+import { LatLngExpression, LatLngTuple } from "leaflet";
 import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import MapPreview from "../components/MapPreview";
 import { createPath } from "../services/Graph";
 
-// function that converts a string to a LatLngTuple
 function pointXtoLatLngTuple(pointX: string): LatLngTuple {
   let pointXArray = pointX.split(",");
   let lat = Number(pointXArray[0]) || 0.0;
@@ -21,43 +20,67 @@ function pointXtoLatLngTuple(pointX: string): LatLngTuple {
 function AddExclusionZone() {
   const navigate = useNavigate();
 
-  // Get the state from the location
-  const { state } = useLocation();
-  const { originLat, originLon, destLat, destLon } = state;
-
   // Create the path/routeID
   const clickHandler = async () => {
     const routeID = await createPath(
       [Number(originLat) || 0.0, Number(originLon) || 0.0],
       [Number(destLat) || 0.0, Number(destLon) || 0.0]
-    );
+    ).catch((err) => {
+      console.log(err)
+      navigate("/Error")
+    });
     setSearchParams({
-      point1: point1 || "",
-      point2: point2 || "",
+      center: center || "",
+      radius: radius || "",
     });
     navigate("/Loading?routeID=" + routeID);
   };
 
-  // Search params
+  // Get the state from the location
+  const { state } = useLocation();
   let [searchParams, setSearchParams] = useSearchParams();
-  let [point1, setPoint1] = useState(searchParams.get("point1") || "");
-  let [point2, setPoint2] = useState(searchParams.get("point2") || "");
-  let [bound, setBound] = useState<LatLngBoundsExpression>([
-    [0.0, 0.0],
-    [0.0, 0.0],
-  ]);
+  let [center, setCenter] = useState(searchParams.get("center") || "");
+  let [radius, setRadius] = useState(searchParams.get("radius") || "");
+  let [circumference, setCircumference] = useState<LatLngExpression>([0,0]);
+  
+  const [centerError, setCenterError] = useState("");
 
-  // Load local variables according to search params
+  const { originLat, originLon, destLat, destLon } = state;
   useEffect(() => {
-    setBound([pointXtoLatLngTuple(point1), pointXtoLatLngTuple(point2)]);
-  }, [point1, point2]);
+    if (center && radius) {
+      const centerCoords: LatLngTuple = pointXtoLatLngTuple(center);
+      const radiusMeters = Number(radius) * 1000;
+      const circumferencePoints = calculateCircumferencePoints(centerCoords, radiusMeters);
+      setCircumference(pointXtoLatLngTuple(center));
+      
+    }
+  }, [center, radius]);
 
-  // Sets the entry and exti points
+  const calculateCircumferencePoints = (center: LatLngTuple, radius: number): LatLngExpression[] => {
+    const circumferencePoints: LatLngExpression[] = [];
+    const numPoints = 32;
+    for (let i = 0; i < numPoints; i++) {
+      const angle = (i / numPoints) * Math.PI * 2;
+      const x = center[0] + radius * Math.cos(angle);
+      const y = center[1] + radius * Math.sin(angle);
+      circumferencePoints.push([x, y]);
+    }
+    return circumferencePoints;
+  };
+
+  const pointXtoLatLngTuple = (pointX: string): LatLngTuple => {
+    let pointXArray = pointX.split(",");
+    let lat = Number(pointXArray[0]) || 0.0;
+    let lon = Number(pointXArray[1]) || 0.0;
+    return [lat, lon];
+  };
+
   let points: LatLngExpression[] = [];
   points = [
     { lat: originLat, lng: originLon },
     { lat: destLat, lng: destLon },
   ];
+
   return (
     <motion.div>
       <Grid2
@@ -125,23 +148,35 @@ function AddExclusionZone() {
             </Grid2>
             <Grid2>
               <TextField
-                value={point1}
-                label="Ponto Superior Esquerdo"
+                value={center}
+                label="Ponto Central"
                 variant="outlined"
                 fullWidth={true}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setPoint1(e.target.value);
+                  setCenter(e.target.value);
+                  if (!/^[0-9,-]/.test(e.target.value)) {
+                    setCenterError("Apenas números e vírgulas são permitidos");
+                  }
+                  else if (!e.target.value.includes(",") || e.target.value.split(",")[1] === ""){
+                    setCenterError("Digite as coordenadas no formato lat,lng");
+                  }
+                  else {
+                    setCenterError("");
+                  }
                 }}
+                error={!!centerError}
+                helperText={centerError}
               />
             </Grid2>
             <Grid2>
               <TextField
-                value={point2}
-                label="Ponto Inferior Direito"
+                type="number"
+                value={radius}
+                label="Raio (em Km)"
                 variant="outlined"
                 fullWidth={true}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setPoint2(e.target.value);
+                  setRadius(e.target.value);
                 }}
               />
             </Grid2>
@@ -149,6 +184,7 @@ function AddExclusionZone() {
 
           <Grid2 xs={12}>
             <CustomButton
+              disabled={!!centerError}
               height="3.5em"
               backgroundColor="#E17F49"
               text="PRÓXIMO"
@@ -156,10 +192,12 @@ function AddExclusionZone() {
             />
           </Grid2>
         </Grid2>
-        <Grid2 xs={12} lg={9}>
+        <Grid2 xs={12} lg={9} bgcolor={"red"}>
+          {/* <Box sx={{ width: 1250, height: 500 }}> */}
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
-            <MapPreview points={points} bounds={[bound]} />
+            <MapPreview points={points} circleCenter={[circumference]} circleRadius={Number(radius)||0}/>
           </Box>
+          {/* </Box> */}
         </Grid2>
       </Grid2>
     </motion.div>

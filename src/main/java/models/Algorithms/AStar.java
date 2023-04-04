@@ -48,7 +48,7 @@ public class AStar {
                 new Comparator<CoordinateVertex>() {
                     @Override
                 public int compare(CoordinateVertex o1, CoordinateVertex o2) {
-                        return Double.compare((o1.totalCost + o1.minimalCost + 2 * (maxHeight - o1.averageHeight) /1000), (o2.totalCost + o2.minimalCost + 2* (maxHeight - o2.averageHeight)/1000));
+                        return Double.compare((o1.totalCost + o1.minimalCost*0.6 + o1.averageHeight*0.4), (o2.totalCost + o2.minimalCost*0.6 + o2.averageHeight*0.4));
                     }
                 });
 
@@ -77,7 +77,7 @@ public class AStar {
                 CoordinateVertex child = ce.targetVertex;
                 double cost = ce.cost;
                 double childTotalCost = currentVertex.totalCost + cost;
-                double absoluteCost = childTotalCost + child.minimalCost +  2* ( maxHeight - child.averageHeight)/1000;
+                double absoluteCost = childTotalCost + child.minimalCost*0.6 + child.averageHeight*0.4;
 
                 // If the explored already passed by the child, and the absoluteCost is more than child absoluteCost, keep throw the loop
                 if (explored.contains(child) && (absoluteCost >= child.absoluteCost)) {

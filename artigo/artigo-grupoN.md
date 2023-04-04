@@ -92,6 +92,19 @@ Primeiramente, é necessário localizar o vértice de partida e, em seguida, ide
 Fonte: www.gatevidyalay.com
 
 No entanto, devido à sua dependência de heurísticas, o algoritmo nem sempre produz o caminho mais curto para um destino. Apesar dessa limitação, o algoritmo A* continua sendo uma ferramenta poderosa para uma ampla gama de aplicações, equilibrando a necessidade de encontrar caminhos eficientes com o potencial de erros ocasionais.
+
+## Heurística
+
+É importante definir um peso para a altura ao calcular o custo absoluto g(u) de uma aresta durante a execução do algoritmo, uma vez que o problema envolve terrenos montanhosos e a altura é um fator importante para determinar a distância real entre dois pontos. 
+
+O peso atribuído à altura ao calcular o custo absoluto de uma aresta no algoritmo A* varia de acordo com as especificidades do problema. No projeto atual, o melhor peso para a altura foi determinado por meio de tentativa e erro, avaliando a eficiência e a precisão do algoritmo em diferentes execuções.
+
+![time (m/s) vs %averageHeight](../docs/img/height.png)
+
+Depois de analisar diferentes situações com um conjunto fixo de 6586 pontos, descobriu-se que a altura teve um peso de 40% no melhor desempenho.
+
+# Descrição da estratégia adotada para resolver o problema
+
 # Análise da complexidade da solução proposta
 
 A complexidade de um algoritmo pode ser representada por algumas notações. DASGUPTA et. al. (2011) define tais notações da seguinte forma: " Sejam $f(n)$ e $g(n)$ duas funções de inteiros positivos em reais positivos. Dizemos que $f = O(g)$ (que significa que "$f$ não cresce mais rápido do que $g$") se existe uma constante $c > 0$ tal que $f(n) \leq c \cdot g(n)$.
