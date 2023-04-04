@@ -85,8 +85,8 @@ Planejador de trajetórias para voos em baixa altitude
   - [Melhor caso](#melhor-caso)
     - [Exemplo](#exemplo)
   - [Teste prático](#teste-prático)
-- [Número de vértices](#número-de-vértices)
-- [Distância entre Vértices](#distância-entre-vértices)
+- [Distância real entre os pontos de origem e destino](#distância-real-entre-os-pontos-de-origem-e-destino)
+- [Distância mínima entre os Vértices](#distância-mínima-entre-os-vértices)
   - [Corretude do Algoritmo](#corretude-do-algoritmo)
     - [Invariante do laço](#invariante-do-laço)
     - [Demonstração de Correção](#demonstração-de-correção)
@@ -98,6 +98,7 @@ Planejador de trajetórias para voos em baixa altitude
     - [Adição de origem e destino](#adição-de-origem-e-destino)
     - [Adição de pontos de exclusão](#adição-de-pontos-de-exclusão)
     - [Trajetória](#trajetória)
+    - [Erro](#erro)
   - [Manual do Administrador](#manual-do-administrador)
 - [Referências](#referências)
 
@@ -718,12 +719,21 @@ Nesta página você poderá adicionar pontos de exclusão. Para isso, adicione a
 
 Ao final, clique no botão "Próximo" para gerar a trajetória.
 
+![Áreas de exclusão](img/exclusion-area.png)
+
 ### Trajetória
 Antes da tela com a trajetória aparecerá uma tela de carregamento enquanto a rota não é gerada. 
+
+![Página de Carregamento](img/loading-page.png)
 
 Após pouco tempo, a trajetória irá aparecer em cima do mapa, com círculos representando vértices do percurso e arestas vermelhas representando o caminho que deve ser seguido. 
 
 Além disso, no menu lateral esquerdo há uma área de "insights". Aqui poderá ser visto informações como distância percorrida, altitude média, etc.
+
+### Erro
+Caso a geração da trajetória falhe (isso pode acontecer por alguns motivos como coordenadas fora do arquivo, falha no servidor, etc.) você será redirecionado para uma página de erro, onde se pode voltar para a tela inicial.
+
+![Página de Erro](img/error-page.png)
 
 ## Manual do Administrador
 
