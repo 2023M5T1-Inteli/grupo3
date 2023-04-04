@@ -32,7 +32,7 @@ public class AStar {
         return path;
     }
 
-    public ArrayList<CoordinateVertex> ASearch(int indexInitial, int indexTarget, ArrayList<CoordinateVertex> vertices) {
+    public ArrayList<CoordinateVertex> ASearch(int indexInitial, int indexTarget, ArrayList<CoordinateVertex> vertices, double maxHeight) {
 
         Haversine scorer = new Haversine();
 
@@ -44,11 +44,11 @@ public class AStar {
         Set<CoordinateVertex> explored = new HashSet<CoordinateVertex>();
 
         // Setting a priority queue comparing the totalCost + minimalCost of two vertices
-        PriorityQueue<CoordinateVertex> queue = new PriorityQueue<CoordinateVertex>(vertices.size(),
+        TreeSet<CoordinateVertex> queue = new TreeSet<>(
                 new Comparator<CoordinateVertex>() {
                     @Override
                 public int compare(CoordinateVertex o1, CoordinateVertex o2) {
-                        return Double.compare((o1.totalCost + o1.minimalCost + o1.averageHeight), (o2.totalCost + o2.minimalCost + o2.averageHeight));
+                        return Double.compare((o1.totalCost + o1.minimalCost + 2 * (maxHeight - o1.averageHeight) /1000), (o2.totalCost + o2.minimalCost + 2* (maxHeight - o2.averageHeight)/1000));
                     }
                 });
 
@@ -61,7 +61,7 @@ public class AStar {
 
 
         while (!queue.isEmpty() && !found){ // Until the queue is empty and you arrive at the targetVertex.
-            CoordinateVertex currentVertex = queue.poll(); // Keeping the vertex with the most priority in currentVertex and deleting it after.
+            CoordinateVertex currentVertex = queue.pollFirst(); // Keeping the vertex with the most priority in currentVertex and deleting it after.
 
             explored.add(currentVertex); // Adding this vertex in the set of already explored
 
@@ -75,9 +75,9 @@ public class AStar {
             for (CoordinateEdge ce: currentVertex.getEdges()) {
                 // Taking the target of each vertex that make connection with the current.
                 CoordinateVertex child = ce.targetVertex;
-                double cost = ce.distance;
+                double cost = ce.cost;
                 double childTotalCost = currentVertex.totalCost + cost;
-                double absoluteCost = childTotalCost + child.minimalCost + child.averageHeight;
+                double absoluteCost = childTotalCost + child.minimalCost +  2* ( maxHeight - child.averageHeight)/1000;
 
                 // If the explored already passed by the child, and the absoluteCost is more than child absoluteCost, keep throw the loop
                 if (explored.contains(child) && (absoluteCost >= child.absoluteCost)) {
@@ -103,7 +103,7 @@ public class AStar {
         return bestPath;
 
     }
-    
+
     public static void main(String[] args) throws FileNotFoundException {
         
         double totalTime = 0.0;
@@ -114,17 +114,19 @@ public class AStar {
 
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
-        double[][] coordinates = points.Coordinates("./dted/Rio", -43.4082, -22.1780,-43.5056, -22.2813, 0.0011, 0.0014);
+        double[][][] coordinates = points.Coordinates("./dted/Rio", -43.4082, -22.1780,-43.5056, -22.2813, 0.0011, 0.0014);
 
         // Initializes a new Graph()
-        Graph newGraph = new Graph();
+        Graph newGraph = new Graph(coordinates.length, coordinates[0].length);
 
 
         // Adds all positions to the new Graph
         for (int i = 0; i < coordinates.length; i++){
-            Point2D currentPoint = new Point2D.Double(coordinates[i][1],  coordinates[i][0]);
-            CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][2]);
-            newGraph.addVertex(newCoordinateVertex);
+            for(int j =0; j< coordinates.length; j++) {
+                Point2D currentPoint = new Point2D.Double(coordinates[i][j][1], coordinates[i][j][0]);
+                CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][j][2]);
+                newGraph.addVertex(newCoordinateVertex, i, j);
+            }
         }
 
         // Create all vertex edges based on distance
@@ -139,7 +141,7 @@ public class AStar {
             double initialTime = System.nanoTime();
             // call the algorithm
             AStar algorithm = new AStar();
-            ArrayList <CoordinateVertex> newList = algorithm.ASearch(0, vertices.size()-1, vertices);
+            ArrayList <CoordinateVertex> newList = algorithm.ASearch(0, vertices.size()-1, vertices, 1000);
             // Final count of time
             double finalTime = System.nanoTime();
 

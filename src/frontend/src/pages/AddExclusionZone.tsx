@@ -19,6 +19,11 @@ function pointXtoLatLngTuple(pointX: string): LatLngTuple {
 
 function AddExclusionZone() {
   const navigate = useNavigate();
+
+  // Get the state from the location
+  const { state } = useLocation();
+
+  // Create the path/routeID
   const clickHandler = async () => {
     const routeID = await createPath(
       [Number(originLat) || 0.0, Number(originLon) || 0.0],
@@ -38,6 +43,7 @@ function AddExclusionZone() {
   let [center, setCenter] = useState(searchParams.get("center") || "");
   let [radius, setRadius] = useState(searchParams.get("radius") || "");
   let [circumference, setCircumference] = useState<LatLngExpression>([0,0]);
+  
   const [centerError, setCenterError] = useState("");
 
   const { originLat, originLon, destLat, destLon } = state;
