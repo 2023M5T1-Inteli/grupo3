@@ -23,7 +23,6 @@ function AddExclusionZone() {
 
   // Get the state from the location
   const { state } = useLocation();
-  const { originLat, originLon, destLat, destLon } = state;
 
   // Create the path/routeID
   const clickHandler = async () => {
