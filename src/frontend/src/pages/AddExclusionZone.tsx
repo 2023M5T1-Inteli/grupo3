@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import MapPreview from "../components/MapPreview";
+import { createPath } from "../services/Graph";
 
 function pointXtoLatLngTuple(pointX: string): LatLngTuple {
   let pointXArray = pointX.split(",");
@@ -18,12 +19,19 @@ function pointXtoLatLngTuple(pointX: string): LatLngTuple {
 
 function AddExclusionZone() {
   const navigate = useNavigate();
-  const clickHandler = () => {
+  const clickHandler = async () => {
+    const routeID = await createPath(
+      [Number(originLat) || 0.0, Number(originLon) || 0.0],
+      [Number(destLat) || 0.0, Number(destLon) || 0.0]
+    ).catch((err) => {
+      console.log(err)
+      navigate("/Error")
+    });
     setSearchParams({
       center: center || "",
       radius: radius || "",
     });
-    navigate("/Loading");
+    navigate("/Loading?routeID=" + routeID);
   };
   const { state } = useLocation();
   let [searchParams, setSearchParams] = useSearchParams();
