@@ -141,7 +141,7 @@ function AddExclusionZone() {
                 fullWidth={true}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setCenter(e.target.value);
-                  if (!/^[0-9,]/.test(e.target.value)) {
+                  if (!/^[0-9,-]/.test(e.target.value)) {
                     setCenterError("Apenas números e vírgulas são permitidos");
                   }
                   else if (!e.target.value.includes(",") || e.target.value.split(",")[1] === ""){
