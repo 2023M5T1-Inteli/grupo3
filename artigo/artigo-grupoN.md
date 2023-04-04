@@ -103,8 +103,6 @@ O peso atribuído à altura ao calcular o custo absoluto de uma aresta no algori
 
 Depois de analisar diferentes situações com um conjunto fixo de 6586 pontos, descobriu-se que a altura teve um peso de 40% no melhor desempenho.
 
-# Descrição da estratégia adotada para resolver o problema
-
 # Análise da complexidade da solução proposta
 
 A complexidade de um algoritmo pode ser representada por algumas notações. DASGUPTA et. al. (2011) define tais notações da seguinte forma: " Sejam $f(n)$ e $g(n)$ duas funções de inteiros positivos em reais positivos. Dizemos que $f = O(g)$ (que significa que "$f$ não cresce mais rápido do que $g$") se existe uma constante $c > 0$ tal que $f(n) \leq c \cdot g(n)$.
