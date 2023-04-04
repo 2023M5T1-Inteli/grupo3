@@ -14,14 +14,17 @@ function Loading() {
   // Get the routeID from the search params
   const navigate = useNavigate();
 
-  let [searchParams, setSearchParams] = useSearchParams();
-  let [routeID, setRouteID] = useState(searchParams.get("routeID"));
+  let [searchParams] = useSearchParams();
+  let [routeID] = useState(searchParams.get("routeID"));
 
   // function that checks the route status every x seconds, and if "Done", redirects to the route page
   useEffect(() => {
     const interval = setInterval(async () => {
       console.log("Checking route status...");
-      const status = await checkRouteStatus(routeID || "");
+      const status = await checkRouteStatus(routeID || "").catch((err) => {
+        console.log(err)
+        navigate("/Error");
+      });
       if (status === "DONE") {
         console.log("Route done!");
         navigate("/Result?pathID=" + routeID);

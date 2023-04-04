@@ -2,6 +2,7 @@ import { Button, Typography } from "@mui/material";
 
 // Define interface for CustomButton props
 interface ICustomButtonProps {
+  disabled?: boolean;
   height: string;
   backgroundColor: string;
   text: string;
@@ -15,6 +16,7 @@ function CustomButton(props: ICustomButtonProps) {
     <Button
       fullWidth={true}
       variant={"contained"}
+      disabled={props.disabled}
       sx={{
         height: props.height,
         borderRadius: "1.5rem",

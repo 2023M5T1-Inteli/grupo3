@@ -5,11 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bacf09db-9238-41d3-a427-7bbb765f2d74" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/controller/AStarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/java/controller/AStarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/Points.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/Points.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/PointsB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/java/utils/PointsB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FlightWise/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/FlightWise/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/AStarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/AStarController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Algorithms/AStar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Algorithms/AStar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Graph/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Graph/Graph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Points.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Points.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +20,13 @@
   </component>
   <component name="CompilerWorkspaceConfiguration">
     <option name="CLEAR_OUTPUT_DIRECTORY" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindBugs-IDEA-Workspace">
     <analyzeAfterCompile>true</analyzeAfterCompile>
@@ -29,7 +38,17 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
   <component name="ProjectId" id="2MIHp7toVZKdRbTDiBsgAtd9q5g" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="abbreviatePackageNames" value="true" />
     <option name="autoscrollFromSource" value="true" />
@@ -41,20 +60,28 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "Downloaded.Files.Path.Enabled": "false",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Inteli/Documents/Trabalho/grupo3/src/FlightWise",
+    "last_opened_file_path": "/Users/gabrielcarneiro/Documents/GitHub/grupo3",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.37931034",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -92,6 +119,7 @@
       <updated>1678825639892</updated>
       <workItem from="1678825641284" duration="3332000" />
       <workItem from="1679341870194" duration="710000" />
+      <workItem from="1680013781564" duration="1992000" />
     </task>
     <servers />
   </component>
@@ -108,5 +136,15 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="newGraph.vertices.get(0).adjacencies.get(0)" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
