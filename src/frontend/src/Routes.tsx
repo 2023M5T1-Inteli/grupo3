@@ -6,6 +6,7 @@ import AddExclusionZone from "./pages/AddExclusionZone";
 import Home from "./pages/Home";
 import Loading from "./pages/Loading";
 import Result from "./pages/Result";
+import Error from "./pages/Error";
 
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -20,6 +21,7 @@ function MainRoute() {
           <Route path="/AddExclusionZone" element={<AddExclusionZone />} />
           <Route path="/Loading" element={<Loading />} />
           <Route path="/Result" element={<Result />} />
+          <Route path="/Error" element={<Error />} />
         </Routes>
     </AnimatePresence>
   );
