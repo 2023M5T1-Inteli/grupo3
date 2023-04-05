@@ -74,7 +74,8 @@ public class Points {
             boolean isInExclusionZone = pointAnalyzer.isExclusionPoint(new Point2D.Double(lon, lat), new Point2D.Double(excludeLong, excludeLat), radius);
 
             if (isInExclusionZone) {
-              coordData[i][j] = null;
+              double[] nullValues = new double[]{Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY};
+              coordData[i][j] = nullValues;
             } else {
               coordData[i][j] = getHeight(dbDTED, lon, lat);
             }
