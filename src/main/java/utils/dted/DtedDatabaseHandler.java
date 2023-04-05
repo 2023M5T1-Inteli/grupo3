@@ -130,6 +130,74 @@ public class DtedDatabaseHandler {
         return ret;
     }
 
+
+    private double[][] mapMinMaxLatLon(Dataset d)
+    {
+        int xsize = d.getRasterXSize();
+        int ysize = d.getRasterYSize();
+
+        double[] geoTransform = d.GetGeoTransform();
+
+        double minLon = geoTransform[0];
+        double maxLon = minLon  + (xsize-1)*geoTransform[1];
+
+        double maxLat = geoTransform[3];
+        double minLat = maxLat + (ysize-1)*geoTransform[5];
+
+        double[][] ret = new double[2][2];
+        ret[0][0] = minLat;
+        ret[0][1] = maxLat;
+        ret[1][0] = minLon;
+        ret[1][1] = maxLon;
+
+        return ret;
+    }
+
+    public double[][][] listAllBounds() {
+        double[][][] ret = new double[m_DatabaseDtedDatasets.size()][2][2];
+
+        for(int i = 0; i < m_DatabaseDtedDatasets.size(); i++)
+        {
+            ret[i] = mapMinMaxLatLon(m_DatabaseDtedDatasets.get(i));
+        }
+
+        return ret;
+    }
+    public double[][] mapMinMaxLatLon() {
+        double currentMinLon = 0.0;
+        double currentMaxLon = Double.NEGATIVE_INFINITY;
+        double currentMinLat = 0.0;
+        double currentMaxLat = Double.NEGATIVE_INFINITY;
+
+        for(Dataset d : m_DatabaseDtedDatasets) {
+            double[][] minMax = mapMinMaxLatLon(d);
+
+            if(currentMinLon == 0.0 && currentMaxLon == 0.0 && currentMinLat == 0.0 && currentMaxLat == 0.0) {
+                currentMinLon = minMax[1][0];
+                currentMaxLon = minMax[1][1];
+                currentMinLat = minMax[0][0];
+                currentMaxLat = minMax[0][1];
+            } else {
+                if(minMax[1][0] < currentMinLon)
+                    currentMinLon = minMax[1][0];
+                if(minMax[1][1] > currentMaxLon)
+                    currentMaxLon = minMax[1][1];
+                if(minMax[0][0] < currentMinLat)
+                    currentMinLat = minMax[0][0];
+                if(minMax[0][1] > currentMaxLat)
+                    currentMaxLat = minMax[0][1];
+            }
+        }
+
+
+        double[][] ret = new double[2][2];
+        ret[0][0] = currentMinLat;
+        ret[0][1] = currentMaxLat;
+        ret[1][0] = currentMinLon;
+        ret[1][1] = currentMaxLon;
+
+        return ret;
+    }
     private List<Dataset> m_DatabaseDtedDatasets;
 
     private static Optional<String> getExtensionByStringHandling(String filename)
