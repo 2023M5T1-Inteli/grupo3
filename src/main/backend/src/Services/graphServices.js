@@ -21,37 +21,21 @@ class GraphService {
     try {
       // Execute a query to finds all nodes that have a "pathID" property that matches the pathID argument.
       const result = await session.run(
-        "MATCH (n:NewCoordinate {pathID: $path}) RETURN n",
+        "MATCH (r:Route {pathID: $path}) RETURN r",
         {
           path: pathID,
         }
       );
 
-      // The result object is mapped to an array of node objects
-      const nodeFields = result.records.map((queries) => queries._fields[0]);
+      let rawCoord = result.records[0]._fields[0].properties.coordinates;
+      rawCoord = rawCoord.substring(0, rawCoord.length - 2) + rawCoord.substring(rawCoord.length - 1);
 
-      // The node objects are further mapped to an array of their properties
-      const nodeProperties = nodeFields.map((fields) => fields.properties);
-      
-      let finalPath = []
-
-      for (let i = 0; i < nodeProperties.length; i++){
-        finalPath.push({
-          latitude: nodeProperties[i].latitude,
-          lastNode: nodeProperties[i].lastNode.low,
-          index: nodeProperties[i].index.low,
-          pathID: nodeProperties[i].pathID,
-          longitude: nodeProperties[i].longitude
-        });
-      }    
-
-      // console.log(nodeProperties);
+      let coordinates = JSON.parse(rawCoord);
 
       await session.close();
 
-      return finalPath;
-    }
-    catch (error){
+      return coordinates;
+    } catch (error) {
       return error;
     }
   }
@@ -92,8 +76,8 @@ class GraphService {
           exclusionPoints: exclusionPoints,
           intermediatePoints: intermediatePoints,
           filePath: "./dted/Rio",
-          pathID: code
-        }
+          pathID: code,
+        },
       });
 
       // Return the generated route ID
@@ -152,10 +136,9 @@ class GraphService {
       // The result object is returned
       return {
         routeID: result.routeID,
-        status: result.status
+        status: result.status,
       };
-    }
-    catch (error){
+    } catch (error) {
       return error;
     }
   }
