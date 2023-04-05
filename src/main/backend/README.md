@@ -70,3 +70,6 @@
 
 ```
 
+### Swagger
+
+A documentação também foi feita com o uso do Swagger, uma especificação de linguagem agnóstica que descreve as interfaces de programação de aplicativos RESTful. Para visualizar o código em openAPI, acesse o link https://shre.ink/kjzx. Caso queira visualizar a documentação que foi gerada, clique no botão “view documentation”, no canto superior direito.
