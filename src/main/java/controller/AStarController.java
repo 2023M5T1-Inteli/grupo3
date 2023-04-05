@@ -105,11 +105,11 @@ public class AStarController implements CommandLineRunner {
         System.out.println("Reading File...");
 
 
-        double[][][] coordinates = points.Coordinates(filePath, -43.993166, -22, -42.03, -23.98, 0.0011, 0.0014, exclusionPoints);
+        double[][][] coordinates = points.Coordinates(filePath, 0.0011, 0.0014);
 
         double[] startPoint = new double[]{lonInitial, latInitial};
         double[] endPoint = new double[]{lonFinal, latFinal};
-            PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, startPoint, endPoint);
+            PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, startPoint, endPoint, exclusionPoints);
         ArrayList<CoordinateVertex> route = pathPlanner.traceRoute();
 
         System.out.println(pathPlanner);

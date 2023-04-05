@@ -1,10 +1,8 @@
 package utils;
 
-import org.json.JSONArray;
 import utils.ExclusionStopPoints.PointAnalyzer;
 import utils.dted.DtedDatabaseHandler;
 
-import java.awt.geom.Point2D;
 import java.util.Optional;
 
 // This class is only used to test the reading of dt2 files
@@ -40,8 +38,7 @@ public class Points {
   }
   // method that will receive the coordinate for receive the points of the areas around the points
 
-  public static double[][][] getCoord(DtedDatabaseHandler dbDTED, double lonInitial, double latInitial, double lonFinal,
-                                    double latFinal, double lonStep, double latStep, JSONArray exclusionPoints) {
+  public static double[][][] getCoord(DtedDatabaseHandler dbDTED, double lonStep, double latStep) {
 
 
     /*
@@ -50,6 +47,19 @@ public class Points {
      * The "Math.ceil" is used to round the number up
      * The "Math.abs" is used to get differences positive e negatives
      */
+
+    double[][] mapBounds = dbDTED.mapMinMaxLatLon();
+
+    double latInitial = mapBounds[0][1] -  latStep;
+    double lonInitial = mapBounds[1][0] +  lonStep;
+    double latFinal = mapBounds[0][0] +  latStep;
+    double lonFinal = mapBounds[1][1] -  lonStep;
+
+System.out.println("latInitial: " + latInitial);
+System.out.println("lonInitial: " + lonInitial);
+System.out.println("latFinal: " + latFinal);
+System.out.println("lonFinal: " + lonFinal);
+
     int row = (int) Math.ceil(Math.abs(latInitial - latFinal) / latStep);
     int col = (int) Math.ceil(Math.abs(lonInitial - lonFinal) / lonStep);
 
@@ -69,24 +79,9 @@ public class Points {
       for (int j = 0; j < col; j++) {
         // here we put the initial coordinates and the file of dted
 
-        if (exclusionPoints.length() != 0) {
-          for (int k = 0; k < exclusionPoints.length(); k++) {
-            JSONArray excludePoint = exclusionPoints.getJSONArray(k);
 
-            double excludeLong = excludePoint.getDouble(0);
-            double excludeLat = excludePoint.getDouble(1);
-            double radius = excludePoint.getDouble(2);
 
-            boolean isInExclusionZone = pointAnalyzer.isExclusionPoint(new Point2D.Double(lon, lat), new Point2D.Double(excludeLong, excludeLat), radius);
-
-            if (isInExclusionZone) {
-              double[] nullValues = new double[]{Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE};
-              coordData[i][j] = nullValues;
-            } else {
-              coordData[i][j] = getHeight(dbDTED, lon, lat);
-            }
-          }
-        }
+        coordData[i][j] = getHeight(dbDTED, lon, lat);
 
         // traverse the longitude (column) per row
         lon += lonStep;
@@ -103,13 +98,13 @@ public class Points {
     return coordData;
   }
 
-  public double[][][] Coordinates(String filePath, double lonInitial, double latInitial, double lonFinal, double latFinal, double lonStep1, double latStep1, JSONArray exclusionPoints) {
+  public double[][][] Coordinates(String filePath, double lonStep1, double latStep1) {
     // Here we open the DTED database located at the path "dted/rio"
 
 
     DtedDatabaseHandler dbRio = openDtedDB(filePath);
 
-    double[][][] coordData = getCoord(dbRio, lonInitial, latInitial, lonFinal, latFinal, lonStep1, latStep1, exclusionPoints);
+    double[][][] coordData = getCoord(dbRio, lonStep1, latStep1);
 
 
 

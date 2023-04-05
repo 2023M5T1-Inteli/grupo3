@@ -1,15 +1,9 @@
 package models.Algorithms;
 
-import models.Graph.Graph;
 import models.Scorer.Haversine;
 import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
-import org.json.JSONArray;
-import utils.Points;
-import utils.getIndex.GetIndexMethodClass;
 
-import java.awt.geom.Point2D;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 public class AStar {
@@ -50,7 +44,7 @@ public class AStar {
                 new Comparator<CoordinateVertex>() {
                     @Override
                     public int compare(CoordinateVertex o1, CoordinateVertex o2) {
-                        return Double.compare((o1.totalCost + o1.minimalCost * 0.6 + (o1.averageHeight/1000) * 0.4), (o2.totalCost + o2.minimalCost * 0.6 + (o2.averageHeight/1000) * 0.4));
+                        return Double.compare((o1.totalCost + o1.minimalCost * 0.6 + (o1.averageHeight/1000) * 0.4 + o1.exclusionCost), (o2.totalCost + o2.minimalCost * 0.6 + (o2.averageHeight/1000) * 0.4) + o2.exclusionCost);
                     }
                 });
 
@@ -89,7 +83,7 @@ public class AStar {
                 double childTotalCost = currentVertex.totalCost + cost;
 
                 // Calculate the absoluteCost of the child vertex
-                double absoluteCost = childTotalCost + child.minimalCost * 0.6 + (child.averageHeight/1000) * 0.4;
+                double absoluteCost = childTotalCost + child.minimalCost * 0.6 + (child.averageHeight/1000) * 0.4 + child.exclusionCost;
 
                 // If the child vertex has already been explored and its absoluteCost is greater than the current absoluteCost, continue
                 if (explored.contains(child) && (absoluteCost >= child.absoluteCost)) {
@@ -117,55 +111,5 @@ public class AStar {
 
         // Return the best path
         return bestPath;
-    }
-    public static void main(String[] args) throws FileNotFoundException {
-        
-        double totalTime = 0.0;
-        
-        /**
-         * Currently this class is being responsible for testing the execution time of the A* algorithm.
-         */
-
-        // Reading the dt2 file and taking the positions of the region
-        Points points = new Points();
-        JSONArray exclusionPoints = new JSONArray();
-        double[][][] coordinates = points.Coordinates("./dted/Rio", -43.4082, -22.1780,-43.5056, -22.2813, 0.0011, 0.0014, exclusionPoints);
-
-        // Initializes a new Graph()
-        Graph newGraph = new Graph(coordinates.length, coordinates[0].length);
-
-
-        // Adds all positions to the new Graph
-        for (int i = 0; i < coordinates.length; i++){
-            for(int j =0; j< coordinates.length; j++) {
-                Point2D currentPoint = new Point2D.Double(coordinates[i][j][1], coordinates[i][j][0]);
-                CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, coordinates[i][j][2]);
-                newGraph.addVertex(newCoordinateVertex, i, j);
-            }
-        }
-
-        // Create all vertex edges based on distance
-        newGraph.addVertexEdgesByDistance(0.100);
-
-        // Taking the index of the target position
-        GetIndexMethodClass getIndex = new GetIndexMethodClass(newGraph, -43.5056, -22.1780);
-   
-        ArrayList<CoordinateVertex> vertices = newGraph.getVertexes();
-
-        for (int t = 0; t < 11; t++) {
-            double initialTime = System.nanoTime();
-            // call the algorithm
-            AStar algorithm = new AStar();
-            ArrayList <CoordinateVertex> newList = algorithm.ASearch(0, vertices.size()-1, vertices, 1000);
-            // Final count of time
-            double finalTime = System.nanoTime();
-
-            // Calculing the total spend of time in algorithm
-            double elapsedTime = (finalTime - initialTime)/1000000.0;
-            if (t > 0) {
-                totalTime += elapsedTime;
-            }
-        }
-        System.out.println("Tempo decorrido: " + (totalTime/10.0) + " ms");
     }
 }

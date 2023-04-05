@@ -4,13 +4,16 @@ import models.Algorithms.AStar;
 import models.Graph.Graph;
 import models.Scorer.Haversine;
 import models.vertex.CoordinateVertex;
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.ExclusionStopPoints.PointAnalyzer;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 public class PathPlanner {
 
@@ -24,8 +27,11 @@ public class PathPlanner {
 
     private ArrayList<CoordinateVertex> foundRoute;
 
-    public PathPlanner(String routeID, double[][][] coordinates, double[] startCoordinate, double[] targetCoordinate) {
+    private final JSONArray excludedPoints;
+
+    public PathPlanner(String routeID, double[][][] coordinates, double[] startCoordinate, double[] targetCoordinate, JSONArray excludedPoints){
         this.routeID = routeID;
+        this.excludedPoints = excludedPoints;
 
         double minStartDistance = Double.MAX_VALUE;
         double minEndDistance = Double.MAX_VALUE;
@@ -47,6 +53,10 @@ public class PathPlanner {
                 if (height > maxHeight) maxHeight = height;
                 Point2D currentPoint = new Point2D.Double(coordinates[i][j][1], coordinates[i][j][0]);
                 CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, height);
+
+                if(isExcludedPoint(newCoordinateVertex))
+                    newCoordinateVertex.exclusionCost = 1000000;
+
                 this._graph.addVertex(newCoordinateVertex, i, j);
 
                 double currentStartDistance = Math.abs(scorer.computeDistanceByPoint2D(currentPoint, startPoint));
@@ -76,6 +86,27 @@ public class PathPlanner {
         this.totalProcessTime += System.currentTimeMillis() - edgesCreationTime;
     }
 
+
+    private boolean isExcludedPoint(CoordinateVertex vertex) {
+        if (this.excludedPoints.length() != 0) {
+            PointAnalyzer pointAnalyzer = new PointAnalyzer();
+
+            for (int k = 0; k < this.excludedPoints.length(); k++) {
+                JSONArray excludePoint = this.excludedPoints.getJSONArray(k);
+
+                double excludeLong = excludePoint.getDouble(0);
+                double excludeLat = excludePoint.getDouble(1);
+                double radius = excludePoint.getDouble(2);
+
+                boolean isInExclusionZone = pointAnalyzer.isExclusionPoint(vertex.getPosition(), new Point2D.Double(excludeLong, excludeLat), radius);
+
+                if (isInExclusionZone) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public ArrayList<CoordinateVertex> traceRoute() {
         // Calculates the optimal path between two nodes(vertex)
         logger.atInfo().log("Calculating route");
