@@ -60,10 +60,16 @@ public class CoordinateVertex implements IVertex {
 
     @Override
     public String toString() {
+        int previousVertexIndex = -1;
+
+        if (previousVertex != null){
+            previousVertexIndex = previousVertex.getIndex();
+        }
+
         return "{" +
                 "\"vertexIndex\":" + vertexIndex +
                 ", \"averageHeight\"':" + averageHeight +
-                ", \"previousVertex\":" + previousVertex +
+                ", \"previousVertex\":" + previousVertexIndex +
                 ", \"latitude\":" + _position.getX() +
                 ", \"longitude\":" + _position.getY() +
                 "}";

@@ -27,29 +27,38 @@ class GraphService {
         }
       );
 
+      console.log(result.records.queries._fields);
+      console.log(result.records.queries._fields[0]);
+      console.log(result.records[0].queries._fields);
+      console.log(result.records[0].queries._fields[0]);
+
       // The result object is mapped to an array of node objects
       const nodeFields = result.records.map((queries) => queries._fields[0]);
 
       // The node objects are further mapped to an array of their properties
       const nodeProperties = nodeFields.map((fields) => fields.properties);
       
+      let coordinates = JSON.parse(nodeProperties[i].coordinates);
+
+      console.log(coordinates);
+
       let finalPath = []
 
-      for (let i = 0; i < nodeProperties.length; i++){
-        finalPath.push({
-          latitude: nodeProperties[i].latitude,
-          lastNode: nodeProperties[i].lastNode.low,
-          index: nodeProperties[i].index.low,
-          pathID: nodeProperties[i].pathID,
-          longitude: nodeProperties[i].longitude
-        });
-      }    
+      // for (let i = 0; i < nodeProperties.length; i++){
+      //   finalPath.push({
+      //     latitude: nodeProperties[i].coordinates,
+      //     lastNode: nodeProperties[i].lastNode.low,
+      //     index: nodeProperties[i].index.low,
+      //     pathID: nodeProperties[i].pathID,
+      //     longitude: nodeProperties[i].longitude
+      //   });
+      // }    
 
       // console.log(nodeProperties);
 
       await session.close();
 
-      return finalPath;
+      return coordinates;
     }
     catch (error){
       return error;
