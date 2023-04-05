@@ -4,8 +4,14 @@ import controller.mongodbModel.RouteItem;
 import controller.mongodbRepository.ItemRepository;
 import io.github.cdimascio.dotenv.Dotenv;
 import models.vertex.CoordinateVertex;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.neo4j.driver.AuthTokens;
+
 import org.neo4j.driver.*;
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.GraphDatabase;
+import org.neo4j.driver.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -67,6 +73,7 @@ public class AStarController implements CommandLineRunner {
      *             }
      * @return ResponseEntity is an HTTP response
      */
+
     @PostMapping("executeAlg")
     public ResponseEntity<String> executeAlg(@RequestBody String data) throws Exception {
         // Decoding the characters to UTF-8
@@ -74,6 +81,7 @@ public class AStarController implements CommandLineRunner {
 
         // Parsing the decoded string to a JSON object and extracting the values
         JSONObject obj = new JSONObject(dataDecoded);
+        JSONArray exclusionPoints = obj.getJSONArray("exclusionPoints");
 
         String filePath = obj.getString("filePath");
         double lonInitial = obj.getDouble("lonInitial");
@@ -96,7 +104,8 @@ public class AStarController implements CommandLineRunner {
 
         System.out.println("Reading File...");
 
-        double[][][] coordinates = points.Coordinates(filePath, -43.993166, -22, -42.03, -23.98, 0.0011, 0.0014);
+
+        double[][][] coordinates = points.Coordinates(filePath, -43.993166, -22, -42.03, -23.98, 0.0011, 0.0014, exclusionPoints);
 
         double[] startPoint = new double[]{lonInitial, latInitial};
         double[] endPoint = new double[]{lonFinal, latFinal};

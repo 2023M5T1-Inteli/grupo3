@@ -4,6 +4,7 @@ import models.Graph.Graph;
 import models.Scorer.Haversine;
 import models.edge.CoordinateEdge;
 import models.vertex.CoordinateVertex;
+import org.json.JSONArray;
 import utils.Points;
 import utils.getIndex.GetIndexMethodClass;
 
@@ -127,7 +128,8 @@ public class AStar {
 
         // Reading the dt2 file and taking the positions of the region
         Points points = new Points();
-        double[][][] coordinates = points.Coordinates("./dted/Rio", -43.4082, -22.1780,-43.5056, -22.2813, 0.0011, 0.0014);
+        JSONArray exclusionPoints = new JSONArray();
+        double[][][] coordinates = points.Coordinates("./dted/Rio", -43.4082, -22.1780,-43.5056, -22.2813, 0.0011, 0.0014, exclusionPoints);
 
         // Initializes a new Graph()
         Graph newGraph = new Graph(coordinates.length, coordinates[0].length);

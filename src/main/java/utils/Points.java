@@ -1,7 +1,10 @@
 package utils;
 
+import org.json.JSONArray;
+import utils.ExclusionStopPoints.PointAnalyzer;
 import utils.dted.DtedDatabaseHandler;
 
+import java.awt.geom.Point2D;
 import java.util.Optional;
 
 // This class is only used to test the reading of dt2 files
@@ -38,7 +41,7 @@ public class Points {
   // method that will receive the coordinate for receive the points of the areas around the points
 
   public static double[][][] getCoord(DtedDatabaseHandler dbDTED, double lonInitial, double latInitial, double lonFinal,
-                                    double latFinal, double lonStep, double latStep) {
+                                    double latFinal, double lonStep, double latStep, JSONArray exclusionPoints) {
 
 
     /*
@@ -59,30 +62,54 @@ public class Points {
     double lonStep1 = 0.0014;
     double latStep1 = 0.0011;
 
+    PointAnalyzer pointAnalyzer = new PointAnalyzer();
+
     for (int i = 0; i < row; i++) {
       double lon = lonInitial;
       for (int j = 0; j < col; j++) {
         // here we put the initial coordinates and the file of dted
-        coordData[i][j] = getHeight(dbDTED, lon, lat);
+
+        if (exclusionPoints.length() != 0) {
+          for (int k = 0; k < exclusionPoints.length(); k++) {
+            JSONArray excludePoint = exclusionPoints.getJSONArray(k);
+
+            double excludeLong = excludePoint.getDouble(0);
+            double excludeLat = excludePoint.getDouble(1);
+            double radius = excludePoint.getDouble(2);
+
+            boolean isInExclusionZone = pointAnalyzer.isExclusionPoint(new Point2D.Double(lon, lat), new Point2D.Double(excludeLong, excludeLat), radius);
+
+            if (isInExclusionZone) {
+              double[] nullValues = new double[]{Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE};
+              coordData[i][j] = nullValues;
+            } else {
+              coordData[i][j] = getHeight(dbDTED, lon, lat);
+            }
+          }
+        }
+
         // traverse the longitude (column) per row
         lon += lonStep;
         count++;
+
       }
       // later we traverse the latitude (line)
       lat -= latStep;
 
     }
 
+
+
     return coordData;
   }
 
-  public double[][][] Coordinates(String filePath, double lonInitial, double latInitial, double lonFinal, double latFinal, double lonStep1, double latStep1) {
+  public double[][][] Coordinates(String filePath, double lonInitial, double latInitial, double lonFinal, double latFinal, double lonStep1, double latStep1, JSONArray exclusionPoints) {
     // Here we open the DTED database located at the path "dted/rio"
 
 
     DtedDatabaseHandler dbRio = openDtedDB(filePath);
 
-    double[][][] coordData = getCoord(dbRio, lonInitial, latInitial, lonFinal, latFinal, lonStep1, latStep1);
+    double[][][] coordData = getCoord(dbRio, lonInitial, latInitial, lonFinal, latFinal, lonStep1, latStep1, exclusionPoints);
 
 
 
