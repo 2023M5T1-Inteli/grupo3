@@ -704,9 +704,7 @@ No primeiro acesso a plataforma você verá um pequeno texto de apresentação s
 ![Página Inicial](img/initial-page.png)
 
 ### Adição de origem e destino
-Após isso, você verá uma tela de adição de coordenadas. Aqui você deve adicionar as longitudes e latitudes dos pontos de origem e destino respectivamente. 
-
-![Adição dos pontos](img/coordinates-page.png)
+Após isso, você verá uma tela de adição de coordenadas. Aqui você deve adicionar as longitudes e latitudes dos pontos de origem e destino respectivamente. Os quadrados verdes representam a área em que pode ser gerada a trajetória, pontos fora dessa zona não serão aceitos.
 
 Conforme a adição das coordenadas o mapa ao lado irá se atualizar em tempo real atualizando a localização e ao final os dois pontos estarão conectados por uma linha reta.
 
@@ -727,6 +725,9 @@ Antes da tela com a trajetória aparecerá uma tela de carregamento enquanto a r
 ![Página de Carregamento](img/loading-page.png)
 
 Após pouco tempo, a trajetória irá aparecer em cima do mapa, com círculos representando vértices do percurso e arestas vermelhas representando o caminho que deve ser seguido. 
+
+![Rota Gerada](img/generated-route.png)
+![Rota Gerada mostrando os nós](img/generated-route-nodes.png)
 
 Além disso, no menu lateral esquerdo há uma área de "insights". Aqui poderá ser visto informações como distância percorrida, altitude média, etc.
 
