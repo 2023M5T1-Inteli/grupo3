@@ -68,7 +68,7 @@ public class CoordinateVertex implements IVertex {
 
         return "{" +
                 "\"vertexIndex\":" + vertexIndex +
-                ", \"averageHeight\"':" + averageHeight +
+                ", \"averageHeight\":" + averageHeight +
                 ", \"previousVertex\":" + previousVertexIndex +
                 ", \"latitude\":" + _position.getX() +
                 ", \"longitude\":" + _position.getY() +
