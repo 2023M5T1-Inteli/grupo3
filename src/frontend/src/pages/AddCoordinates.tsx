@@ -9,6 +9,7 @@ import { ArrowBack } from "@mui/icons-material";
 import React, { useContext, useState } from "react";
 import MapPreview from "../components/MapPreview";
 import { ApplicationContext } from "../context/ApplicationContext";
+import { IRemoteBounds } from "../types";
 
 function AddCoordinates() {
   // Navigation
@@ -21,6 +22,9 @@ function AddCoordinates() {
   let [originLon, setOriginLon] = useState(searchParams.get("originLon"));
   let [destLat, setdestLat] = useState(searchParams.get("destLat"));
   let [destLon, setdestLon] = useState(searchParams.get("destLon"));
+
+  const [LatError, setLatError] = useState("");
+  const [LonError, setLonError] = useState("");
 
   // Load local variables according to search params
   const clickHandler = () => {
@@ -116,7 +120,12 @@ function AddCoordinates() {
                 fullWidth={true}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setOriginLat(e.target.value);
+                  if (Number(e.target.value) < context.bounds.minLat || Number(e.target.value) > context.bounds.maxLat ) {
+                    setLatError("Latitude fora da faixa permitida");
+                  }
                 }}
+                error={!!LatError}
+                helperText={LatError}
               />
             </Grid2>
             <Grid2>
@@ -129,7 +138,12 @@ function AddCoordinates() {
                 value={originLon}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setOriginLon(e.target.value);
+                  if (Number(e.target.value) < context.bounds.minLon || Number(e.target.value) > context.bounds.maxLon) {
+                    setLonError("Longitude fora da faixa permitida");
+                  }
                 }}
+                error={!!LonError}
+                helperText={LonError}
               />
             </Grid2>
           </Grid2>
@@ -154,7 +168,12 @@ function AddCoordinates() {
                 value={destLat}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setdestLat(e.target.value);
+                  if (Number(e.target.value) < context.bounds.minLat || Number(e.target.value) > context.bounds.maxLat) {
+                    setLatError("Latitude fora da faixa permitida");
+                  }
                 }}
+                error={!!LatError}
+                helperText={LatError}
               />
             </Grid2>
             <Grid2>
@@ -167,13 +186,18 @@ function AddCoordinates() {
                 value={destLon}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setdestLon(e.target.value);
+                  if (Number(e.target.value) < context.bounds.minLon || Number(e.target.value) > context.bounds.maxLon) {
+                    setLonError("Longitude fora da faixa permitida");
+                  }
                 }}
+                error={!!LonError}
+                helperText={LonError}
               />
             </Grid2>
           </Grid2>
           <Grid2 xs={12}>
             <CustomButton
-              disabled={!originLat || !originLon || !destLat || !destLon}
+              disabled={!originLat || !originLon || !destLat || !destLon || !!LatError || !!LonError}
               height="3.5em"
               backgroundColor="#E17F49"
               text="PRÓXIMO"

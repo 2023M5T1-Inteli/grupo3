@@ -3,6 +3,7 @@ import { LatLngBoundsExpression } from "leaflet";
 import React, { createContext, useEffect, useMemo, useState } from "react";
 import { postGetMapBounds, postListAllBounds } from "../services/Microsservice";
 import { LatLngBounds } from "leaflet";
+import { IRemoteBounds } from "../types";
 
 export interface IChildren {
   children?: React.ReactNode;
@@ -12,6 +13,7 @@ export interface IProviderValue {
   hasBounds: boolean;
   allBounds: LatLngBoundsExpression[];
   mapBounds: LatLngBoundsExpression;
+  bounds: IRemoteBounds;
   updateMapBounds: () => void;
 }
 
@@ -20,6 +22,7 @@ export const ApplicationContext = createContext({} as IProviderValue);
 export function ApplicationProvider({ children }: IChildren) {
   const [hasBounds, setHasBounds] = useState(false);
   const [mapBounds, setMapBounds] = useState<LatLngBoundsExpression>([]);
+  const [bounds, setBounds] = useState<IRemoteBounds>({} as IRemoteBounds);
   const [allBounds, setAllBounds] = useState<LatLngBoundsExpression[]>(
     [] as LatLngBoundsExpression[]
   );
@@ -30,6 +33,8 @@ export function ApplicationProvider({ children }: IChildren) {
     const pointA = new LatLng(response.minLat, response.minLon);
     const pointB = new LatLng(response.maxLat, response.maxLon);
     const latBounds = new LatLngBounds(pointA, pointB);
+
+    setBounds(response);
 
     const allBounds = await postListAllBounds(filename);
 
@@ -76,8 +81,9 @@ export function ApplicationProvider({ children }: IChildren) {
       hasBounds,
       getBounds,
       allBounds,
+      bounds,
     }),
-    [mapBounds, allBounds]
+    [mapBounds, allBounds, bounds]
   );
 
   return (
