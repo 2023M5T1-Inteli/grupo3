@@ -11,3 +11,14 @@ export interface IGraphLocation {
   };
   longitude: number;
 }
+
+export interface IRemoteBounds {
+  minLon: number;
+  maxLat: number;
+  minLat: number;
+  maxLon: number;
+}
+
+export interface IAllRemoteBouds {
+  bounds: Array<Array<Array<number>>>;
+}

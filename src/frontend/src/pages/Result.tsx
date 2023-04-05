@@ -3,13 +3,11 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 // import "../styles/pages/Home.css";
 
 import Map from "../components/Map";
-import CustomButton from "../components/CustomButton";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LatLngExpression } from "leaflet";
 import { motion } from "framer-motion";
-import { PhotoCamera, ArrowBack } from "@mui/icons-material";
-import React, { useEffect, useState } from "react";
-import MapPreview from "../components/MapPreview";
+import { ArrowBack } from "@mui/icons-material";
+import { useEffect, useState } from "react";
 import { getPath } from "../services/Graph";
 import { IGraphLocation } from "../types";
 import Lottie from "lottie-react";

@@ -6,9 +6,10 @@ import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { LatLngExpression, LatLngTuple } from "leaflet";
 import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import MapPreview from "../components/MapPreview";
 import { createPath } from "../services/Graph";
+import { ApplicationContext } from "../context/ApplicationContext";
 
 function pointXtoLatLngTuple(pointX: string): LatLngTuple {
   let pointXArray = pointX.split(",");
@@ -26,8 +27,8 @@ function AddExclusionZone() {
       [Number(originLat) || 0.0, Number(originLon) || 0.0],
       [Number(destLat) || 0.0, Number(destLon) || 0.0]
     ).catch((err) => {
-      console.log(err)
-      navigate("/Error")
+      console.log(err);
+      navigate("/Error");
     });
     setSearchParams({
       center: center || "",
@@ -38,11 +39,14 @@ function AddExclusionZone() {
 
   // Get the state from the location
   const { state } = useLocation();
+
+  const context = useContext(ApplicationContext);
+
   let [searchParams, setSearchParams] = useSearchParams();
   let [center, setCenter] = useState(searchParams.get("center") || "");
   let [radius, setRadius] = useState(searchParams.get("radius") || "");
-  let [circumference, setCircumference] = useState<LatLngExpression>([0,0]);
-  
+  let [circumference, setCircumference] = useState<LatLngExpression>([0, 0]);
+
   const [centerError, setCenterError] = useState("");
 
   const { originLat, originLon, destLat, destLon } = state;
@@ -50,13 +54,18 @@ function AddExclusionZone() {
     if (center && radius) {
       const centerCoords: LatLngTuple = pointXtoLatLngTuple(center);
       const radiusMeters = Number(radius) * 1000;
-      const circumferencePoints = calculateCircumferencePoints(centerCoords, radiusMeters);
+      const circumferencePoints = calculateCircumferencePoints(
+        centerCoords,
+        radiusMeters
+      );
       setCircumference(pointXtoLatLngTuple(center));
-      
     }
   }, [center, radius]);
 
-  const calculateCircumferencePoints = (center: LatLngTuple, radius: number): LatLngExpression[] => {
+  const calculateCircumferencePoints = (
+    center: LatLngTuple,
+    radius: number
+  ): LatLngExpression[] => {
     const circumferencePoints: LatLngExpression[] = [];
     const numPoints = 32;
     for (let i = 0; i < numPoints; i++) {
@@ -156,11 +165,12 @@ function AddExclusionZone() {
                   setCenter(e.target.value);
                   if (!/^[0-9,-]/.test(e.target.value)) {
                     setCenterError("Apenas números e vírgulas são permitidos");
-                  }
-                  else if (!e.target.value.includes(",") || e.target.value.split(",")[1] === ""){
+                  } else if (
+                    !e.target.value.includes(",") ||
+                    e.target.value.split(",")[1] === ""
+                  ) {
                     setCenterError("Digite as coordenadas no formato lat,lng");
-                  }
-                  else {
+                  } else {
                     setCenterError("");
                   }
                 }}
@@ -195,7 +205,15 @@ function AddExclusionZone() {
         <Grid2 xs={12} lg={9} bgcolor={"red"}>
           {/* <Box sx={{ width: 1250, height: 500 }}> */}
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
-            <MapPreview points={points} circleCenter={[circumference]} circleRadius={Number(radius)||0}/>
+            {context.hasBounds && (
+              <MapPreview
+                bounds={context.mapBounds}
+                points={points}
+                circleCenter={[circumference]}
+                circleRadius={Number(radius) || 0}
+                allBounds={context.allBounds}
+              />
+            )}
           </Box>
           {/* </Box> */}
         </Grid2>

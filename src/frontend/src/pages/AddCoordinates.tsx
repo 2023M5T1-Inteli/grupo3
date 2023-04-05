@@ -3,15 +3,17 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import CustomButton from "../components/CustomButton";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { LatLngExpression } from "leaflet";
+import { LatLngExpression, bounds } from "leaflet";
 import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import MapPreview from "../components/MapPreview";
+import { ApplicationContext } from "../context/ApplicationContext";
 
 function AddCoordinates() {
   // Navigation
   const navigate = useNavigate();
+  const context = useContext(ApplicationContext);
 
   // Search params
   let [searchParams, setSearchParams] = useSearchParams();
@@ -181,11 +183,15 @@ function AddCoordinates() {
         </Grid2>
         <Grid2 xs={12} lg={9}>
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
-            <MapPreview
-              points={points}
-              circleCenter={[[0,  0]]}
-              circleRadius={0}
-            />
+            {context.mapBounds && (
+              <MapPreview
+                bounds={context.mapBounds}
+                points={points}
+                circleCenter={[[0, 0]]}
+                circleRadius={0}
+                allBounds={context.allBounds}
+              />
+            )}
           </Box>
         </Grid2>
       </Grid2>

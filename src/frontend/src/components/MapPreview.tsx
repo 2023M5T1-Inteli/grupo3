@@ -30,22 +30,34 @@ interface IMapProps {
   points: LatLngExpression[];
   circleCenter: LatLngExpression[];
   circleRadius: number;
+  bounds: LatLngBoundsExpression;
+  allBounds: LatLngBoundsExpression[];
 }
 
-function ChildMapPreview(props: IMapProps) {
+interface IChildMapProps {
+  points: LatLngExpression[];
+  bounds: LatLngBoundsExpression;
+}
+
+function ChildMapPreview(props: IChildMapProps) {
   const map = useMap();
   const points = props.points;
 
   React.useEffect(() => {
     map.setView(points[0], 13);
+    map.fitBounds(props.bounds);
+    map.setMinZoom(map.getBoundsZoom(props.bounds));
   }, [points]);
 
   return null;
 }
 
 export default function MapPreview(props: IMapProps) {
+  console.log(props.bounds);
   let edges = [];
   let rects = [];
+
+  let allBounds = [];
 
   const points = props.points;
   const circleCenter = props.circleCenter;
@@ -72,6 +84,14 @@ export default function MapPreview(props: IMapProps) {
     );
   }
 
+  for (let i = 0; i < props.allBounds.length; i++) {
+    allBounds.push(
+      <LayerGroup>
+        <Rectangle bounds={props.allBounds[i]} color={"green"} />
+      </LayerGroup>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -84,15 +104,15 @@ export default function MapPreview(props: IMapProps) {
       {/* Define the MapContainer with the center and zoom level */}
       <MapContainer
         center={points[0]}
-        zoom={13}
         zoomControl={true}
         style={{
           position: "relative",
           width: "100%",
           height: "100%",
         }}
+        maxBounds={props.bounds}
       >
-        <ChildMapPreview points={points} circleCenter={props.circleCenter} circleRadius={props.circleRadius} />
+        <ChildMapPreview points={points} bounds={props.bounds} />
         {/* Define the TileLayer using the World Imagery Service */}
         <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
 
@@ -102,6 +122,9 @@ export default function MapPreview(props: IMapProps) {
           </LayersControl.Overlay>
           <LayersControl.Overlay checked name={"test2"}>
             {rects.map((element) => element)}
+          </LayersControl.Overlay>
+          <LayersControl.Overlay checked name={"allowedArea"}>
+            {allBounds.map((element) => element)}
           </LayersControl.Overlay>
         </LayersControl>
         <Marker position={points[0]} />
