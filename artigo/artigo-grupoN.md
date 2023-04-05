@@ -2,7 +2,8 @@
 title: Modelo para o artigo do Módulo 5
 author: Professores do Módulo 5 - Inteli
 date: Janeiro de 2023
-abstract: Como parte das atividades do módulo 5, cada grupo deverá redigir um texto descrevendo os resultados do projeto no formato de um artigo científico. Este arquivo no formato markdown contém a estrutura básica deste artigo. Cada grupo deverá editar este arquivo com a descrição do projeto que desenvolveu.
+abstract: Voos em baixa altitude são amplamente utilizados em diversas aplicações, como no setor militar para evitar detecções inimigas e melhorar as chances de sobrevivência, e no setor civil para reconhecimento de baixo nível, entrega de material em locais remotos, busca e resgate, e evacuação de vítimas. No entanto, esse tipo de voo apresenta um risco iminente de colisão com o solo (CFIT), o que torna o desenvolvimento de soluções para tornar esses voos mais seguros e otimizados essencial.
+Neste contexto, propomos uma solução baseada na construção de um grafo direcionado que representa a trajetória mais otimizada para um determinado percurso. O algoritmo prioriza a rota que atende aos requisitos e parâmetros de entrada, como evitar pontos de exclusão, respeitar os limites de voo da aeronave e diminuir o consumo de combustível e distância percorrida.
 ---
 
 # Introdução
@@ -20,6 +21,12 @@ Neste artigo, nós propomos uma metodologia que se baseia no uso de entradas, co
 Os principais benefícios de nossa solução são uma visão completa do terreno e da rota, melhoria do consumo de combustível, redução de custos, economia de recursos e otimização do tempo na elaboração das rotas. Além disso, poderá ser integrada com produtos existentes que visam amenizar o atual problema. Dessa forma, o presente artigo irá contribuir com a apresentação de um modelo capaz de tornar as missões de voo em baixa altitude mais seguras e otimizadas, evitando acidentes de CFIT, gerando um maior sucesso das mesmas, e consequentemente, garantindo os propósitos de voos em baixa altitude.
 
 # Descrição do problema
+
+O voo em baixa altitude em áreas montanhosas é uma tarefa complexa e de alto risco que é utilizada em diversas aplicações, como reconhecimento de baixo nível, entrega de material em locais remotos, busca e resgate, evacuação de vítimas, além de ser fundamental no setor militar para evitar detecções inimigas e melhorar as chances de sobrevivência. No entanto, o risco iminente de colisão com o solo (CFIT) é alto, sendo responsável por mais de 30% dos acidentes fatais em voos comerciais.
+
+Uma das soluções para mitigar esse problema é o Terrain Following, que consiste em manter uma distância mínima definida acima do terreno e voar rapidamente para minimizar os riscos de ser detectado e rastreado. No entanto, o terreno acidentado e perigoso, juntamente com o objetivo de voar em alta velocidade próximo ao solo, resulta em um problema de controle altamente restrito. Mesmo com o mapa de maior resolução, pode não ser possível avisar sobre obstáculos inesperados, tornando-se necessário um algoritmo eficiente que possa incorporar novos conhecimentos de obstáculos obtidos pelos sensores em tempo real para permitir o replanejamento dinâmico da trajetória.
+
+Além disso, devido à proximidade do veículo com muitas restrições variáveis, manobras ágeis são necessárias, aumentando o risco de colisão. O sistema deve levar em consideração diversos aspectos, como o envelope de voo da aeronave específica, seu potencial de subida, a manobrabilidade lateral da aeronave, velocidade operacional, teto de operação, assim como aspectos geográficos da região em questão.
 
 # Trabalhos relacionados
 
@@ -50,7 +57,7 @@ Para iniciarmos o projeto com total entendimento do problema foram realizadas pe
 
 ## 2 - Análise e modelagem do problema
 
-O planejador de trajetórias para voos em baixa altitude utiliza uma variedade de dados e informações para planejar uma rota otimizada para as aeronaves. Isso inclui, informações sobre a localização e altura do terreno — mapas topográficos no formato dt2 obtidos em [inserir data do gdal] — assim como informações sobre a capacidade da aeronave: velocidade máxima, capacidade de manobra e combustível, por exemplo.
+O planejador de trajetórias para voos em baixa altitude utiliza uma variedade de dados e informações para planejar uma rota otimizada para as aeronaves. Isso inclui, informações sobre a localização e altura do terreno — mapas topográficos no formato dt2 — assim como informações sobre a capacidade da aeronave: velocidade máxima, capacidade de manobra e combustível, por exemplo.
 
 A abordagem para o planejamento das rotas é com o uso de algoritmos, que determinam a melhor trajetória para a aeronave a seguir com base nos dados disponíveis. O algoritmo é baseado em grafos, que representam o ambiente de voo como um conjunto de nós e arestas, e usam técnicas de busca em grafos para determinar o caminho mais curto ou mais seguro entre dois pontos
 
@@ -105,10 +112,13 @@ Depois de analisar diferentes situações com um conjunto fixo de 6586 pontos, d
 
 # Análise da complexidade da solução proposta
 
-A complexidade de um algoritmo pode ser representada por algumas notações. DASGUPTA et. al. (2011) define tais notações da seguinte forma: " Sejam $f(n)$ e $g(n)$ duas funções de inteiros positivos em reais positivos. Dizemos que $f = O(g)$ (que significa que "$f$ não cresce mais rápido do que $g$") se existe uma constante $c > 0$ tal que $f(n) \leq c \cdot g(n)$.
+Com base na análise de complexidade da solução proposta, podemos concluir que a complexidade geral do algoritmo A* é de O(v.log(v) + v<sup>2</sup>.(v-1)) no pior caso, e O(1) no melhor caso.
 
-Ainda em outro trecho de DASGUPTA et. al. (2011), temos: "Assim como $O(.)$ é análogo a $\leq$, podemos definir análogos de $\geq$ e $=$ como se segue: $f = \Omega(g)$ significa $g = O(f)$".
+Isso significa que, no pior caso, o tempo de execução do algoritmo aumentará proporcionalmente ao quadrado do número de vértices, tornando o algoritmo ineficiente para grandes conjuntos de dados. No entanto, no melhor caso, o algoritmo é extremamente rápido, exigindo apenas uma única unidade de tempo para encontrar o caminho mais curto.
 
+Em termos de memória, o pior caso requer uma quantidade de memória proporcional ao número de vértices, pois todos os vértices podem ser adicionados à fila de prioridade de uma só vez.
+
+Em resumo, a solução proposta pelo grupo é uma boa escolha para conjuntos de dados menores e mais simples, onde a complexidade não será um problema. No entanto, para conjuntos de dados maiores e mais complexos, pode ser necessário buscar outras alternativas, como algoritmos que sejam mais eficientes em termos de tempo e memória, como o algoritmo Dijkstra ou o algoritmo A* com heurísticas mais sofisticadas.
 ## Pior caso
 No caso do algoritmo desenvolvido pelo grupo o pior caso tem complexidade O(v.log(v) + v<sup>2</sup>.(v-1)) de tempo, considerando o pior cenário em que todos os vértice se conectam entre si e todos serão visitados antes de se chegar ao destino, usando uma Fila Prioritária (Priority Queue) como estrutura de dados para armazenar os vértices.
 
@@ -226,20 +236,31 @@ Em suma, a plataforma de Planejador de trajetórias desenvolvida para voos em ba
 
 # Referências Bibliográficas
 
+ARTHUR III, Jarvis J. et al. **CFIT prevention using synthetic vision. In: Enhanced and Synthetic Vision** 2003. SPIE, 2003. p. 146-157.
+
+DASGUPTA, S.; Papadimitriou, C.; Vazirani, U. **Algoritmos.** Porto Alegre: AMGH, 2011. 1 recurso online. ISBN 9788563308535.
+
+GERSTING, Judith L. **Fundamentos Matemáticos para a Ciência da Computação**. Grupo GEN, 2016. E-book. ISBN 9788521633303.
+
 JIN, Zibo et al. **An autonomous control framework of unmanned helicopter operations for low-altitude flight in mountainous terrains**. Drones, v. 6, n. 6, p. 150, 2022.
+
+LAPP, Tiffany Rae. **Guidance and control using model predictive control for low altitude real-time terrain following flight**. 2004. Tese de Doutorado. Massachusetts Institute of Technology.
+
+LU, Ping; PIERSON, Bion L. **Optimal aircraft terrain-following analysis and trajectory generation**. Journal of guidance, Control, and Dynamics, v. 18, n. 3, p. 555-560, 1995.
+
+MATTESON, Roger C. **Controlled Flight into Terrain: How the Airlines and the Federal Aviation Administration are Addressing the Problem**. Journal of Aviation/Aerospace Education & Research, v. 10, n. 3, p. 4, 2001.
 
 QI, Juntong et al. **Search and rescue rotary‐wing uav and its application to the lushan ms 7.0 earthquake**. Journal of Field Robotics, v. 33, n. 3, p. 290-321, 2016.
 
 REZA, Md Nasim et al. **Rice yield estimation based on K-means clustering with graph-cut segmentation using low-altitude UAV images**. Biosystems engineering, v. 177, p. 109-121, 2019.
 
-MATTESON, Roger C. **Controlled Flight into Terrain: How the Airlines and the Federal Aviation Administration are Addressing the Problem**. Journal of Aviation/Aerospace Education & Research, v. 10, n. 3, p. 4, 2001.
 
-ARTHUR III, Jarvis J. et al. **CFIT prevention using synthetic vision. In: Enhanced and Synthetic Vision** 2003. SPIE, 2003. p. 146-157.
 
-LU, Ping; PIERSON, Bion L. **Optimal aircraft terrain-following analysis and trajectory generation**. Journal of guidance, Control, and Dynamics, v. 18, n. 3, p. 555-560, 1995.
 
-LAPP, Tiffany Rae. **Guidance and control using model predictive control for low altitude real-time terrain following flight**. 2004. Tese de Doutorado. Massachusetts Institute of Technology.
 
-DASGUPTA, S.; Papadimitriou, C.; Vazirani, U. **Algoritmos.** Porto Alegre: AMGH, 2011. 1 recurso online. ISBN 9788563308535.
 
-GERSTING, Judith L. **Fundamentos Matemáticos para a Ciência da Computação**. Grupo GEN, 2016. E-book. ISBN 9788521633303.
+
+
+
+
+
