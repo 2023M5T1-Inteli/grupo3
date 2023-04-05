@@ -1,12 +1,13 @@
 package controller;
 
-import path.PathPlanner;
 import controller.mongodbModel.RouteItem;
 import controller.mongodbRepository.ItemRepository;
 import io.github.cdimascio.dotenv.Dotenv;
-import models.vertex.CoordinateVertex;
+import org.json.JSONArray;
 import org.json.JSONObject;
-import org.neo4j.driver.*;
+import org.neo4j.driver.AuthTokens;
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.GraphDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import utils.ExclusionStopPoints.PointAnalyzer;
 import utils.Points;
-import utils.neo4j.Neo4JDatabaseHandler;
 import utils.popArray.PopulateArray;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class acts as our server and executes the route for the A* algorithm. Currently, it is responsible for handling
@@ -66,6 +66,7 @@ public class AStarController implements CommandLineRunner {
      *             }
      * @return ResponseEntity is an HTTP response
      */
+
     @PostMapping("executeAlg")
     public ResponseEntity<String> executeAlg(@RequestBody String data) throws Exception {
         // Decoding the characters to UTF-8
@@ -73,6 +74,7 @@ public class AStarController implements CommandLineRunner {
 
         // Parsing the decoded string to a JSON object and extracting the values
         JSONObject obj = new JSONObject(dataDecoded);
+        JSONArray exclusionPoints = obj.getJSONArray("exclusionPoints");
 
         String filePath = obj.getString("filePath");
         double lonInitial = obj.getDouble("lonInitial");
@@ -95,25 +97,32 @@ public class AStarController implements CommandLineRunner {
 
         System.out.println("Reading File...");
 
-        double[][][] coordinates = points.Coordinates(filePath, lonInitial, latInitial, lonFinal, latFinal, 0.0011, 0.0014);
-
-        PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, lonInitial, latInitial, lonFinal, latFinal);
-        ArrayList<CoordinateVertex> route = pathPlanner.traceRoute();
-
-        System.out.println(pathPlanner);
-
-        // Returns the generated optimal path as an ArrayList;
-        Neo4JDatabaseHandler neo4JDatabaseHandler = new Neo4JDatabaseHandler();
-
-        // Send the local Graph structure to neo4J
-        try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
-            neo4JDatabaseHandler.createFinalPathVertexes(route, session, pathID);
-            neo4JDatabaseHandler.createFinalPathEdges(route, session);
+        for (int i = 0; i < exclusionPoints.length(); i++) {
+            JSONArray x = exclusionPoints.getJSONArray(i);
+            System.out.println(x);
+            for (int j = 0; j < x.length(); j++) {
+                System.out.println(j);
+            }
         }
-
-        // Ends the Neo4J session
-        driver.close();
-        getRouteItemByRouteID(pathID, "DONE");
+//        double[][][] coordinates = points.Coordinates(filePath, lonInitial, latInitial, lonFinal, latFinal, 0.0011, 0.0014, exclusionPoints);
+//
+//        PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, lonInitial, latInitial, lonFinal, latFinal);
+//        ArrayList<CoordinateVertex> route = pathPlanner.traceRoute();
+//
+//        System.out.println(pathPlanner);
+//
+//        // Returns the generated optimal path as an ArrayList;
+//        Neo4JDatabaseHandler neo4JDatabaseHandler = new Neo4JDatabaseHandler();
+//
+//        // Send the local Graph structure to neo4J
+//        try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
+//            neo4JDatabaseHandler.createFinalPathVertexes(route, session, pathID);
+//            neo4JDatabaseHandler.createFinalPathEdges(route, session);
+//        }
+//
+//        // Ends the Neo4J session
+//        driver.close();
+//        getRouteItemByRouteID(pathID, "DONE");
 
         // Returns this message after complete
         return ResponseEntity.ok("Rota criada com sucesso!");
