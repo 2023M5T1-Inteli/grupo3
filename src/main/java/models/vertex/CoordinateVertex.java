@@ -57,4 +57,21 @@ public class CoordinateVertex implements IVertex {
     public ArrayList<CoordinateEdge> getEdges() {
         return adjacencies;
     }
+
+    @Override
+    public String toString() {
+        int previousVertexIndex = -1;
+
+        if (previousVertex != null){
+            previousVertexIndex = previousVertex.getIndex();
+        }
+
+        return "{" +
+                "\"vertexIndex\":" + vertexIndex +
+                ", \"averageHeight\":" + averageHeight +
+                ", \"previousVertex\":" + previousVertexIndex +
+                ", \"latitude\":" + _position.getX() +
+                ", \"longitude\":" + _position.getY() +
+                "}";
+    }
 }
