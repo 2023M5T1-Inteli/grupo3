@@ -3,11 +3,15 @@ package controller;
 import controller.mongodbModel.RouteItem;
 import controller.mongodbRepository.ItemRepository;
 import io.github.cdimascio.dotenv.Dotenv;
+import models.vertex.CoordinateVertex;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.neo4j.driver.AuthTokens;
+
+import org.neo4j.driver.*;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
+import org.neo4j.driver.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,13 +21,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import path.PathPlanner;
 import utils.ExclusionStopPoints.PointAnalyzer;
 import utils.Points;
+import utils.neo4j.Neo4JDatabaseHandler;
 import utils.popArray.PopulateArray;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * This class acts as our server and executes the route for the A* algorithm. Currently, it is responsible for handling
@@ -104,25 +110,25 @@ public class AStarController implements CommandLineRunner {
                 System.out.println(j);
             }
         }
-//        double[][][] coordinates = points.Coordinates(filePath, lonInitial, latInitial, lonFinal, latFinal, 0.0011, 0.0014, exclusionPoints);
-//
-//        PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, lonInitial, latInitial, lonFinal, latFinal);
-//        ArrayList<CoordinateVertex> route = pathPlanner.traceRoute();
-//
-//        System.out.println(pathPlanner);
-//
-//        // Returns the generated optimal path as an ArrayList;
-//        Neo4JDatabaseHandler neo4JDatabaseHandler = new Neo4JDatabaseHandler();
-//
-//        // Send the local Graph structure to neo4J
-//        try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
-//            neo4JDatabaseHandler.createFinalPathVertexes(route, session, pathID);
-//            neo4JDatabaseHandler.createFinalPathEdges(route, session);
-//        }
-//
-//        // Ends the Neo4J session
-//        driver.close();
-//        getRouteItemByRouteID(pathID, "DONE");
+        double[][][] coordinates = points.Coordinates(filePath, lonInitial, latInitial, lonFinal, latFinal, 0.0011, 0.0014, exclusionPoints);
+
+        PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, lonInitial, latInitial, lonFinal, latFinal);
+        ArrayList<CoordinateVertex> route = pathPlanner.traceRoute();
+
+        System.out.println(pathPlanner);
+
+        // Returns the generated optimal path as an ArrayList;
+        Neo4JDatabaseHandler neo4JDatabaseHandler = new Neo4JDatabaseHandler();
+
+        // Send the local Graph structure to neo4J
+        try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
+            neo4JDatabaseHandler.createFinalPathVertexes(route, session, pathID);
+            neo4JDatabaseHandler.createFinalPathEdges(route, session);
+        }
+
+        // Ends the Neo4J session
+        driver.close();
+        getRouteItemByRouteID(pathID, "DONE");
 
         // Returns this message after complete
         return ResponseEntity.ok("Rota criada com sucesso!");

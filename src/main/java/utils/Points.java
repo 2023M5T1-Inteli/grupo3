@@ -84,7 +84,7 @@ public class Points {
         // traverse the longitude (column) per row
         lon += lonStep;
         count++;
-        
+
       }
       // later we traverse the latitude (line)
       lat -= latStep;
