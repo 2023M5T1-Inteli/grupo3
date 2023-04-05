@@ -96,12 +96,15 @@ public class AStarController implements CommandLineRunner {
 
         System.out.println("Reading File...");
 
-        double[][][] coordinates = points.Coordinates(filePath, lonInitial, latInitial, lonFinal, latFinal, 0.0011, 0.0014);
+        double[][][] coordinates = points.Coordinates(filePath, -43.993166, -22, -42.03, -23.98, 0.0011, 0.0014);
 
-        PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, lonInitial, latInitial, lonFinal, latFinal);
+        double[] startPoint = new double[]{lonInitial, latInitial};
+        double[] endPoint = new double[]{lonFinal, latFinal};
+            PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, startPoint, endPoint);
         ArrayList<CoordinateVertex> route = pathPlanner.traceRoute();
 
         System.out.println(pathPlanner);
+
 
         // Returns the generated optimal path as an ArrayList;
         Neo4JDatabaseHandler neo4JDatabaseHandler = new Neo4JDatabaseHandler();

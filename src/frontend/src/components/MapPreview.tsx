@@ -45,7 +45,7 @@ function ChildMapPreview(props: IChildMapProps) {
   const points = props.points;
 
   React.useEffect(() => {
-    map.setView(points[0], 13);
+    // map.setView(points[0], 13);
     map.fitBounds(props.bounds);
     map.setMinZoom(map.getBoundsZoom(props.bounds));
   }, [points]);

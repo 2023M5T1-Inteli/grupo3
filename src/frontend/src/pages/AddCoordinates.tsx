@@ -6,10 +6,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { LatLngExpression, bounds } from "leaflet";
 import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MapPreview from "../components/MapPreview";
 import { ApplicationContext } from "../context/ApplicationContext";
-import { IRemoteBounds } from "../types";
 
 function AddCoordinates() {
   // Navigation
@@ -40,6 +39,10 @@ function AddCoordinates() {
       state: { originLat, originLon, destLat, destLon },
     });
   };
+
+  useEffect(() => {
+    context.updateMapBounds();
+  }, []);
 
   // Sets the entry and exti points
   let points: LatLngExpression[] = [
@@ -238,7 +241,7 @@ function AddCoordinates() {
         </Grid2>
         <Grid2 xs={12} lg={9}>
           <Box component="main" sx={{ width: "100%", height: "100%" }}>
-            {context.mapBounds && (
+            {context.hasBounds && (
               <MapPreview
                 bounds={context.mapBounds}
                 points={points}

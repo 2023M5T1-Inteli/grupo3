@@ -51,13 +51,10 @@ function AddExclusionZone() {
 
   const { originLat, originLon, destLat, destLon } = state;
   useEffect(() => {
+    context.updateMapBounds();
     if (center && radius) {
       const centerCoords: LatLngTuple = pointXtoLatLngTuple(center);
       const radiusMeters = Number(radius) * 1000;
-      const circumferencePoints = calculateCircumferencePoints(
-        centerCoords,
-        radiusMeters
-      );
       setCircumference(pointXtoLatLngTuple(center));
     }
   }, [center, radius]);

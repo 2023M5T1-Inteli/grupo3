@@ -47,31 +47,17 @@ export function ApplicationProvider({ children }: IChildren) {
     setMapBounds(latBounds);
     setAllBounds(allBoundsLatLng);
     setHasBounds(true);
-    saveMapBounds(latBounds);
   }
 
-  function saveMapBounds(mapBounds: LatLngBoundsExpression) {
-    localStorage.setItem("mapBounds", JSON.stringify(mapBounds));
-  }
-
-  function loadMapBounds() {
-    const bounds = localStorage.getItem("mapBounds");
-    if (bounds) {
-      console.log(bounds);
-      setMapBounds(JSON.parse(bounds));
-      setHasBounds(true);
-    }
-  }
-
-  function getBounds(): LatLngBoundsExpression {
+  function getBounds() {
     if (!hasBounds) {
-      loadMapBounds();
+      setHasBounds(false);
+      updateMapBounds();
     }
-    return mapBounds;
   }
 
   useEffect(() => {
-    loadMapBounds();
+    updateMapBounds();
   }, []);
 
   const memoedValue = useMemo(
