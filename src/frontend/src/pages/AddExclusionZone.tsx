@@ -23,9 +23,15 @@ function AddExclusionZone() {
 
   // Create the path/routeID
   const clickHandler = async () => {
+    const excludedCircumference = [];
+    excludedCircumference.push(circumference[0]);
+    excludedCircumference.push(circumference[1]);
+    excludedCircumference.push(Number(radius) || 0.0);
+
     const routeID = await createPath(
       [Number(originLat) || 0.0, Number(originLon) || 0.0],
-      [Number(destLat) || 0.0, Number(destLon) || 0.0]
+      [Number(destLat) || 0.0, Number(destLon) || 0.0],
+      [excludedCircumference]
     ).catch((err) => {
       console.log(err);
       navigate("/Error");
@@ -45,7 +51,7 @@ function AddExclusionZone() {
   let [searchParams, setSearchParams] = useSearchParams();
   let [center, setCenter] = useState(searchParams.get("center") || "");
   let [radius, setRadius] = useState(searchParams.get("radius") || "");
-  let [circumference, setCircumference] = useState<LatLngExpression>([0, 0]);
+  let [circumference, setCircumference] = useState<LatLngTuple>([0, 0]);
 
   const [centerError, setCenterError] = useState("");
 
@@ -53,26 +59,9 @@ function AddExclusionZone() {
   useEffect(() => {
     context.updateMapBounds();
     if (center && radius) {
-      const centerCoords: LatLngTuple = pointXtoLatLngTuple(center);
-      const radiusMeters = Number(radius) * 1000;
       setCircumference(pointXtoLatLngTuple(center));
     }
   }, [center, radius]);
-
-  const calculateCircumferencePoints = (
-    center: LatLngTuple,
-    radius: number
-  ): LatLngExpression[] => {
-    const circumferencePoints: LatLngExpression[] = [];
-    const numPoints = 32;
-    for (let i = 0; i < numPoints; i++) {
-      const angle = (i / numPoints) * Math.PI * 2;
-      const x = center[0] + radius * Math.cos(angle);
-      const y = center[1] + radius * Math.sin(angle);
-      circumferencePoints.push([x, y]);
-    }
-    return circumferencePoints;
-  };
 
   const pointXtoLatLngTuple = (pointX: string): LatLngTuple => {
     let pointXArray = pointX.split(",");
@@ -207,12 +196,11 @@ function AddExclusionZone() {
                 bounds={context.mapBounds}
                 points={points}
                 circleCenter={[circumference]}
-                circleRadius={Number(radius) || 0}
+                circleRadius={Number(radius) * 1000 || 0}
                 allBounds={context.allBounds}
               />
             )}
           </Box>
-          {/* </Box> */}
         </Grid2>
       </Grid2>
     </motion.div>
