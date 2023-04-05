@@ -18,6 +18,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -103,27 +104,23 @@ public class AStarController implements CommandLineRunner {
 
         System.out.println("Reading File...");
 
-        for (int i = 0; i < exclusionPoints.length(); i++) {
-            JSONArray x = exclusionPoints.getJSONArray(i);
-            System.out.println(x);
-            for (int j = 0; j < x.length(); j++) {
-                System.out.println(j);
-            }
-        }
-        double[][][] coordinates = points.Coordinates(filePath, lonInitial, latInitial, lonFinal, latFinal, 0.0011, 0.0014, exclusionPoints);
 
-        PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, lonInitial, latInitial, lonFinal, latFinal);
+        double[][][] coordinates = points.Coordinates(filePath, -43.993166, -22, -42.03, -23.98, 0.0011, 0.0014, exclusionPoints);
+
+        double[] startPoint = new double[]{lonInitial, latInitial};
+        double[] endPoint = new double[]{lonFinal, latFinal};
+            PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, startPoint, endPoint);
         ArrayList<CoordinateVertex> route = pathPlanner.traceRoute();
 
         System.out.println(pathPlanner);
+
 
         // Returns the generated optimal path as an ArrayList;
         Neo4JDatabaseHandler neo4JDatabaseHandler = new Neo4JDatabaseHandler();
 
         // Send the local Graph structure to neo4J
         try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
-            neo4JDatabaseHandler.createFinalPathVertexes(route, session, pathID);
-            neo4JDatabaseHandler.createFinalPathEdges(route, session);
+            neo4JDatabaseHandler.createRouteNode(route, session, pathPlanner.getRouteID());
         }
 
         // Ends the Neo4J session
@@ -141,6 +138,45 @@ public class AStarController implements CommandLineRunner {
         routeItemRepo.save(item);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("getMapBounds")
+    public ResponseEntity<String> getMapBoundsJson(@RequestBody String data) throws Exception {
+        String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8);
+        JSONObject obj = new JSONObject(dataDecoded);
+        String filePath = obj.getString("filePath");
+        Points points = new Points();
+        double[][] mapBounds = points.mapBounds(filePath);
+        double minLat = mapBounds[0][0];
+        double maxLat = mapBounds[0][1];
+        double minLon = mapBounds[1][0];
+        double maxLon = mapBounds[1][1];
+        JSONObject mapBoundsJson = new JSONObject();
+        mapBoundsJson.put("minLat", minLat);
+        mapBoundsJson.put("maxLat", maxLat);
+        mapBoundsJson.put("minLon", minLon);
+        mapBoundsJson.put("maxLon", maxLon);
+        return ResponseEntity.ok(mapBoundsJson.toString());
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("listAllBounds")
+    public ResponseEntity<String> listAllBounds(@RequestBody String data) throws Exception {
+        // Decoding the characters to UTF-8
+        String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8);
+
+        // Parsing the decoded string to a JSON object and extracting the values
+        JSONObject obj = new JSONObject(dataDecoded);
+
+        String filePath = obj.getString("filePath");
+        Points points = new Points();
+
+        double[][][] bounds = points.listAllBounds(filePath);
+
+        JSONObject mapBoundsJson = new JSONObject();
+        mapBoundsJson.put("bounds", bounds);
+
+        return ResponseEntity.ok(mapBoundsJson.toString());
+    }
     /**
      * This function does not execute any functionality on its own, but it is essential for our implementation as it utilizes the
      * CommandLineRunner interface. The CommandLineRunner interface is required for establishing a connection to MongoDB and

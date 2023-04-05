@@ -32,6 +32,12 @@ public class Points {
     return coordinates;
   }
 
+
+  public static double[][][] listAllBounds(String filePath) {
+    DtedDatabaseHandler dbRio = openDtedDB(filePath);
+    double[][][] dbDTEDBounds = dbRio.listAllBounds();
+    return dbDTEDBounds;
+  }
   // method that will receive the coordinate for receive the points of the areas around the points
 
   public static double[][][] getCoord(DtedDatabaseHandler dbDTED, double lonInitial, double latInitial, double lonFinal,
@@ -108,6 +114,15 @@ public class Points {
 
 
     return coordData;
+  }
+
+  public double[][] mapBounds(String filePath) {
+    // Here we open the DTED database located at the path "dted/rio"
+    DtedDatabaseHandler dbRio = openDtedDB(filePath);
+
+    double[][] mapBounds = dbRio.mapMinMaxLatLon();
+
+    return mapBounds;
   }
 }
 
