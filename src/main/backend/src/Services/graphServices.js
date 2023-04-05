@@ -44,8 +44,7 @@ class GraphService {
   async createRoute(
     entryPoints,
     exitPoints,
-    exclusionPoints,
-    intermediatePoints
+    exclusionPoints
   ) {
     try {
       // Connect to the MongoDB database
@@ -74,7 +73,6 @@ class GraphService {
           lonFinal: exitPoints[1],
           latFinal: exitPoints[0],
           exclusionPoints: exclusionPoints,
-          intermediatePoints: intermediatePoints,
           filePath: "./dted/Rio",
           pathID: code,
         },
