@@ -74,6 +74,7 @@ public class PathPlanner {
         }
         logger.atInfo().log("Graph created");
         logger.atInfo().log("Graph creation time: " + (System.currentTimeMillis() - graphCreationTime) + "ms");
+        logger.atInfo().log("Total Vertices: " + this._graph.totalVertices + "");
         this.totalProcessTime += System.currentTimeMillis() - graphCreationTime;
 
         this.maxHeight = maxHeight;
