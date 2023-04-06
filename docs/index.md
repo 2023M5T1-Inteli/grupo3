@@ -55,21 +55,11 @@ Planejador de trajetórias para voos em baixa altitude
     - [Ameaças](#ameaças)
   - [Proposta de Valor: Value Proposition Canvas](#proposta-de-valor-value-proposition-canvas)
   - [Matriz de Risco](#matriz-de-risco)
-- [Requisitos do Sistema](#requisitos-do-sistema)
   - [Personas](#personas)
   - [Histórias dos usuários (user stories)](#histórias-dos-usuários-user-stories)
 - [Arquitetura do Sistema](#arquitetura-do-sistema)
   - [Módulos do Sistema e Visão Geral (Big Picture)](#módulos-do-sistema-e-visão-geral-big-picture)
     - [Fluxograma (Arquitetura inicial)](#fluxograma-arquitetura-inicial)
-  - [Descrição dos Subsistemas](#descrição-dos-subsistemas)
-    - [Requisitos de software](#requisitos-de-software)
-  - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [UX e UI Design](#ux-e-ui-design)
-  - [Wireframe + Storyboard](#wireframe--storyboard)
-  - [Design de Interface - Guia de Estilos](#design-de-interface---guia-de-estilos)
-- [Projeto de Banco de Dados](#projeto-de-banco-de-dados)
-  - [Modelo Conceitual](#modelo-conceitual)
-  - [Modelo Lógico](#modelo-lógico)
 - [Teste de Software](#teste-de-software)
   - [Testes de Integração - Neo4J](#testes-de-integração---neo4j)
   - [Teste Backend](#teste-backend)
@@ -79,22 +69,23 @@ Planejador de trajetórias para voos em baixa altitude
     - [CoordinateEdge](#coordinateedge)
     - [Graph](#graph)
     - [Haversine](#haversine)
-  - [Teste de Usabilidade](#teste-de-usabilidade)
 - [Complexidade e Corretude do Algoritmo](#complexidade-e-corretude-do-algoritmo)
   - [Pior caso](#pior-caso)
   - [Melhor caso](#melhor-caso)
     - [Exemplo](#exemplo)
   - [Teste prático](#teste-prático)
-- [Número de vértices](#número-de-vértices)
-- [Distância entre Vértices](#distância-entre-vértices)
+    - [Distância real entre os pontos de origem e destino](#distância-real-entre-os-pontos-de-origem-e-destino)
+    - [Distância mínima entre os Vértices](#distância-mínima-entre-os-vértices)
   - [Corretude do Algoritmo](#corretude-do-algoritmo)
     - [Invariante do laço](#invariante-do-laço)
     - [Demonstração de Correção](#demonstração-de-correção)
-- [Análise de Dados](#análise-de-dados)
 - [Manuais](#manuais)
-  - [Manual de Implantação](#manual-de-implantação)
   - [Manual do Usuário](#manual-do-usuário)
-  - [Manual do Administrador](#manual-do-administrador)
+    - [Página Inicial](#página-inicial)
+    - [Adição de origem e destino](#adição-de-origem-e-destino)
+    - [Adição de pontos de exclusão](#adição-de-pontos-de-exclusão)
+    - [Trajetória](#trajetória)
+    - [Erro](#erro)
 - [Referências](#referências)
 
 
@@ -429,10 +420,6 @@ A AEL Sistemas se dedica ao projeto, desenvolvimento, fabricação, manutenção
 ![Matriz de risco ameaças](./img/MatrizDeRiscoAmeaca.png)
 ![Matriz de risco oportunidades](./img/MatrizDeRiscoOportunidades.png)
 
-# Requisitos do Sistema
-
-*Descrição_dos_requisitos*
-
 ## Personas
 
 ![Persona piloto](./img/Persona_piloto.png)
@@ -451,29 +438,6 @@ A AEL Sistemas se dedica ao projeto, desenvolvimento, fabricação, manutenção
 ### Fluxograma (Arquitetura inicial)
 
 ![Fluxograma](./img/Fluxograma.png)
-
-
-## Descrição dos Subsistemas
-
-### Requisitos de software
-
-
-## Tecnologias Utilizadas
-
-
-# UX e UI Design
-
-## Wireframe + Storyboard
-
-## Design de Interface - Guia de Estilos
-
-
-# Projeto de Banco de Dados
-
-## Modelo Conceitual
-
-## Modelo Lógico
-
 
 # Teste de Software
 ## Testes de Integração - Neo4J
@@ -522,7 +486,7 @@ Se o Node.js não estiver instalado, faça o download da versão v18.0.0 em http
 ```
 npm install
 ```
-Certifique-se de que o servidor backend está sendo executado na porta 4000. Para isso, basta executar todos os passos mencionados anteriormente, substituindo a pasta frontend por backend. Logo após, ainda na pasta "backend", execute:  `node ./src/app.js`
+Certifique-se de que o servidor backend está sendo executado na porta 4000. Para isso, basta executar todos os passos mencionados anteriormente, substituindo a pasta frontend por backend. Logo após, ainda na pasta "backend", execute:  `npm start`
 
 3. Inicie o servidor de desenvolvimento do frontend executando o seguinte comando:
 
@@ -590,8 +554,6 @@ Utilizando a função `assertEquals` podemos verificar que a o método `computeC
 
 ![Resultados do teste unitário para a classe: Haversine](img/HaversineTest.png)
 
-## Teste de Usabilidade
-
 # Complexidade e Corretude do Algoritmo
 O algoritmo escolhido pelo grupo foi o A*(A-star). O objetivo desse algoritmo é encontrar o caminho mais curto entre um vértice de origem s e um vértice de destino t. Para fazer isso, ele usa uma função heurística h(v) que estima a distância mais curta entre um vértice v e o vértice de destino t. Esta função é chamada de função heurística admissível se ela nunca superestimar a distância real entre v e t.
 
@@ -642,7 +604,7 @@ O algoritmo $A*$ propaga-se apenas nos nós que estão na direção do destino f
 
 ## Teste prático
 
-# Distância real entre os pontos de origem e destino
+### Distância real entre os pontos de origem e destino
 
 Para analisar empiricamente o tempo de execução do algoritmo com um número diverso e crescente de vertices e duas estruturas de dados (Priority Queue e TreeSet), utilizamos um comando de contagem de nanosegundos ao iniciar e finalizar a execução.
 
@@ -654,7 +616,7 @@ O gráfico abaixo mostra a variação do tempo de execução com o aumento da di
 
 As linhas de tendência do Priority Queue e Treeset (linhas mais claras) mostram que, apesar das variações no gráfico, o Priority Queue tende a ter um tempo médio maior, fazendo com que ele não seja a melhor opção.
 
-# Distância mínima entre os Vértices
+### Distância mínima entre os Vértices
 
 A conexão entre os vértices são definidos pelo comando addVertexEdgesByDistance(), que estabelece a distância máxima a considerar um vértice vizinho de outro ou não. Neste projeto, foi utilizado um valor de 0.2 Kilometros para os vértices, ou seja, todos os nós que estão a uma distância de até 0.2 Kilometros passam a ter uma conexão.
 
@@ -712,18 +674,46 @@ Logo, fk+1 ≥ gk+1.
 
 Assim, a corretude do algoritmo está provada.
 
-
-
-# Análise de Dados
-
-
 # Manuais
 
-## Manual de Implantação
-
 ## Manual do Usuário
+Este manual tem como objetivo servir como um passo a passo de como navegar pela aplicação e gerar a trajetória.
 
-## Manual do Administrador
+### Página Inicial
+No primeiro acesso a plataforma você verá um pequeno texto de apresentação sobre o sistema e um botão "Começar". Para iniciar a aplicação clique nele.
+
+![Página Inicial](img/initial-page.png)
+
+### Adição de origem e destino
+Após isso, você verá uma tela de adição de coordenadas. Aqui você deve adicionar as longitudes e latitudes dos pontos de origem e destino respectivamente. Os quadrados verdes representam a área em que pode ser gerada a trajetória, pontos fora dessa zona não serão aceitos.
+
+Conforme a adição das coordenadas o mapa ao lado irá se atualizar em tempo real atualizando a localização e ao final os dois pontos estarão conectados por uma linha reta.
+
+Por fim, clique no botão "Próximo" para ir para a próxima página.
+
+![Coordenadas atualizadas e mapa atualizado](img/coordinates-page-with-points.png)
+
+### Adição de pontos de exclusão
+Nesta página você poderá adicionar pontos de exclusão. Para isso, adicione a latitude e a longitude, respectivamente, do ponto central da área de exclusão (representada por um círculo) e o raio. Após adicionar essas informações, o mapa ao lado será atualizado e a área de exclusão aparecerá com um círculo vermelho.
+
+Ao final, clique no botão "Próximo" para gerar a trajetória.
+
+![Áreas de exclusão](img/exclusion-area.png)
+
+### Trajetória
+Antes da tela com a trajetória aparecerá uma tela de carregamento enquanto a rota não é gerada. 
+
+![Página de Carregamento](img/loading-page.png)
+
+Após pouco tempo, a trajetória irá aparecer em cima do mapa, com círculos representando vértices do percurso e arestas vermelhas representando o caminho que deve ser seguido. 
+
+![Rota Gerada](img/generated-route.png)
+![Rota Gerada mostrando os nós](img/generated-route-nodes.png)
+
+### Erro
+Caso a geração da trajetória falhe (isso pode acontecer por alguns motivos como coordenadas fora do arquivo, falha no servidor, etc.) você será redirecionado para uma página de erro, onde se pode voltar para a tela inicial.
+
+![Página de Erro](img/error-page.png)
 
 
 # Referências

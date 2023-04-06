@@ -1,9 +1,9 @@
+// importing the components
 import { Box, IconButton, TextField, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-
 import CustomButton from "../components/CustomButton";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { LatLngExpression, bounds } from "leaflet";
+import { LatLngExpression } from "leaflet";
 import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -22,6 +22,7 @@ function AddCoordinates() {
   let [destLat, setdestLat] = useState(searchParams.get("destLat"));
   let [destLon, setdestLon] = useState(searchParams.get("destLon"));
 
+  // Error handling for text fields (latitude and longitude)
   const [LatOriginError, setLatOriginError] = useState("");
   const [LonOriginError, setLonOriginError] = useState("");
   const [LatDestError, setLatDestError] = useState("");
@@ -37,11 +38,13 @@ function AddCoordinates() {
       destLat: destLat || "0.0",
       destLon: destLon || "0.0",
     });
+    // Navigate to the next page (AddExclusionZone)
     navigate("/AddExclusionZone", {
       state: { originLat, originLon, destLat, destLon },
     });
   };
 
+  // Updates the map bounds
   useEffect(() => {
     if (hasUpdated.current === false) {
       context.updateMapBounds();
@@ -51,7 +54,7 @@ function AddCoordinates() {
     };
   }, []);
 
-  // Sets the entry and exti points
+  // Sets the entry and exit points
   let points: LatLngExpression[] = [
     { lat: Number(originLat) || 0.0, lng: Number(originLon) || 0.0 },
     { lat: Number(destLat) || 0.0, lng: Number(destLon) || 0.0 },

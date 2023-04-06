@@ -1,7 +1,5 @@
-import { Box, IconButton, TextField, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-// import "../styles/pages/Home.css";
-
 import Map from "../components/Map";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LatLngExpression } from "leaflet";
