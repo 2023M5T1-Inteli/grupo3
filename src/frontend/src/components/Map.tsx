@@ -28,7 +28,7 @@ export default function Map(props: IMapProps) {
     elements.push(
       <Circle
         center={points[i]}
-        radius={100}
+        radius={50}
         pathOptions={{ fillColor: "blue" }}
       />
     );
@@ -36,7 +36,7 @@ export default function Map(props: IMapProps) {
       edges.push(
         <Polyline
           positions={[points[i], points[i + 1]]}
-          pathOptions={{ color: "red" }}
+          pathOptions={{ color: "red", }}
         />
       );
     }

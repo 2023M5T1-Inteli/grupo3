@@ -2,23 +2,24 @@ package path;
 
 import models.Algorithms.AStar;
 import models.Graph.Graph;
+import models.Scorer.Haversine;
 import models.vertex.CoordinateVertex;
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.ExclusionStopPoints.PointAnalyzer;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
 
 public class PathPlanner {
 
     private static final Logger logger = LoggerFactory.getLogger(PathPlanner.class);
     private final String routeID;
-    private final double latInitial;
-    private final double lonInitial;
-    private final double latFinal;
-    private final double lonFinal;
-
+    private final HashMap<String, CoordinateVertex> originDest = new HashMap<String, CoordinateVertex>();
     private final double maxHeight;
     private Graph _graph;
 
@@ -26,12 +27,16 @@ public class PathPlanner {
 
     private ArrayList<CoordinateVertex> foundRoute;
 
-    public PathPlanner(String routeID, double[][][] coordinates, double latInitial, double lonInitial, double latFinal, double lonFinal) {
+    private final JSONArray excludedPoints;
+
+    public PathPlanner(String routeID, double[][][] coordinates, double[] startCoordinate, double[] targetCoordinate, JSONArray excludedPoints){
         this.routeID = routeID;
-        this.latInitial = latInitial;
-        this.lonInitial = lonInitial;
-        this.latFinal = latFinal;
-        this.lonFinal = lonFinal;
+        this.excludedPoints = excludedPoints;
+
+        double minStartDistance = Double.MAX_VALUE;
+        double minEndDistance = Double.MAX_VALUE;
+
+        Haversine scorer = new Haversine();
 
         double maxHeight = Double.NEGATIVE_INFINITY;
         this._graph = new Graph(coordinates.length, coordinates[0].length);
@@ -39,17 +44,37 @@ public class PathPlanner {
         long graphCreationTime = System.currentTimeMillis();
         logger.atInfo().log("Creating graph");
 
+        Point2D startPoint = new Point2D.Double(startCoordinate[1], startCoordinate[0]);
+        Point2D targetPoint = new Point2D.Double(targetCoordinate[1], targetCoordinate[0]);
+
         for (int i = 0; i < coordinates.length; i++) {
             for (int j = 0; j < coordinates[i].length; j++) {
                 double height = coordinates[i][j][2];
                 if (height > maxHeight) maxHeight = height;
                 Point2D currentPoint = new Point2D.Double(coordinates[i][j][1], coordinates[i][j][0]);
                 CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, height);
+
+                if(isExcludedPoint(newCoordinateVertex))
+                    newCoordinateVertex.exclusionCost = 1000000;
+
                 this._graph.addVertex(newCoordinateVertex, i, j);
+
+                double currentStartDistance = Math.abs(scorer.computeDistanceByPoint2D(currentPoint, startPoint));
+                if(currentStartDistance < minStartDistance) {
+                    minStartDistance = currentStartDistance;
+                    originDest.put("start", newCoordinateVertex);
+                }
+
+                double currentEndDistance = Math.abs(scorer.computeDistanceByPoint2D(currentPoint, targetPoint));
+                if(currentEndDistance < minEndDistance) {
+                    minEndDistance = currentEndDistance;
+                    originDest.put("end", newCoordinateVertex);
+                }
             }
         }
         logger.atInfo().log("Graph created");
         logger.atInfo().log("Graph creation time: " + (System.currentTimeMillis() - graphCreationTime) + "ms");
+        logger.atInfo().log("Total Vertices: " + this._graph.totalVertices + "");
         this.totalProcessTime += System.currentTimeMillis() - graphCreationTime;
 
         this.maxHeight = maxHeight;
@@ -62,13 +87,39 @@ public class PathPlanner {
         this.totalProcessTime += System.currentTimeMillis() - edgesCreationTime;
     }
 
+
+    private boolean isExcludedPoint(CoordinateVertex vertex) {
+        if (this.excludedPoints.length() != 0) {
+            PointAnalyzer pointAnalyzer = new PointAnalyzer();
+
+            for (int k = 0; k < this.excludedPoints.length(); k++) {
+                JSONArray excludePoint = this.excludedPoints.getJSONArray(k);
+
+                double excludeLong = excludePoint.getDouble(0);
+                double excludeLat = excludePoint.getDouble(1);
+                double radius = excludePoint.getDouble(2);
+
+                boolean isInExclusionZone = pointAnalyzer.isExclusionPoint(vertex.getPosition(), new Point2D.Double(excludeLong, excludeLat), radius);
+
+                if (isInExclusionZone) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public ArrayList<CoordinateVertex> traceRoute() {
         // Calculates the optimal path between two nodes(vertex)
         logger.atInfo().log("Calculating route");
         long routeCalculationTime = System.currentTimeMillis();
         ArrayList<CoordinateVertex> vertices = this._graph.getVertexes();
+
+        logger.atInfo().log("OriginVerticePosition: " + vertices.get(originDest.get("start").getIndex()).getPosition() + " " + originDest.get("start").getIndex());
+        logger.atInfo().log("DestVerticePosition: " + vertices.get(originDest.get("end").getIndex()).getPosition() + " " + originDest.get("end").getIndex());
+
         AStar algorithm = new AStar();
-        this.foundRoute = algorithm.ASearch(0, vertices.size() - 1, vertices, this.maxHeight);
+        this.foundRoute = algorithm.ASearch(originDest.get("start").getIndex(), originDest.get("end").getIndex(), vertices, this.maxHeight);
+
         logger.atInfo().log("Route calculated");
         logger.atInfo().log("Route calculation time: " + (System.currentTimeMillis() - routeCalculationTime) + "ms");
         this.totalProcessTime += System.currentTimeMillis() - routeCalculationTime;
@@ -91,26 +142,9 @@ public class PathPlanner {
         return routeID;
     }
 
-
-    public double getLatInitial() {
-        return latInitial;
-    }
-
-    public double getLonInitial() {
-        return lonInitial;
-    }
-
-    public double getLatFinal() {
-        return latFinal;
-    }
-
-    public double getLonFinal() {
-        return lonFinal;
-    }
-
     @Override
     public String toString() {
-        return "\n  RouteID: " + routeID + "\n      Origin: (Lat, Lon) " + latInitial + ", " + lonInitial + "\n      Dest: (Lat, Lon) " + latFinal + ", " + lonFinal
+        return "\n  RouteID: " + routeID + "\n      Origin: (Lat, Lon) " + 0.0 + ", " + 0.0 + "\n      Dest: (Lat, Lon) " + 0.0 + ", " + 0.0
                 + "\n      Max Height: " + maxHeight + "\n      TotalVertices: " + _graph.totalVertices + "\n      ProcessTime:" + totalProcessTime + "ms" + "\n";
     }
 }

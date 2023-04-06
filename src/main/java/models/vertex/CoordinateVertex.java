@@ -17,6 +17,7 @@ public class CoordinateVertex implements IVertex {
     public double totalCost; // The sum of the previous cost, is used in the A* algorithm
     public double absoluteCost; // Cost distance between the current vertex and the target
 
+    public double exclusionCost; // Cost distance between the current vertex and the target
     public double gScore;
     public double hScore;
     public double fScore;
@@ -27,6 +28,7 @@ public class CoordinateVertex implements IVertex {
     public CoordinateVertex(Point2D position, double averageHeight) {
         this._position = position;
         this.averageHeight = averageHeight;
+        this.exclusionCost = 0;
     }
 
     /* The addEdge method inserts an edge into the adjacencies ArrayList, connecting it to another vertex,
