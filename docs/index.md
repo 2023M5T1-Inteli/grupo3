@@ -21,7 +21,6 @@ Planejador de trajetórias para voos em baixa altitude
   - [Solução](#solução)
     - [Solução proposta](#solução-proposta)
     - [Como utilizar](#como-utilizar)
-    - [Fluxograma (Arquitetura inicial)](#fluxograma-arquitetura-inicial)
     - [Modelagem Inicial do Problema](#modelagem-inicial-do-problema)
     - [Tomada de decisão](#tomada-de-decisão)
     - [Limitações existentes](#limitações-existentes)
@@ -61,6 +60,7 @@ Planejador de trajetórias para voos em baixa altitude
   - [Histórias dos usuários (user stories)](#histórias-dos-usuários-user-stories)
 - [Arquitetura do Sistema](#arquitetura-do-sistema)
   - [Módulos do Sistema e Visão Geral (Big Picture)](#módulos-do-sistema-e-visão-geral-big-picture)
+    - [Fluxograma (Arquitetura inicial)](#fluxograma-arquitetura-inicial)
   - [Descrição dos Subsistemas](#descrição-dos-subsistemas)
     - [Requisitos de software](#requisitos-de-software)
   - [Tecnologias Utilizadas](#tecnologias-utilizadas)
@@ -127,27 +127,23 @@ Diversas aplicações dentro da indústria de aviação, como busca e salvamento
 
 Sistemas de Terrain Following são utilizados para auxiliar esse tipo de missão provendo uma guiagem ao piloto, orientando ele como conduzir a aeronave de forma segura nesse ambiente desafiador a partir de dados obtidos do voo. 
 
-O problema que a solução pretende resolver está relacionado à otimização do trajeto de voos de baixa altitude considerando os riscos de colisão com o solo e fatores que possam afetar a missão. Atualmente, as trajetórias de voo construídas são levadas a evitar áreas mais povoadas pela maior probabilidade de ter sistemas de monitoramento. Diante disso, ao traçar a trajetória, áreas com feições geográficas elevadas como morros, vales e cadeias de montanhas, que minimizam ainda mais a probabilidade de detecção, tendem a ser mais escolhidas, o que gera uma necessidade ainda maior de controle da rota para a segurança dos tripulantes. 
+O problema que a solução pretende resolver está relacionado à geração e otimização do trajeto de voos de baixa altitude considerando os riscos de colisão com o solo, fatores que possam afetar a missão e a distância do voo. Atualmente, as trajetórias de voo construídas são levadas a evitar áreas mais povoadas pela maior probabilidade de ter sistemas de monitoramento. Diante disso, ao traçar a trajetória, áreas com feições geográficas elevadas como morros, vales e cadeias de montanhas, que minimizam ainda mais a probabilidade de detecção, tendem a ser mais escolhidas, o que gera uma necessidade ainda maior de controle da rota para a segurança dos tripulantes. 
 
 ## Solução
 
 ### Solução proposta
 
-A solução consiste em um software desenvolvido em Java capaz de receber como entradas os dados da região geográfica de operação, o banco de dados de elevação, as zonas de exclusão (restrições) e o ponto de partida e de destino. Inicialmente, será possível acessá-la por meio de um terminal (por exemplo: aplicação.java 'apollo' 123 321). E como saída será gerada uma série de nós que conectam os pontos de partida e de destino respeitando as restrições impostas na especificação do usuário.
+A solução consiste em um software desenvolvido em Java capaz de gerar a melhor trajetória de acordo com a altitude e distância entre a origem e o destino. O usuário poderá inserir as coordenadas do ponto de origem e do ponto de destino, e possíveis áreas de exclusão (digitando as coordenadas do centro do círculo e seu raio). Como saída será gerada uma série de nós que conectam os pontos de partida e de destino respeitando as restrições impostas na especificação do usuário em cima de um mapa que representa a área da missão.
 
-A partir da coleta das informações do voo, é construída a trajetória de referência, que traça um caminho que tem como partida o ponto de início da operação em baixa altitude, e como destino o ponto de retorno a território seguro onde o voo a baixa altitude pode ser finalizado com segurança. 
+A partir da coleta das informações do voo, e do arquivo de coordenadas e elevações é construída a trajetória de referência (utilizando o algoritmo A*), que traça um caminho que tem como partida o ponto de início da operação em baixa altitude, e como destino o ponto de retorno a território seguro onde o voo a baixa altitude pode ser finalizado com segurança. 
 
-Os dados que serão utilizados para auxílio da construção do algoritmo são referentes à elevação do solo das seguintes regiões: Yosemite, Death Valley, Rio e São Paulo. Para a leitura do banco de dados dos terrenos, uma biblioteca open source (Java) será utilizada. 
+Os dados que serão utilizados para auxílio da construção do algoritmo são referentes à elevação do solo (em metros) e das coordenadas (longitude e latitude em graus) das seguintes regiões: Yosemite, Death Valley, Rio e São Paulo. Para a leitura do banco de dados dos terrenos, uma biblioteca open source (Java) será utilizada. 
 
 Na visualização do banco de dados do terreno, será utilizado o software GIS, que é um sistema que conecta dados a um mapa, integrando dados de localização, onde as coisas estão, com todos os tipos de informações descritivas, ou seja, como as coisas são lá.
 
 ### Como utilizar
 
 A solução proposta será aplicada de forma para determinar a rota mais adequada levando em conta os fatores presentes na área de voo. Ela se fundamenta em informações geográficas relacionadas ao terreno, bem como no desempenho das aeronaves e outros aspectos operacionais, visando minimizar os riscos. O principal usuário da solução poderá incluir parâmetros de software, resultando em uma visualização da rota de voo.
-
-### Fluxograma (Arquitetura inicial)
-
-![Fluxograma](./img/Fluxograma.png)
 
 ### Modelagem Inicial do Problema
 
@@ -215,10 +211,7 @@ Return r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10, r11, r12, r13, r14, r15, r16, r17, r18
 
 Neste caso, o ponto de partida seria Petrópolis e o de destino Itaipava, evidenciados na cor amarela. No grafo, existem rotas impossíveis destacadas em vermelho, seja pela presença de um radar inimigo ou uma circunstância que impossibilite/dificulte a passagem naquela região. Também há rotas possíveis, porém não otimizadas, como as regiões pintadas em cinza, seja por algum motivo relacionado à irregularidade na topografia local ou maior distância para alcançar o destino final. A solução proposta utiliza um algoritmo que encontra a rota mais eficiente entre o ponto de destino e origem, que passa pelas regiões destacadas em verde.
 
- É importante destacar as variações de cores das arestas, que representam o range entre os nós no mapa. Na representação apresentada, a cor laranja indica um aclive entre um ponto e outro do terreno, a cor azul indica um declive, e as arestas em cinza representam altitudes iguais. A espessura das arestas indica o caminho sugerido a ser seguido. Quanto mais espessa a aresta, mais recomendado é seguir esse caminho, pois é a rota mais otimizada. As arestas contêm informações sobre a distância entre as regiões demarcadas e a diferença de altitude entre elas, que são usadas para realizar ponderações e determinar a rota mais otimizada para a missão.
-
- 
-
+ É importante destacar as variações de cores das arestas, que representam o range entre os nós no mapa. Na representação apresentada, a cor laranja indica um aclive entre um ponto e outro do terreno, a cor azul indica um declive, e as arestas em cinza representam altitudes iguais. A espessura das arestas indica o caminho sugerido a ser seguido. Quanto mais espessa a aresta, mais recomendado é seguir esse caminho, pois é a rota mais otimizada. As arestas contêm informações sobre a distância entre as regiões demarcadas e a diferença de altitude entre elas (peso), que são usadas para realizar ponderações e determinar a rota mais otimizada para a missão.
 
 ### Tomada de decisão
 
@@ -259,7 +252,39 @@ j - nó de destino
 
 O objetivo é minimizar o caminho percorrido de acordo com os pesos das arestas. Dessa forma, a função objetivo consiste na soma dos pesos vezes o valor da tomada de decisão (0 ou 1). Ou seja, apenas os caminhos usados realmente afetarão a função, já que aqueles que não forem usados serão multiplicados por 0.
 
-Min C = var_0.x<sub>P 1</sub> + var_1.x<sub>1 2</sub> + var_27.x<sub>12 1</sub> + var_15.x<sub>2 14</sub> + var_2.x<sub>2 3</sub> + var_17.x<sub>5 15</sub> + var_3.x<sub>3 4</sub> + var_4.x<sub>4 5</sub> + var_5.x<sub>5 6</sub> + var_6.x<sub>6 7</sub> + var_23.x<sub>7 19</sub> + var_7.x<sub>7 8</sub> + var_8.x<sub>8 9</sub> + var_14.x<sub>8 11</sub> + var_13.x<sub>8 10</sub> + var_9.x<sub>10 12</sub> + var_25.x<sub>12 20</sub> + var_12.x<sub>12 I</sub> + var_16.x<sub>14 3</sub> + var_19.x<sub>15 16</sub> + var_20.x<sub>16 17</sub> + var_21.x<sub>17 18</sub> + var_22.x<sub>18 7</sub>
+Min C =
+$$\left( \sum_{i=0}^{27} var_i x_{e_i} \right)$$
+ 
+onde $x_{e_i}$ representa o valor da variável de decisão associado a $i$-ésima aresta do grafo. As arestas são representadas da seguinte forma:
+
+$e_0 = (P,1)$<br>
+$e_1 = (1,2)$<br>
+$e_2 = (2,3)$<br>
+$e_3 = (3,4)$<br>
+$e_4 = (4,5)$<br>
+$e_5 = (5,6)$<br>
+$e_6 = (6,7)$<br>
+$e_7 = (7,8)$<br>
+$e_8 = (8,9)$<br>
+$e_9 = (10,12)$<br>
+$e_{10} = (8,10)$<br>
+$e_{11} = (8,11)$<br>
+$e_{12} = (12,I)$<br>
+$e_{13} = (8,10)$<br>
+$e_{14} = (2,14)$<br>
+$e_{15} = (5,15)$<br>
+$e_{16} = (15,16)$<br>
+$e_{17} = (16,17)$<br>
+$e_{18} = (17,18)$<br>
+$e_{19} = (7,19)$<br>
+$e_{20} = (12,20)$<br>
+$e_{21} = (17,18)$<br>
+$e_{22} = (18,7)$<br>
+$e_{23} = (7,19)$<br>
+$e_{24} = (8,11)$<br>
+$e_{25} = (12,20)$<br>
+$e_{26} = (8,10)$<br>
+$e_{27} = (12,I)$<br>
 
 #### Restrições - Limitações
 As restrições consistem em que tudo que entra é igual ao que sai. No caso do nó "Petrópolis" (nó P) 1 será igual a tomada de decisão pois alguma aresta será utilizada obrigatoriamente e no caso do nó "Itaipava" (nó I) as tomadas de decisão serão iguais a 1 pois sempre chegará nele por uma aresta obrigatoriamente. 
@@ -300,15 +325,16 @@ Um dos critérios de sucesso será o tempo de execução do programa (visualiza�
 
 ### Objetivos gerais
 
-O objetivo geral do projeto é desenvolver um algoritmo que servirá de base para eventuais projetos que englobam, além da plataforma embarcada, sistemas de planejamento de missões em solo.
+O objetivo geral do projeto é desenvolver um sistema que construa uma trajetória que auxilie o piloto na realização de voos de baixa altitude com segurança, levando em consideração a otimização do trajeto a partir da distância, altitude e raio de curvatura, minimizando os riscos de colisão com o solo e outros fatores que possam afetar a missão.
 
 
 ### Objetivos específicos
 
-- Desenvolvimento de componente que gera um grafo a partir do banco de dados de elevação;
-- Remoção de arestas que violam restrições impostas pelo parceiro;
-- Algoritmo de busca de uma trajetória ótima considerando diversas variáveis, e minimizando ao máximo a altitude;
-- Desenvolvimento de software para visualização do trajeto; 
+- Identificar todas as variáveis que devem ser consideradas na busca pela trajetória ótima, tais como distância do voo, altitude média, raio de curvatura, entre outras;
+- Desenvolver um componente que converta as informações de elevação e de coordenadas em um grafo, levando em consideração as variáveis identificadas anteriormente;
+- Remover as arestas do grafo que violam as restrições impostas pelo parceiro, garantindo que a trajetória resultante esteja dentro das especificações exigidas;
+- Desenvolver um algoritmo que realize a busca pela trajetória ótima, levando em consideração todas as variáveis identificadas e minimizando a altitude média da trajetória;
+- Desenvolver um software que permita a visualização da trajetória planejada, com a possibilidade de ajuste de variáveis e restrições.
 
 
 ## Partes interessadas
@@ -320,7 +346,7 @@ Os interessados da AEL Sistemas (parceiro direto do projeto) são:
 Possíveis interessados são os clientes da AEL (como o governo) e as equipes destes clientes, que utilizarão efetivamente a solução do projeto.
 
 # Análise do Problema
-As Cinco Forças de Porter e o modelo de negócios foram feitos com base em informações do site oficial da empresa [1], do linkedin da empresa [2] e na apresentação institucional.
+As Cinco Forças de Porter, o modelo de negócios e a análise SWOT foram feitos com base em informações do site oficial da empresa [1], do linkedin da empresa [2] e na apresentação institucional.
 ## Análise da área de atuação
 
 ### Principais Players
@@ -355,7 +381,7 @@ A AEL Sistemas tem uma grande ligação com projetos das Forças Armadas Brasile
 
 #### Ameaça de novos entrantes
 
-O setor da AEL já é consolidado e com uma grande concorrência entre seus players. Assim, a ameaça de novos entrantes não é tão alta, já que as maiores empresas do setor têm a confiança do mercado e se dedicam constantemente para a inovação na área. Além disso, a boa relação entre a AEL e as Forças Armadas faz com que novos entrantes no Brasil tenham dificuldade em ameaçar a atual posição.
+O setor da AEL já é consolidado e com uma grande concorrência entre seus players. Assim, a ameaça de novos entrantes não é tão alta, já que as maiores empresas do setor têm a confiança do mercado e se dedicam constantemente para a inovação na área. Além disso, a boa relação entre a AEL e as Forças Armadas, visto que há parceria com todos os setores, faz com que novos entrantes no Brasil tenham dificuldade em ameaçar a atual posição.
 
 #### Ameaça de produtos ou serviços substitutos
 
@@ -426,6 +452,11 @@ A AEL Sistemas se dedica ao projeto, desenvolvimento, fabricação, manutenção
 # Arquitetura do Sistema
 
 ## Módulos do Sistema e Visão Geral (Big Picture)
+
+### Fluxograma (Arquitetura inicial)
+
+![Fluxograma](./img/Fluxograma.png)
+
 
 ## Descrição dos Subsistemas
 
