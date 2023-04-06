@@ -80,7 +80,7 @@ A abordagem para o planejamento das rotas é com o uso de algoritmos, que determ
 
 Na solução os nós atuam como posições geográficas e possuem latitude, longitude e altitude média. Tratando-se de um grafo direcionado, as arestas que conectam os nós atuam como direção para a trajetória e carregam consigo as propriedades de distância, variação de altura e custo de viagem. O custo da viagem é a abordagem utilizada para conferir peso a aresta relacionando a distância da viagem e os fatores determinados anteriormente, como combustível, aeronave e etc.
 
-Russel et al. explicam sobre o funcionamento do A* e de outras formas de busca.O algoritmo A* (a-star) foi escolhido para a busca de caminhos do grafo, ele utiliza uma heurística para avaliar a distância restante do nó atual até o objetivo final, o que ajuda a evitar que o algoritmo explore caminhos desnecessários. Ele é uma extensão do algoritmo de busca em largura (BFS) e do algoritmo de busca em profundidade (DFS), que utilizam uma estratégia de busca "cega", percorrendo todos os caminhos possíveis até encontrar a solução.
+Russel et al. explicam sobre o funcionamento do A* e de outras formas de busca. O algoritmo A* (a-star) foi escolhido para a busca de caminhos do grafo, ele utiliza uma heurística para avaliar a distância restante do nó atual até o objetivo final, o que ajuda a evitar que o algoritmo explore caminhos desnecessários. Ele é uma extensão do algoritmo de busca em largura (BFS) e do algoritmo de busca em profundidade (DFS), que utilizam uma estratégia de busca "cega", percorrendo todos os caminhos possíveis até encontrar a solução.
 
 
 ## 2.2 - Algoritmo de construção de trajetória
