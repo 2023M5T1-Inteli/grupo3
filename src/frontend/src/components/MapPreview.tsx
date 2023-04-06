@@ -118,13 +118,13 @@ export default function MapPreview(props: IMapProps) {
         <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
 
         <LayersControl>
-          <LayersControl.Overlay checked name={"test"}>
+          <LayersControl.Overlay checked name={"Rota Principal"}>
             {edges.map((element) => element)}
           </LayersControl.Overlay>
-          <LayersControl.Overlay checked name={"test2"}>
+          <LayersControl.Overlay checked name={"Área de Exclusão"}>
             {rects.map((element) => element)}
           </LayersControl.Overlay>
-          <LayersControl.Overlay checked name={"allowedArea"}>
+          <LayersControl.Overlay checked name={"Área Permitida"}>
             {allBounds.map((element) => element)}
           </LayersControl.Overlay>
         </LayersControl>

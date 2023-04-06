@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { LatLngExpression, bounds } from "leaflet";
 import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import MapPreview from "../components/MapPreview";
 import { ApplicationContext } from "../context/ApplicationContext";
 
@@ -27,6 +27,8 @@ function AddCoordinates() {
   const [LatDestError, setLatDestError] = useState("");
   const [LonDestError, setLonDestError] = useState("");
 
+  const hasUpdated = useRef(false);
+
   // Load local variables according to search params
   const clickHandler = () => {
     setSearchParams({
@@ -41,7 +43,12 @@ function AddCoordinates() {
   };
 
   useEffect(() => {
-    context.updateMapBounds();
+    if (hasUpdated.current === false) {
+      context.updateMapBounds();
+    }
+    return () => {
+      hasUpdated.current = true;
+    };
   }, []);
 
   // Sets the entry and exti points

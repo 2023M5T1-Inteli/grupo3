@@ -7,7 +7,6 @@ import models.vertex.CoordinateVertex;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.neo4j.driver.AuthTokens;
-
 import org.neo4j.driver.*;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
@@ -17,6 +16,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,14 +73,9 @@ public class AStarController implements CommandLineRunner {
      *             }
      * @return ResponseEntity is an HTTP response
      */
-
     @PostMapping("executeAlg")
     public ResponseEntity<String> executeAlg(@RequestBody String data) throws Exception {
-        // Decoding the characters to UTF-8
-        String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8);
-
-        // Parsing the decoded string to a JSON object and extracting the values
-        JSONObject obj = new JSONObject(dataDecoded);
+        JSONObject obj = new JSONObject(URLDecoder.decode(data, StandardCharsets.UTF_8));
         JSONArray exclusionPoints = obj.getJSONArray("exclusionPoints");
 
         String filePath = obj.getString("filePath");
@@ -94,45 +89,33 @@ public class AStarController implements CommandLineRunner {
         String neo4jUsername = dotenv.get("NEO4J_USERNAME");
         String neo4jPassword = dotenv.get("NEO4J_PASSWORD");
 
-        Driver driver = GraphDatabase.driver(neo4jURI, AuthTokens.basic(neo4jUsername, neo4jPassword));
+        try {
+            Driver driver = GraphDatabase.driver(neo4jURI, AuthTokens.basic(neo4jUsername, neo4jPassword));
 
+            // Read the dt2 file and take the positions of the region
+            Points points = new Points();
+            double[][][] coordinates = points.Coordinates(filePath, 0.0011, 0.0014);
 
-        // Reading the dt2 file and taking the positions of the region
-        Points points = new Points();
-//        double startTime = System.nanoTime();
-//        double endTime = (System.nanoTime() - startTime) / 1_000_000_000;
-
-        System.out.println("Reading File...");
-
-
-        double[][][] coordinates = points.Coordinates(filePath, 0.0011, 0.0014);
-
-        double[] startPoint = new double[]{lonInitial, latInitial};
-        double[] endPoint = new double[]{lonFinal, latFinal};
+            double[] startPoint = new double[]{lonInitial, latInitial};
+            double[] endPoint = new double[]{lonFinal, latFinal};
             PathPlanner pathPlanner = new PathPlanner(pathID, coordinates, startPoint, endPoint, exclusionPoints);
-        ArrayList<CoordinateVertex> route = pathPlanner.traceRoute();
+            ArrayList<CoordinateVertex> route = pathPlanner.traceRoute();
 
-        System.out.println(pathPlanner);
+            // Send the local Graph structure to neo4J
+            try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
+                new Neo4JDatabaseHandler().createRouteNode(route, session, pathPlanner.getRouteID());
+            }
+            driver.close();
+            getRouteItemByRouteID(pathID, "DONE");
 
-
-        // Returns the generated optimal path as an ArrayList;
-        Neo4JDatabaseHandler neo4JDatabaseHandler = new Neo4JDatabaseHandler();
-
-        // Send the local Graph structure to neo4J
-        try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
-            neo4JDatabaseHandler.createRouteNode(route, session, pathPlanner.getRouteID());
+            return ResponseEntity.ok("Rota criada com sucesso!");
+        } catch (Exception e) {
+            getRouteItemByRouteID(pathID, "ERROR");
+            return new ResponseEntity<String>("Erro ao criar rota!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        // Ends the Neo4J session
-        driver.close();
-        getRouteItemByRouteID(pathID, "DONE");
-
-        // Returns this message after complete
-        return ResponseEntity.ok("Rota criada com sucesso!");
     }
 
-    public void getRouteItemByRouteID(String routeID, String status) {
-        System.out.println("Getting item by routeID: " + routeID);
+    private void getRouteItemByRouteID(String routeID, String status) {
         RouteItem item = routeItemRepo.findRouteItemByRouteID(routeID);
         item.setStatus(status);
         routeItemRepo.save(item);
@@ -141,21 +124,22 @@ public class AStarController implements CommandLineRunner {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("getMapBounds")
     public ResponseEntity<String> getMapBoundsJson(@RequestBody String data) throws Exception {
-        String dataDecoded = URLDecoder.decode(data, StandardCharsets.UTF_8);
-        JSONObject obj = new JSONObject(dataDecoded);
+        JSONObject obj = new JSONObject(URLDecoder.decode(data, StandardCharsets.UTF_8));
         String filePath = obj.getString("filePath");
+
+        try {
         Points points = new Points();
         double[][] mapBounds = points.mapBounds(filePath);
-        double minLat = mapBounds[0][0];
-        double maxLat = mapBounds[0][1];
-        double minLon = mapBounds[1][0];
-        double maxLon = mapBounds[1][1];
         JSONObject mapBoundsJson = new JSONObject();
-        mapBoundsJson.put("minLat", minLat);
-        mapBoundsJson.put("maxLat", maxLat);
-        mapBoundsJson.put("minLon", minLon);
-        mapBoundsJson.put("maxLon", maxLon);
+        mapBoundsJson.put("minLat", mapBounds[0][0]);
+        mapBoundsJson.put("maxLat", mapBounds[0][1]);
+        mapBoundsJson.put("minLon", mapBounds[1][0]);
+        mapBoundsJson.put("maxLon", mapBounds[1][1]);
+
         return ResponseEntity.ok(mapBoundsJson.toString());
+        } catch (Exception e) {
+            return new ResponseEntity<String>("Erro ao obter os limites do mapa!", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -170,13 +154,22 @@ public class AStarController implements CommandLineRunner {
         String filePath = obj.getString("filePath");
         Points points = new Points();
 
-        double[][][] bounds = points.listAllBounds(filePath);
+        try {
+            double[][][] bounds = points.listAllBounds(filePath);
 
-        JSONObject mapBoundsJson = new JSONObject();
-        mapBoundsJson.put("bounds", bounds);
+            JSONObject mapBoundsJson = new JSONObject();
+            mapBoundsJson.put("bounds", bounds);
 
-        return ResponseEntity.ok(mapBoundsJson.toString());
+            return ResponseEntity.ok(mapBoundsJson.toString());
+        } catch (Exception e) {
+            return new ResponseEntity<String>("Erro ao obter os limites do mapa!", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+
+
+
+
     /**
      * This function does not execute any functionality on its own, but it is essential for our implementation as it utilizes the
      * CommandLineRunner interface. The CommandLineRunner interface is required for establishing a connection to MongoDB and

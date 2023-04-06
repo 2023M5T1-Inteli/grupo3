@@ -6,17 +6,10 @@ import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { LatLngExpression, LatLngTuple } from "leaflet";
 import { motion } from "framer-motion";
 import { ArrowBack } from "@mui/icons-material";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import MapPreview from "../components/MapPreview";
 import { createPath } from "../services/Graph";
 import { ApplicationContext } from "../context/ApplicationContext";
-
-function pointXtoLatLngTuple(pointX: string): LatLngTuple {
-  let pointXArray = pointX.split(",");
-  let lat = Number(pointXArray[0]) || 0.0;
-  let lon = Number(pointXArray[1]) || 0.0;
-  return [lat, lon];
-}
 
 function AddExclusionZone() {
   const navigate = useNavigate();
@@ -52,15 +45,22 @@ function AddExclusionZone() {
   let [center, setCenter] = useState(searchParams.get("center") || "");
   let [radius, setRadius] = useState(searchParams.get("radius") || "");
   let [circumference, setCircumference] = useState<LatLngTuple>([0, 0]);
-
   const [centerError, setCenterError] = useState("");
 
   const { originLat, originLon, destLat, destLon } = state;
+
+  const hasUpdated = useRef(false);
+
   useEffect(() => {
-    context.updateMapBounds();
+    if (hasUpdated.current === false) {
+      context.updateMapBounds();
+    }
     if (center && radius) {
       setCircumference(pointXtoLatLngTuple(center));
     }
+    return () => {
+      hasUpdated.current = true;
+    };
   }, [center, radius]);
 
   const pointXtoLatLngTuple = (pointX: string): LatLngTuple => {

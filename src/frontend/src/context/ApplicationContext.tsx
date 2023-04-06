@@ -56,10 +56,6 @@ export function ApplicationProvider({ children }: IChildren) {
     }
   }
 
-  useEffect(() => {
-    updateMapBounds();
-  }, []);
-
   const memoedValue = useMemo(
     () => ({
       mapBounds,

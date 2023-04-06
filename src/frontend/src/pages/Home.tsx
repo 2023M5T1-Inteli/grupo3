@@ -4,16 +4,23 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import CustomButton from "../components/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useContext, useEffect } from "react";
-import { postGetMapBounds } from "../services/Microsservice";
+import { useContext, useEffect, useRef } from "react";
 import { ApplicationContext } from "../context/ApplicationContext";
 
 function Home() {
   const navigate = useNavigate();
   const clickHandler = () => navigate("/AddCoordinates");
   const context = useContext(ApplicationContext);
+  const hasUpdated = useRef(false);
+
   useEffect(() => {
-    context.updateMapBounds();
+    if (hasUpdated.current === false) {
+      context.updateMapBounds();
+    }
+
+    return () => {
+      hasUpdated.current = true;
+    };
   }, []);
   return (
     <motion.div>
