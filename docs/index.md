@@ -715,6 +715,9 @@ Caso a geração da trajetória falhe (isso pode acontecer por alguns motivos co
 
 ![Página de Erro](img/error-page.png)
 
+## Manual do Microserviço 
+
+Para executar nosso projeto recomendamos que leia nosso Readme e siga os passos de "Como executar esse microserviço". Instale as dependências necessárias e prossiga para o arquivo [AStarController.java](/src/main/java/controller/). Uma vez, que o projeto foi devidamente carregado em uma IDE como o [IntelliJ](https://www.jetbrains.com/idea/) e as dependências carregadas, você será apto para executar através de uma ferramenta como o Postman ou o Insomnia as rotas. Para mais informações siga o passo a passo encontrado no [Readme.md](/README.md).
 
 # Referências
 [1] AEL Sistemas. Disponível em: <https://www.ael.com.br/>. Acesso em: 6 fev. 2023.
