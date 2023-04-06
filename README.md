@@ -35,13 +35,13 @@ Os arquivos da documentação deste projeto estão na pasta [/docs](/docs), e o 
 
 ## Documentação da API 
 
-### Spring Boot
+### Spring Boot (Java)
 
-Gera o grafo utilizandoo algoritmo A*
+
 ```http
 POST /executeAlg
 ``` 
-
+Esta rota executa toda a "pipeline" necessária para que seja criado um Grafo a partir dos arquivos e seja calculado a melhor rota possível, baseado no algoritmo A*, tendo a menor altitude possível. 
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
@@ -49,13 +49,51 @@ POST /executeAlg
 | `latInitial` | `double` | Latitude inicial (saída) | 
 | `lonFinal` | `double` | Longitude final (destino) |
 | `latFinal` | `double` | Latitude final (destino) |
+| `exclusionPoints`| `double Array` | Pontos de exclusão, segue a ordem: [[latitude1, longitude1, raio1], [latitude2, longitude2, raio2], ...[] |
 | `pathID` | `string` | ID para identificar esta rota |
-| `dt2file` | `file` | Arquivo DT2 para leitura |
-
+| `filePath` | `string` | Nome do arquivo a ser lido |
 
 ##### Expected response
 ```JSON
 "Rota criada com sucesso!"
+```
+
+##### Error response
+```JSON
+"Erro ao criar rota!"
+```
+
+``` http
+POST /getMapBounds
+```
+Esta retorna o ponto de latitude e longitude máximo e minímo de um arquivo DT2. Uma vez que este arquivo representa geométricamente um quadrilátero, o ponto mínimo se encontra no canto superior esquerdo e o máximo em seu canto inferior direito. 
+| Parâmetro | Tipo | Descrição | 
+| :---------- | :--------- | :---------------------------------- |
+| `filePath` | `string` | Nome do arquivo a ser lido |
+
+##### Expected response
+``` JSON 
+"Exemplo do Arquivo do Rio de Janeiro"
+{
+	"minLon": -44.00013888888889,
+	"maxLat": -21.99986111111111,
+	"minLat": -23.99986111111111,
+	"maxLon": -42.00013888888889
+}
+```
+
+
+``` http
+POST /listAllBounds
+```
+Esta retorna o ponto de latitude e longitude máximo e minímo de todos os arquivos DT2. A lógica é semelhante a da rota anterior. 
+| Parâmetro | Tipo | Descrição | 
+| :---------- | :--------- | :---------------------------------- |
+| `filePath` | `string` | Nome do arquivo a ser lido |
+
+##### Error response
+``` JSON 
+"Erro ao obter os limites do mapa!"
 ```
 # Artigo
 
