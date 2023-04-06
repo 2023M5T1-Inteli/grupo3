@@ -1,6 +1,38 @@
 
-## Documentação da API
+# Documentação da API
 
+## Guia de desenvolvimento
+Para rodar o backend da aplicação, siga os seguintes passos:
+
+1. Certifique-se de ter o Node.js instalado em sua máquina. Você pode verificar se o Node.js está instalado executando o seguinte comando no terminal:
+```
+node -v
+```
+Se o Node.js não estiver instalado, faça o download da versão v18.0.0 em https://nodejs.org.
+
+2. Navegue até o diretório "backend" no terminal e instale as dependências do projeto usando o gerenciador de pacotes NPM (Node Package Manager):
+```
+npm install
+```
+3. Crie um arquivo .env na raiz do diretório "backend" e adicione as seguintes variáveis de ambiente, com os valores de conexão do Neo4j e do MongoDB:
+```env
+# Neo4j
+NEO4J_URL = 
+NEO4J_USERNAME =
+NEO4J_PASSWORD =
+
+# MongoDB
+MONGODB_URL =
+```
+
+4. Inicie o servidor de desenvolvimento do backend executando o seguinte comando:
+```
+npm start
+```
+
+5. Agora, você pode acessar a API em http://localhost:4000.
+
+## Rotas
 ### Retorna a rota final
 
 ```http
@@ -15,18 +47,18 @@
 ```javascript
     [
       {
-        "averageHeight": 100,
-        "latitude": 49.99,
-        "lastNode": {
-          "low": 7,
-          "high": 0
-        },
-        "index": {
-          "low": 50,
-          "high": 0
-        },
-        "pathID": "123",
-        "longitude": 29.995
+        "vertexIndex": 0,
+        "averageHeight": 572,
+        "previousVertex": -1,
+        "latitude": -22.952082,
+        "longitude": -43.211056
+      },
+      {
+        "vertexIndex": 24,
+        "averageHeight": 316,
+        "previousVertex": 0,
+        "latitude": -22.953482,
+        "longitude": -43.209956
       }
     ]
 ```
@@ -47,7 +79,6 @@
       "routeID": "VNB018W",
       "status": "Creating"
     }
-
 ```
 
 ### Solicita a criação da rota e retorna o código da rota
@@ -67,7 +98,6 @@
     {
       "routeID": "VNB018W"
     }
-
 ```
 
 ### Swagger

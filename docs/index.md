@@ -85,8 +85,8 @@ Planejador de trajetórias para voos em baixa altitude
   - [Melhor caso](#melhor-caso)
     - [Exemplo](#exemplo)
   - [Teste prático](#teste-prático)
-- [Número de vértices](#número-de-vértices)
-- [Distância entre Vértices](#distância-entre-vértices)
+- [Distância real entre os pontos de origem e destino](#distância-real-entre-os-pontos-de-origem-e-destino)
+- [Distância mínima entre os Vértices](#distância-mínima-entre-os-vértices)
   - [Corretude do Algoritmo](#corretude-do-algoritmo)
     - [Invariante do laço](#invariante-do-laço)
     - [Demonstração de Correção](#demonstração-de-correção)
@@ -522,7 +522,7 @@ Se o Node.js não estiver instalado, faça o download da versão v18.0.0 em http
 ```
 npm install
 ```
-Certifique-se de que o servidor backend está sendo executado na porta 4000. Para isso, basta executar todos os passos mencionados anteriormente, substituindo a pasta frontend por backend. Logo após, ainda na pasta "backend", execute:  `node ./src/app.js`
+Certifique-se de que o servidor backend está sendo executado na porta 4000. Para isso, basta executar todos os passos mencionados anteriormente, substituindo a pasta frontend por backend. Logo após, ainda na pasta "backend", execute:  `npm start`
 
 3. Inicie o servidor de desenvolvimento do frontend executando o seguinte comando:
 
