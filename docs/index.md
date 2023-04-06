@@ -85,8 +85,8 @@ Planejador de trajetórias para voos em baixa altitude
   - [Melhor caso](#melhor-caso)
     - [Exemplo](#exemplo)
   - [Teste prático](#teste-prático)
-- [Número de vértices](#número-de-vértices)
-- [Distância entre Vértices](#distância-entre-vértices)
+- [Distância real entre os pontos de origem e destino](#distância-real-entre-os-pontos-de-origem-e-destino)
+- [Distância mínima entre os Vértices](#distância-mínima-entre-os-vértices)
   - [Corretude do Algoritmo](#corretude-do-algoritmo)
     - [Invariante do laço](#invariante-do-laço)
     - [Demonstração de Correção](#demonstração-de-correção)
@@ -641,6 +641,8 @@ No caso do melhor cenário, o algoritmo funciona encontrando o caminho mais curt
 O algoritmo $A*$ propaga-se apenas nos nós que estão na direção do destino final, e isso evita a interação desnecessária com outros nós. Diante disso, o algoritmo será capaz de encontrar o caminho mais curto da origem ao destino com eficiência, tendo uma complexidade de tempo proporcional ao número mínimo de nós necessários para encontrar o caminho mais curto.
 
 ## Teste prático
+
+
 
 # Distância real entre os pontos de origem e destino
 
