@@ -53,10 +53,10 @@ function AddExclusionZone() {
 
   useEffect(() => {
     if (hasUpdated.current === false) {
-      context.updateMapBounds();
+      context.updateMapBounds(); // Update the map bounds in the application context
     }
     if (center && radius) {
-      setCircumference(pointXtoLatLngTuple(center));
+      setCircumference(pointXtoLatLngTuple(center)); // Set the circumference of the exclusion zone based on the center point and radius
     }
     return () => {
       hasUpdated.current = true;

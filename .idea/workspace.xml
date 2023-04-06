@@ -6,20 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bacf09db-9238-41d3-a427-7bbb765f2d74" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/AStarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/AStarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Graph/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Graph/Graph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Scorer/Haversine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Scorer/Haversine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/path/PathPlanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/path/PathPlanner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/PointsB.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/getIndex/GetIndexMethodClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/popArray/PopulateArray.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/models/Graph/GraphTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/models/Graph/GraphTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/models/Scorer/HaversineTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/models/Scorer/HaversineTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/models/edge/CoordinateEdgeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/models/edge/CoordinateEdgeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/models/vertex/CoordinateVertexTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/models/vertex/CoordinateVertexTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/utils/getIndex/GetIndexMethodClassTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/utils/popArray/PopulateArrayTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/artigo/artigo-grupoN.md" beforeDir="false" afterPath="$PROJECT_DIR$/artigo/artigo-grupoN.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

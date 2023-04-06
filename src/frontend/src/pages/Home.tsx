@@ -8,11 +8,13 @@ import { useContext, useEffect, useRef } from "react";
 import { ApplicationContext } from "../context/ApplicationContext";
 
 function Home() {
+  // Navigate to the AddCoordinates page
   const navigate = useNavigate();
   const clickHandler = () => navigate("/AddCoordinates");
+  
+  // Update the map bounds
   const context = useContext(ApplicationContext);
   const hasUpdated = useRef(false);
-
   useEffect(() => {
     if (hasUpdated.current === false) {
       context.updateMapBounds();
@@ -22,6 +24,7 @@ function Home() {
       hasUpdated.current = true;
     };
   }, []);
+  
   return (
     <motion.div>
       <Container
