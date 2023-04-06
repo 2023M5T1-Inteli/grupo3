@@ -1,14 +1,16 @@
 import { LatLng } from "leaflet";
 import { LatLngBoundsExpression } from "leaflet";
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 import { postGetMapBounds, postListAllBounds } from "../services/Microsservice";
 import { LatLngBounds } from "leaflet";
 import { IRemoteBounds } from "../types";
 
+// Define interfaces for props and context value
 export interface IChildren {
   children?: React.ReactNode;
 }
 
+// Define the context value interface
 export interface IProviderValue {
   hasBounds: boolean;
   allBounds: LatLngBoundsExpression[];
@@ -17,9 +19,11 @@ export interface IProviderValue {
   updateMapBounds: () => void;
 }
 
+// Create context for application state
 export const ApplicationContext = createContext({} as IProviderValue);
 
 export function ApplicationProvider({ children }: IChildren) {
+  // Define state variables
   const [hasBounds, setHasBounds] = useState(false);
   const [mapBounds, setMapBounds] = useState<LatLngBoundsExpression>([]);
   const [bounds, setBounds] = useState<IRemoteBounds>({} as IRemoteBounds);
@@ -27,6 +31,7 @@ export function ApplicationProvider({ children }: IChildren) {
     [] as LatLngBoundsExpression[]
   );
 
+  // Function to retrieve map bounds from remote service and set state
   async function updateMapBounds() {
     const filename = "dted/rio";
     const response = await postGetMapBounds(filename);
@@ -49,6 +54,7 @@ export function ApplicationProvider({ children }: IChildren) {
     setHasBounds(true);
   }
 
+  // Function to get bounds if they haven't been retrieved yet
   function getBounds() {
     if (!hasBounds) {
       setHasBounds(false);
@@ -56,6 +62,7 @@ export function ApplicationProvider({ children }: IChildren) {
     }
   }
 
+  // Memoize context value for performance optimization
   const memoedValue = useMemo(
     () => ({
       mapBounds,
@@ -68,6 +75,7 @@ export function ApplicationProvider({ children }: IChildren) {
     [mapBounds, allBounds, bounds]
   );
 
+  // Render the context provider
   return (
     <ApplicationContext.Provider value={memoedValue}>
       {children}
