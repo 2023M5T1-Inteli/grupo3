@@ -1,9 +1,36 @@
 
 # Documentação da API
 
-## Guia de instalação
-Vá para a página inicial do node
-https://nodejs.org/en
+## Guia de desenvolvimento
+Para rodar o backend da aplicação, siga os seguintes passos:
+
+1. Certifique-se de ter o Node.js instalado em sua máquina. Você pode verificar se o Node.js está instalado executando o seguinte comando no terminal:
+```
+node -v
+```
+Se o Node.js não estiver instalado, faça o download da versão v18.0.0 em https://nodejs.org.
+
+2. Navegue até o diretório "backend" no terminal e instale as dependências do projeto usando o gerenciador de pacotes NPM (Node Package Manager):
+```
+npm install
+```
+3. Crie um arquivo .env na raiz do diretório "backend" e adicione as seguintes variáveis de ambiente, com os valores de conexão do Neo4j e do MongoDB:
+```env
+# Neo4j
+NEO4J_URL = 
+NEO4J_USERNAME =
+NEO4J_PASSWORD =
+
+# MongoDB
+MONGODB_URL =
+```
+
+4. Inicie o servidor de desenvolvimento do backend executando o seguinte comando:
+```
+npm start
+```
+
+5. Agora, você pode acessar a API em http://localhost:4000.
 
 ## Rotas
 ### Retorna a rota final
