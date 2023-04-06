@@ -729,8 +729,6 @@ Após pouco tempo, a trajetória irá aparecer em cima do mapa, com círculos re
 ![Rota Gerada](img/generated-route.png)
 ![Rota Gerada mostrando os nós](img/generated-route-nodes.png)
 
-Além disso, no menu lateral esquerdo há uma área de "insights". Aqui poderá ser visto informações como distância percorrida, altitude média, etc.
-
 ### Erro
 Caso a geração da trajetória falhe (isso pode acontecer por alguns motivos como coordenadas fora do arquivo, falha no servidor, etc.) você será redirecionado para uma página de erro, onde se pode voltar para a tela inicial.
 
