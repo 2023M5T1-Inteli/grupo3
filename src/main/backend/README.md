@@ -20,18 +20,18 @@ https://nodejs.org/en
 ```javascript
     [
       {
-        "averageHeight": 100,
-        "latitude": 49.99,
-        "lastNode": {
-          "low": 7,
-          "high": 0
-        },
-        "index": {
-          "low": 50,
-          "high": 0
-        },
-        "pathID": "123",
-        "longitude": 29.995
+        "vertexIndex": 0,
+        "averageHeight": 572,
+        "previousVertex": -1,
+        "latitude": -22.952082,
+        "longitude": -43.211056
+      },
+      {
+        "vertexIndex": 24,
+        "averageHeight": 316,
+        "previousVertex": 0,
+        "latitude": -22.953482,
+        "longitude": -43.209956
       }
     ]
 ```
@@ -52,7 +52,6 @@ https://nodejs.org/en
       "routeID": "VNB018W",
       "status": "Creating"
     }
-
 ```
 
 ### Solicita a criação da rota e retorna o código da rota
@@ -72,7 +71,6 @@ https://nodejs.org/en
     {
       "routeID": "VNB018W"
     }
-
 ```
 
 ### Swagger
