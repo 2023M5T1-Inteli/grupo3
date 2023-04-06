@@ -6,11 +6,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import models.vertex.CoordinateVertex;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.*;
-import org.neo4j.driver.Driver;
-import org.neo4j.driver.GraphDatabase;
-import org.neo4j.driver.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,37 +19,33 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import path.PathPlanner;
-import utils.ExclusionStopPoints.PointAnalyzer;
 import utils.Points;
 import utils.neo4j.Neo4JDatabaseHandler;
-import utils.popArray.PopulateArray;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-/**
- * This class acts as our server and executes the route for the A* algorithm. Currently, it is responsible for handling
- * these tasks, but we plan to refactor our application using Spring MVC in Sprint 5.
- * <p>
- * During Sprint 4, we attempted to implement SpringMongoDB but encountered errors that prevented us from using it. As a result,
- * we had to resort to using this implementation instead.
- * <p>
- * While we understand that it is ideal to have the MongoDB connection as a separate service, we are unable to do so due to the
- * aforementioned errors. We hope to address this in future sprints.
- */
 @SpringBootApplication
 @EnableMongoRepositories
 @RestController
 public class AStarController implements CommandLineRunner {
-
-    PointAnalyzer pointAnalyzer = new PointAnalyzer();
-    PopulateArray popArray = new PopulateArray();
-
     Dotenv dotenv = Dotenv.load();
 
     @Autowired
     ItemRepository routeItemRepo; // Importing the mongodbRepository
+
+    /**
+     * This method set the status of a route on MongoDB to specified status
+     *
+     * @param routeID ID created at the moment that a requisition for a Route is called in the NodeJS Backend.
+     * @param status the status of the route. Example: CREATING, DONE, ERROR etc.
+     * */
+    private void setStatusByRouteID(String routeID, String status) {
+        RouteItem item = routeItemRepo.findRouteItemByRouteID(routeID);
+        item.setStatus(status);
+        routeItemRepo.save(item);
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(AStarController.class, args);
@@ -68,6 +60,7 @@ public class AStarController implements CommandLineRunner {
      *             "latInitial":-22.0780,
      *             "lonFinal":-43.2056,
      *             "latFinal":-22.381300000000004,
+     *             "exclusionPoints": [[latitude, longitude, raio]]
      *             "pathID": "ABC123A",
      *             "filePath": "./dted/Rio"
      *             }
@@ -106,20 +99,26 @@ public class AStarController implements CommandLineRunner {
                 new Neo4JDatabaseHandler().createRouteNode(route, session, pathPlanner.getRouteID());
             }
             driver.close();
-            getRouteItemByRouteID(pathID, "DONE");
+            setStatusByRouteID(pathID, "DONE");
 
             return ResponseEntity.ok("Rota criada com sucesso!");
         } catch (Exception e) {
-            getRouteItemByRouteID(pathID, "ERROR");
+            setStatusByRouteID(pathID, "ERROR");
             return new ResponseEntity<String>("Erro ao criar rota!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    private void getRouteItemByRouteID(String routeID, String status) {
-        RouteItem item = routeItemRepo.findRouteItemByRouteID(routeID);
-        item.setStatus(status);
-        routeItemRepo.save(item);
-    }
+
+    /**
+     * This route can be tested by accessing: http://localhost:3000/getMapBounds.
+     * It returns the maximum and minimum points of a DTED file.
+     *
+     * @param data Information provided when the API is called:
+     *             {
+     *               "filePath": "./dted/Rio"
+     *             }
+     * @return A ResponseEntity, that is a JSON with the minimum and maximum geographic points
+     */
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("getMapBounds")
@@ -141,6 +140,17 @@ public class AStarController implements CommandLineRunner {
             return new ResponseEntity<String>("Erro ao obter os limites do mapa!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * This route can be tested by accessing: http://localhost:3000/getMapBounds.
+     * It returns the maximum and minimum points of all the DTED file.
+     *
+     * @param data Information provided when the API is called:
+     *             {
+     *               "filePath": "./dted/Rio"
+     *             }
+     * @return A ResponseEntity, that is a JSON with the minimum and maximum of all DT2 files.
+     */
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("listAllBounds")
@@ -165,10 +175,6 @@ public class AStarController implements CommandLineRunner {
             return new ResponseEntity<String>("Erro ao obter os limites do mapa!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
-
 
     /**
      * This function does not execute any functionality on its own, but it is essential for our implementation as it utilizes the

@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 /*
 * The class Graph is the base to create the hole graph that represents a trajectory.
-* It takes an ArrayList of vertices and apply  the necessary functions to implement the trajectory with the
+* It takes an ArrayList and a HashMap of vertices and apply  the necessary functions to implement the trajectory with the
 * minimum cost
 * */
 public class Graph {
@@ -21,8 +21,6 @@ public class Graph {
     public int totalVertices = 0;
     // The following function doesn't return anything, but adds a vertex to the array of vertices.
     public void addVertex(CoordinateVertex vertexNode, int rowPosition, int colPosition) {
-//        vertexNode.setIndex(vertices.size()); // Setting the vertex index of the vertexNode to the current size of the array.
-//        vertices.add(vertexNode); // Adding the vertexNode
         verticesMatrix[rowPosition][colPosition] = vertexNode;
         this.totalVertices++;
     }
@@ -30,7 +28,6 @@ public class Graph {
     public Graph(int row, int col) {
         this.verticesMatrix = new CoordinateVertex[row][col];
     }
-
 
     public boolean contains(int vertexId) {
         return verticesMap.containsKey(vertexId);
@@ -44,27 +41,6 @@ public class Graph {
         return vertices;
     }
 
-    /*
-    * `addVertexEdgesByDistance` uses the distance property of each vertex to determinate if the vertex can make a edge between two vertices
-    * The distance is calculated using the Haversine Formula:
-    * */
-    public void addVertexEdgesByDistance(double distance){
-        Haversine scorer = new Haversine();
-        System.out.println("Total points:" + vertices.size());
-        // Calculating the distance between a currentVertex (i) and the other vertices (j)
-        for (int i = 0; i < vertices.size(); i++){
-            //System.out.println("Connecting vertice: " + i);
-            for (int j = 0; j < vertices.size(); j++){
-                if (i == j) continue;
-                double distanceToNextVertex = scorer.computeCost(vertices.get(i), vertices.get(j));
-
-                if (distanceToNextVertex <= distance) {
-                    vertices.get(i).addEdge(vertices.get(j), distanceToNextVertex,0);
-                }
-            }
-        }
-    }
-
     private void connectVertice(CoordinateVertex fromVertex, CoordinateVertex toVertex) {
         Haversine scorer = new Haversine();
         double distance = scorer.computeCost(fromVertex,toVertex);
@@ -74,7 +50,6 @@ public class Graph {
     }
 
     public void createEdges() {
-        Haversine scorer = new Haversine();
         int counter = 0;
         for(int i =0; i < this.verticesMatrix.length; i++) {
             for(int j=0; j< this.verticesMatrix[i].length; j++) {

@@ -10,45 +10,42 @@ import java.awt.geom.Point2D;
 * their longitudes and latitudes.
 * */
 public class Haversine implements IScorer {
+    private double HaversineCalc(double startPointLat, double startPointLong, double targetPointLat, double targetPointLong) {
+        double deltaLatitude = Math.toRadians(targetPointLat - startPointLat);
+        double deltaLongitude = Math.toRadians(targetPointLong - startPointLong);
+        double startPointLatInRadians = Math.toRadians(startPointLat);
+        double targetPointLatitudeInRadius = Math.toRadians(targetPointLat);
+
+        double a = Math.pow(Math.sin(deltaLatitude / 2),2)
+                + Math.pow(Math.sin(deltaLongitude / 2),2) * Math.cos(startPointLatInRadians) * Math.cos(targetPointLatitudeInRadius);
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        return c;
+    }
     @Override
     public double computeCost(IVertex from, IVertex to) {
-        double R = 6372.8; // Earth's Radius, in kilometers
+        double earthRadiusInkilometers = 6372.8;
 
-        double fromLat = from.getPosition().getX();
-        double fromLong = from.getPosition().getY();
+        double startPointLatitude = from.getPosition().getX();
+        double startPointLongitude = from.getPosition().getY();
 
-        double toLat = to.getPosition().getX();
-        double toLong = to.getPosition().getY();
+        double targetPointLatitude = to.getPosition().getX();
+        double targetPointLongitude = to.getPosition().getY();
 
-        double dLat = Math.toRadians(toLat - fromLat);
-        double dLon = Math.toRadians(toLong - fromLong);
-        double lat1 = Math.toRadians(fromLat);
-        double lat2 = Math.toRadians(toLat);
 
-        double a = Math.pow(Math.sin(dLat / 2),2)
-                + Math.pow(Math.sin(dLon / 2),2) * Math.cos(lat1) * Math.cos(lat2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        return R * c;
+        return earthRadiusInkilometers * HaversineCalc(startPointLatitude, startPointLongitude, targetPointLatitude, targetPointLongitude);
     }
 
 
     public double computeDistanceByPoint2D(Point2D point1, Point2D point2) {
-        double R = 6372.8; // Earth's Radius, in kilometers
+        double earthRadiusInkilometers = 6372.8;
 
-        double fromLat = point1.getX();
-        double fromLong = point1.getY();
+        double startPointLatitude = point1.getX();
+        double startPointLongitude = point1.getY();
 
-        double toLat = point2.getX();
-        double toLong = point2.getY();
+        double targetPointLatitude = point2.getX();
+        double targetPointLongitude = point2.getY();
 
-        double dLat = Math.toRadians(toLat - fromLat);
-        double dLon = Math.toRadians(toLong - fromLong);
-        double lat1 = Math.toRadians(fromLat);
-        double lat2 = Math.toRadians(toLat);
-
-        double a = Math.pow(Math.sin(dLat / 2),2)
-                + Math.pow(Math.sin(dLon / 2),2) * Math.cos(lat1) * Math.cos(lat2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        return R * c;
+        return earthRadiusInkilometers * HaversineCalc(startPointLatitude, startPointLongitude, targetPointLatitude, targetPointLongitude);
     }
 }

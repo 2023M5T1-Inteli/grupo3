@@ -77,12 +77,76 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.37931034&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;69ddeb808aead87ffca7b7cb0a4567ef&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.CoordinateVertexTest">
+    <configuration name="CoordinateEdgeTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="models.edge.CoordinateEdgeTest" />
+      <module name="grupo3" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="models.edge.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CoordinateVertexTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="grupo3" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="models.vertex.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="models.vertex" />
+      <option name="MAIN_CLASS_NAME" value="models.vertex.CoordinateVertexTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HaversineTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="grupo3" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="models.Scorer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="models.Scorer" />
+      <option name="MAIN_CLASS_NAME" value="models.Scorer.HaversineTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HaversineTest.computeDistanceByPoint2D" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="grupo3" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="models.Scorer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="models.Scorer" />
+      <option name="MAIN_CLASS_NAME" value="models.Scorer.HaversineTest" />
+      <option name="METHOD_NAME" value="computeDistanceByPoint2D" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -103,6 +167,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.CoordinateVertexTest" />
+        <item itemvalue="JUnit.HaversineTest.computeDistanceByPoint2D" />
+        <item itemvalue="JUnit.HaversineTest" />
+        <item itemvalue="Application.CoordinateEdgeTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -116,6 +188,8 @@
       <workItem from="1679341870194" duration="710000" />
       <workItem from="1680013781564" duration="1992000" />
       <workItem from="1680551619270" duration="2522000" />
+      <workItem from="1680787222237" duration="272000" />
+      <workItem from="1680787557830" duration="11398000" />
     </task>
     <servers />
   </component>
