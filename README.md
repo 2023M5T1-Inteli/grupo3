@@ -86,6 +86,54 @@ Esta retorna o ponto de latitude e longitude máximo e minímo de todos os arqui
 ``` JSON 
 "Erro ao obter os limites do mapa!"
 ```
+
+### Como executar este microsserviço?
+Devida a alta complexidade deste projeto, é necessário diversas dependências para sua execução. Elas podem ser fácilmente acessadas e encontradas no arquivo [pom.xml](/pom.xml). Contudo, ainda há muitas ferramentas que devem ser instaladas e configuradas antes da execução deste projeto. Abaixo está listadas as principais.
+
+#### 1. GDAL 
+O GDAL é a ferramenta utilizada para que os arquivos dt2 sejam lidos através da nossa aplicação Java. Para instalá-lo, siga os passos abaixo: 
+
+1. Acesse https://build2.gisinternals.com/sdk/downloads/release-1916-x64-gdal-3-5-0-mapserver-7-6-4/gdal-305-1916-x64-core.msi. Após o término do download, execute a instalação (selecione a instalação completa).
+
+2. Acesse https://build2.gisinternals.com/sdk/downloads/release-1916-x64-gdal-3-5-0-mapserver-7-6-4/gdal-305-1916-x64-filegdb.msi. Após o término do download, execute a instalação (selecione a instalação completa).
+
+3. Crie variáveis de ambiente com os seguintes valores:
+
+
+| Variável | Valor |
+|----------|-------|
+| GDAL_DATA | C:\Program Files\GDAL\gdal-data |
+| GDAL_DRIVER_PATH | C:\Program Files\GDAL\gdalplugins |
+| PROJ_LIB | C:\Program Files\GDAL\projlib |
+
+4. Adicione o seguinte caminho ao `PATH`:
+
+```
+    C:\Program Files\GDAL
+```
+
+Vá até a pasta `C:\Program Files\GDAL\gdalplugins\` e mova para outra pasta (por exemplo, para `C:\Temp`) o arquivo `ogr_MSSQLSpatial.dll`.
+
+#### 2. JAVA
+
+Graças a sua alta performance e solidez utilizamos o Java como linguagem para manipular diferentes arquivos dt2 e aplicar nosso algoritmo A*. Você pode instalar o Java através [desse link](https://www.oracle.com/java/technologies/downloads/), contudo, para executar a aplicação com êxito recomendamos que utilize a versão 17 ou superior. 
+
+#### 3. IntelliJ
+
+Para executar este programa recomendamos o auxílio de um IDE, que irá facilitar a instalação das dependências de forma automática. Dentre as diferentes IDEs do mercado recomendamos o [IntelliJ](https://www.jetbrains.com/idea/) graças a sua compatibilidade e integração com o [Maven](https://maven.apache.org/) e os diferentes recursos que possui.
+
+#### 4. Spring Boot e outras bibliotecas 
+
+Durante a criação da aplicação foi utilizada diferentes dependências que como citado anteriormente. Elas podem ser encontradas no arquivo pom.xml do projeto, e ao ser aberto no IntelliJ — uma vez que todas as ferramentas anteriores foram instaladas — as bibliotecas serão instaladas automaticamente através do Maven. Abaixo temos as principais bibliotecas para executar o projeto com êxito.
+
+A. [Neo4J Driver](https://neo4j.com/developer/java/) B. [Spring Boot](https://spring.io/) C. [JSON](https://mvnrepository.com/artifact/org.json/json) D. [MongoDB](https://www.mongodb.com/compatibility/spring-boot) E. [GDAL](https://mvnrepository.com/artifact/org.gdal/gdal)
+ 
+ ### 5. Variáveis de ambiente
+ 
+ Os únicos serviços que necessessitam de chaves de acesso são nossos bancos de dados. Utilizamos dois bancos de dados para o projeto: [Neo4J](https://sandbox.neo4j.com/) (Banco de dados orientado a grafos) e o [MongoDB]. Você encontrará mais sobre as motivações e a persistência dos dados na próxima seção. Para utilizarmos o Neo4J é necessário que se crie uma instância no [Neo4J Aura](https://neo4j.com/cloud/platform/aura-graph-database/); uma vez que temos uma instância do banco, criamos um arquivo ```.env``` na raiz do nosso projeto (pasta inicial). Recomendamos que utilize nossa referência de arquivo .env encontrado em [.env-example](/.env-example), e preencha com as informações de acesso de sua instância do Neo4J Aura. 
+
+Para termos controle das rotas, é necessário que você crie um cluster no MongoDB e preencha o arquivo [application.properties](/src/main/resources/application.properties) com sua chave de acesso e nome do banco de dados.
+
 # Artigo
 
 Os arquivos do artigo estão na pasta [/artigo](/artigo). Um arquivo gerado no formato PDF deverá ser anexado a cada *release* do projeto.
