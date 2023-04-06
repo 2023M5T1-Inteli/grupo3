@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class coordinates the creation of vertices, graph, and the application of logic for exclusion points.
+ * All of these methods are separated into different classes, and PathPlanner serves as the pipeline for calling them.
+ */
 
 public class PathPlanner {
 
@@ -29,6 +33,9 @@ public class PathPlanner {
 
     private final JSONArray excludedPoints;
 
+    /**
+     * Executes the process of populate a Graph with CoordinateVertices
+     * */
     public PathPlanner(String routeID, double[][][] coordinates, double[] startCoordinate, double[] targetCoordinate, JSONArray excludedPoints){
         this.routeID = routeID;
         this.excludedPoints = excludedPoints;
@@ -55,9 +62,14 @@ public class PathPlanner {
                 CoordinateVertex newCoordinateVertex = new CoordinateVertex(currentPoint, height);
 
                 if(isExcludedPoint(newCoordinateVertex))
-                    newCoordinateVertex.exclusionCost = 1000000;
+                    newCoordinateVertex.exclusionCost = 1000000; // The vertex cost are increased in 1000000 if the point are in the exclusion zone
 
                 this._graph.addVertex(newCoordinateVertex, i, j);
+
+                /**
+                 * To maintain the indices of the starting point and the destination point,
+                 * we use the logic below and store them in a HashMap
+                 * */
 
                 double currentStartDistance = Math.abs(scorer.computeDistanceByPoint2D(currentPoint, startPoint));
                 if(currentStartDistance < minStartDistance) {
@@ -87,7 +99,13 @@ public class PathPlanner {
         this.totalProcessTime += System.currentTimeMillis() - edgesCreationTime;
     }
 
-
+    /**
+     * Given a JSONArray of exclusion points and a vertex, this function calls the <b>isInExclusionZone</b>
+     * function to determine whether the point is in the exclusion zone.
+     *
+     * @param vertex The CoordinateVertex to verify.
+     * @return True if the point is in the zone, false otherwise.
+     */
     private boolean isExcludedPoint(CoordinateVertex vertex) {
         if (this.excludedPoints.length() != 0) {
             PointAnalyzer pointAnalyzer = new PointAnalyzer();
@@ -108,6 +126,11 @@ public class PathPlanner {
         }
         return false;
     }
+
+    /**
+     * In this method, we obtain the vertices of the graph and call the AStar Algorithm to work with
+     * the start and target point indices.
+     * */
     public ArrayList<CoordinateVertex> traceRoute() {
         // Calculates the optimal path between two nodes(vertex)
         logger.atInfo().log("Calculating route");

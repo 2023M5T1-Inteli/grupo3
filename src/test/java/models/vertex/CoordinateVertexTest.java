@@ -18,7 +18,7 @@ class CoordinateVertexTest {
     void addEdge() {
         CoordinateVertex targetVertexToTest = new CoordinateVertex((new Point2D.Double(50.3, 20.3)), 500);
         assertEquals(0, currentVertexToTest.getEdges().size());
-        currentVertexToTest.addEdge(targetVertexToTest, 500);
+        currentVertexToTest.addEdge(targetVertexToTest, 500, 1000);
         assertEquals(1, currentVertexToTest.getEdges().size());
     }
 
