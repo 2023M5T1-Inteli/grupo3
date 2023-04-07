@@ -134,6 +134,24 @@ A. [Neo4J Driver](https://neo4j.com/developer/java/) B. [Spring Boot](https://sp
 
 Para termos controle das rotas, é necessário que você crie um cluster no MongoDB e preencha o arquivo [application.properties](/src/main/resources/application.properties) com sua chave de acesso e nome do banco de dados.
 
+# Persistência dos Dados
+
+Como citado anteriormente, utilizamos dois bancos de dados diferentes. Uma vez configurado o ambiente deles, ainda é necessário compreender a maneira que a aplicação os utiliza. O Neo4J é uma ferramenta poderossíma e recomendamos que você veja o curso, através [desse link](https://graphacademy.neo4j.com/). O Neo4J utiliza a mesma estrutura de vértices e arestas que o grafo gerado dentro da aplicação e que pode ser facilmente compreendido através de sua documentação própria. Em resumo, cada vértice representa uma coordenada geográfica e conta com as seguintes características: latitude, longitude, altura média, index e pathID (para que seja reconhecível de qual rota este ponto pertence). Cada aresta por sua vez, representa a conexão entre duas coordenadas e possui apenas um id gerado automaticamente. 
+
+Contudo, o MongoDB apresenta uma estrutura de dados fixa que deve ser respeitada. Uma vez criado sua conta (como citado no passo 5 da seção anterior) você deve certificar-se de que há um cluster disponível, que pode ser criado na tela inicial de forma gratuita ou aderindo a alguns dos planos disponíveis. Após isso, você deve criar um banco de dados. O nome pode ficar a seu critério, contudo, lembre-se de alterar no arquivo [application.properties](/src/main/resources/application.properties).
+
+![gif](https://github.com/2023M5T1-Inteli/grupo3/blob/master/docs/img/MongoDB.gif)
+
+Como podemos ver no GIF acima, é necessário também especificar o nome de uma coleção. Nossa aplicação utiliza a coleção por padrão "routes" e recomendamos que escreva esse nome ao criar o banco de dados. Caso não crie uma coleção com este nome, ao executar a aplicação outra coleção denominada "routes" será criada de forma automática. No entanto, caso queira utilizar uma outra coleção, troque a linha 19 do arquivo [RouteItem.java](/src/main/java/controller/mongodbModel/RouteItem.java/) de "routes" para o nome desejado, desde que respeite a seguinte modelagem: 
+```JSON
+{
+  "_id": ObjectID,
+  "routeID": string,
+  "status": string,
+  "_class":"controller.model.RouteItem"
+  
+}
+```
 # Artigo
 
 Os arquivos do artigo estão na pasta [/artigo](/artigo). Um arquivo gerado no formato PDF deverá ser anexado a cada *release* do projeto.
