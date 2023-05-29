@@ -159,3 +159,7 @@ Os arquivos do artigo estão na pasta [/artigo](/artigo). Um arquivo gerado no f
 # Releases
 
 É possível ver os Realeases de cada sprint no menu lateral.
+
+# Licença
+
+Este projeto utiliza a [licença Apache 2.0](LICENSE).
